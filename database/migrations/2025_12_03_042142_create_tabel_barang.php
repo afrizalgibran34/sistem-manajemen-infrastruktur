@@ -7,15 +7,16 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('uplink', function (Blueprint $table) {
-            $table->increments('id_uplink');
-            $table->string('jenis_uplink');
+        Schema::create('tabel_barang', function (Blueprint $table) {
+            $table->increments('barang_id'); // PK
+            $table->string('nama_barang');
+            $table->string('satuan');
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('uplink');
+        Schema::dropIfExists('tabel_barang');
     }
 };
