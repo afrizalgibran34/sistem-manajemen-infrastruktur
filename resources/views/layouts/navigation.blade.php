@@ -16,46 +16,69 @@
                         {{ __('Dashboard') }}
                     </x-nav-link>
                 </div>
-                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('wilayah.index')" :active="request()->routeIs('wilayah.index')">
-                        {{ __('Wilayah') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('kec_kel.index')" :active="request()->routeIs('kec_kel.index')">
-                        {{ __('Kec_Kel') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('klasifikasi.index')" :active="request()->routeIs('klasifikasi.index')">
-                        {{ __('Klasifikasi') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('koneksi.index')" :active="request()->routeIs('koneksi.index')">
-                        {{ __('Koneksi') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('status.index')" :active="request()->routeIs('status.index')">
-                        {{ __('Status') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('backbone.index')" :active="request()->routeIs('backbone.index')">
-                        {{ __('Backbone') }}
-                    </x-nav-link>
-                </div>
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('uplink.index')" :active="request()->routeIs('uplink.index')">
-                        {{ __('Uplink') }}
-                    </x-nav-link>
-                </div>
-                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('perangkat.index')" :active="request()->routeIs('perangkat.index')">
-                        {{ __('Perangkat') }}
-                    </x-nav-link>
-                </div>
+                 {{-- Dropdown Data Jaringan --}}
+<div class="hidden sm:flex sm:items-center sm:ms-10">
+
+    <div x-data="{ open: false }" class="relative">
+
+        <!-- Tombol Dropdown -->
+        <button @click="open = !open"
+            class="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">
+            <span>Data Jaringan</span>
+            <svg class="ms-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06.02L10 10.94l3.71-3.71a.75.75 0 011.08 1.04l-4.25 4.25a.75.75 0 01-1.08 0L5.21 8.27a.75.75 0 01.02-1.06z"
+                      clip-rule="evenodd" />
+            </svg>
+        </button>
+
+        <!-- Isi Dropdown -->
+        <div x-show="open"
+            @click.away="open = false"
+            class="absolute mt-2 w-48 bg-white dark:bg-gray-800 rounded shadow-lg py-1 z-50">
+
+            <x-nav-link :href="route('wilayah.index')" :active="request()->routeIs('wilayah.index')" class="block px-4 py-2">
+                Wilayah
+            </x-nav-link>
+
+            <x-nav-link :href="route('kec_kel.index')" :active="request()->routeIs('kec_kel.index')" class="block px-4 py-2">
+                Kec/Kel
+            </x-nav-link>
+
+            <x-nav-link :href="route('klasifikasi.index')" :active="request()->routeIs('klasifikasi.index')" class="block px-4 py-2">
+                Klasifikasi
+            </x-nav-link>
+
+            <x-nav-link :href="route('koneksi.index')" :active="request()->routeIs('koneksi.index')" class="block px-4 py-2">
+                Koneksi
+            </x-nav-link>
+
+            <x-nav-link :href="route('status.index')" :active="request()->routeIs('status.index')" class="block px-4 py-2">
+                Status
+            </x-nav-link>
+
+            <x-nav-link :href="route('backbone.index')" :active="request()->routeIs('backbone.index')" class="block px-4 py-2">
+                Backbone
+            </x-nav-link>
+
+            <x-nav-link :href="route('uplink.index')" :active="request()->routeIs('uplink.index')" class="block px-4 py-2">
+                Uplink
+            </x-nav-link>
+
+            <x-nav-link :href="route('perangkat.index')" :active="request()->routeIs('perangkat.index')" class="block px-4 py-2">
+                Perangkat
+            </x-nav-link>
+
+            <x-nav-link :href="route('titik_lokasi.index')" :active="request()->routeIs('titik_lokasi.index')" class="block px-4 py-2">
+                Titik Lokasi
+            </x-nav-link>
+
+        </div>
+
+    </div>
+
+</div>
+
             </div>
 
             <!-- Settings Dropdown -->

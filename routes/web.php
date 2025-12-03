@@ -9,6 +9,7 @@ use App\Http\Controllers\StatusController;
 use App\Http\Controllers\BackboneController;
 use App\Http\Controllers\UplinkController;
 use App\Http\Controllers\PerangkatController;
+use App\Http\Controllers\TitikLokasiController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -43,6 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('backbone', BackboneController::class);
     Route::resource('uplink', UplinkController::class);
     Route::resource('perangkat', PerangkatController::class);
+    Route::resource('titik_lokasi', TitikLokasiController::class);
+
 
 
 
