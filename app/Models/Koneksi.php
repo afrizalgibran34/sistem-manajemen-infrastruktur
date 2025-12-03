@@ -1,0 +1,12 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Koneksi extends Model
+{
+    protected $table = 'koneksi';
+    protected $primaryKey = 'id_koneksi';
+    protected $fillable = ['jenis_koneksi'];
+}
