@@ -46,6 +46,16 @@
                         {{ __('Backbone') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('uplink.index')" :active="request()->routeIs('uplink.index')">
+                        {{ __('Uplink') }}
+                    </x-nav-link>
+                </div>
+                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('perangkat.index')" :active="request()->routeIs('perangkat.index')">
+                        {{ __('Perangkat') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
