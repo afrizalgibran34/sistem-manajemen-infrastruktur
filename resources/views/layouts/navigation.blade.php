@@ -26,6 +26,11 @@
                         {{ __('Kec_Kel') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('klasifikasi.index')" :active="request()->routeIs('klasifikasi.index')">
+                        {{ __('Klasifikasi') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\KecKelController;
+use App\Http\Controllers\KlasifikasiController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -31,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('wilayah', WilayahController::class);
     Route::resource('kec_kel', KecKelController::class);
+    Route::resource('klasifikasi', KlasifikasiController::class);
+
 
 });
 
