@@ -36,6 +36,16 @@
                         {{ __('Koneksi') }}
                     </x-nav-link>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('status.index')" :active="request()->routeIs('status.index')">
+                        {{ __('Status') }}
+                    </x-nav-link>
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('backbone.index')" :active="request()->routeIs('backbone.index')">
+                        {{ __('Backbone') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->
