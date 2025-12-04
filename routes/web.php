@@ -11,6 +11,8 @@ use App\Http\Controllers\UplinkController;
 use App\Http\Controllers\PerangkatController;
 use App\Http\Controllers\TitikLokasiController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PetaController;
+
 
 
 /*
@@ -31,6 +33,8 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/peta', [PetaController::class, 'index'])->middleware(['auth', 'verified'])->name('peta');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
