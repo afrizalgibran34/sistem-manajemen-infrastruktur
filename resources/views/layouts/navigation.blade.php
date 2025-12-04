@@ -18,6 +18,12 @@
                     <x-nav-link :href="route('peta')" :active="request()->routeIs('peta')">
                         {{ __('Peta') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('barang.index')" :active="request()->routeIs('barang.index')">
+                        {{ __('Barang') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('stok_barang.index')" :active="request()->routeIs('stok_barang.index')">
+                        {{ __('Stok Barang') }}
+                    </x-nav-link>
                    {{-- Dropdown Data Laporan Jaringan --}}
 <div class="hidden sm:flex sm:items-center sm:ms-10">
 

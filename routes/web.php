@@ -14,6 +14,8 @@ use App\Http\Controllers\PerangkatDaerahController;
 use App\Http\Controllers\JenisMasalahController;
 use App\Http\Controllers\BulanController;
 use App\Http\Controllers\GangguanController;
+use App\Http\Controllers\BarangController;
+use App\Http\Controllers\StokBarangController;  
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PetaController;
 
@@ -57,6 +59,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('jenis_masalah', JenisMasalahController::class)->middleware('auth');
     Route::resource('bulan', BulanController::class)->middleware('auth');
     Route::resource('gangguan', GangguanController::class)->middleware('auth');
+    Route::resource('barang', BarangController::class)->middleware('auth');
+    Route::resource('stok_barang', StokBarangController::class)->middleware('auth');
+
 
 
 
