@@ -124,7 +124,7 @@
 
                         </div>
 
-                        <button class="px-4 py-2 bg-green-600 text-white rounded mt-4">Simpan</button>
+                        <button class="px-4 py-2 bg-green-600 text-black rounded mt-4">Simpan</button>
 
                         <a href="{{ route('titik_lokasi.index') }}"
                            class="px-4 py-2 bg-gray-600 text-white rounded ml-2">

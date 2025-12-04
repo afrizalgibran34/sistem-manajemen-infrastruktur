@@ -10,12 +10,12 @@ class PerangkatDaerahController extends Controller
     public function index()
     {
         $data = PerangkatDaerah::all();
-        return view('perangkat_daerah.index', compact('data'));
+        return view('perangkatdaerah.index', compact('data'));
     }
 
     public function create()
     {
-        return view('perangkat_daerah.create');
+        return view('perangkatdaerah.create');
     }
 
     public function store(Request $request)
@@ -23,24 +23,24 @@ class PerangkatDaerahController extends Controller
         $request->validate(['nama_perangkat' => 'required']);
         PerangkatDaerah::create($request->all());
 
-        return redirect()->route('perangkat_daerah.index');
+        return redirect()->route('perangkatdaerah.index');
     }
 
     public function edit($id)
     {
         $data = PerangkatDaerah::findOrFail($id);
-        return view('perangkat_daerah.edit', compact('data'));
+        return view('perangkatdaerah.edit', compact('data'));
     }
 
     public function update(Request $request, $id)
     {
         PerangkatDaerah::findOrFail($id)->update($request->all());
-        return redirect()->route('perangkat_daerah.index');
+        return redirect()->route('perangkatdaerah.index');
     }
 
     public function destroy($id)
     {
         PerangkatDaerah::findOrFail($id)->delete();
-        return redirect()->route('perangkat_daerah.index');
+        return redirect()->route('perangkatdaerah.index');
     }
 }

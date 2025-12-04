@@ -164,10 +164,10 @@
 
                         </div>
 
-                        <button class="px-4 py-2 bg-blue-600 text-white rounded mt-4">Update</button>
+                        <button class="px-4 py-2 bg-blue-600 text-black rounded mt-4">Update</button>
 
                         <a href="{{ route('titik_lokasi.index') }}"
-                           class="px-4 py-2 bg-gray-600 text-white rounded ml-2 mt-4 inline-block">
+                           class="px-4 py-2 bg-gray-600 text-black rounded ml-2 mt-4 inline-block">
                             Kembali
                         </a>
 
