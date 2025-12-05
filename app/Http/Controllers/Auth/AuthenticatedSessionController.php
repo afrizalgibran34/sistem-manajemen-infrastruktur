@@ -12,30 +12,55 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
+    /**
+     * Display the login view.
+     */
     public function create(): View
     {
-        // Generate angka random untuk captcha
-        $angka1 = rand(1, 10);
-        $angka2 = rand(1, 10);
+        // Generate captcha baru setiap kali halaman login dibuka
+        $a = rand(1, 9);
+        $b = rand(1, 9);
 
-        // Simpan jawaban ke session
         session([
-            'captcha_question' => "{$angka1} + {$angka2}",
-            'captcha_answer' => $angka1 + $angka2,
+            'captcha_question' => "$a + $b",
+            'captcha_answer'   => $a + $b,
         ]);
 
         return view('auth.login');
     }
 
+    /**
+     * Handle an incoming authentication request.
+     */
     public function store(LoginRequest $request): RedirectResponse
     {
-        $request->authenticate();
+        // Validasi captcha
+        if ($request->captcha != session('captcha_answer')) {
 
+            // generate ulang captcha ketika salah
+            $a = rand(1, 9);
+            $b = rand(1, 9);
+
+            session([
+                'captcha_question' => "$a + $b",
+                'captcha_answer'   => $a + $b,
+            ]);
+
+            return back()->withErrors([
+                'captcha' => 'Jawaban captcha salah!',
+            ])->withInput();
+        }
+
+        // Lanjut autentikasi Breeze
+        $request->authenticate();
         $request->session()->regenerate();
 
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
+    /**
+     * Destroy an authenticated session.
+     */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
@@ -43,6 +68,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect('/login'); // setelah logout kembali ke login
     }
 }
