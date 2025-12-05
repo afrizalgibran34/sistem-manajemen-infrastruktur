@@ -12,17 +12,21 @@ use Illuminate\View\View;
 
 class AuthenticatedSessionController extends Controller
 {
-    /**
-     * Display the login view.
-     */
     public function create(): View
     {
+        // Generate angka random untuk captcha
+        $angka1 = rand(1, 10);
+        $angka2 = rand(1, 10);
+
+        // Simpan jawaban ke session
+        session([
+            'captcha_question' => "{$angka1} + {$angka2}",
+            'captcha_answer' => $angka1 + $angka2,
+        ]);
+
         return view('auth.login');
     }
 
-    /**
-     * Handle an incoming authentication request.
-     */
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
@@ -32,15 +36,11 @@ class AuthenticatedSessionController extends Controller
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 
-    /**
-     * Destroy an authenticated session.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
-
         $request->session()->regenerateToken();
 
         return redirect('/');

@@ -21,10 +21,10 @@
                     {{-- Dropdown Data Jaringan --}}
 <div class="hidden sm:flex sm:items-center sm:ms-10">
 
-    <div x-data="{ open: false }" class="relative">
+    <div x-data="{ openJaringan: false }" class="relative">
 
         <!-- Tombol Dropdown -->
-        <button @click="open = !open"
+        <button @click="openJaringan = !openJaringan"
             class="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">
             <span>Data Jaringan</span>
             <svg class="ms-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
@@ -35,9 +35,9 @@
         </button>
 
         <!-- Isi Dropdown -->
-        <div x-show="open"
-            @click.away="open = false"
-            class="absolute mt-2 w-48 bg-white dark:bg-gray-800 rounded shadow-lg py-1 z-50">
+        <div x-show="openJaringan"
+             @click.away="openJaringan = false"
+             class="absolute mt-2 w-48 bg-white dark:bg-gray-800 rounded shadow-lg py-1 z-50">
 
             <x-nav-link :href="route('wilayah.index')" :active="request()->routeIs('wilayah.index')" class="block px-4 py-2">
                 Wilayah
@@ -81,13 +81,12 @@
 
 </div>
 
-                   {{-- Dropdown Data Laporan Jaringan --}}
+{{-- Dropdown Data Laporan Jaringan --}}
 <div class="hidden sm:flex sm:items-center sm:ms-10">
 
-    <div x-data="{ open: false }" class="relative">
+    <div x-data="{ openLaporan: false }" class="relative">
 
-        <!-- Tombol Dropdown -->
-        <button @click="open = !open"
+        <button @click="openLaporan = !openLaporan"
             class="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">
             <span>Data Laporan Jaringan</span>
             <svg class="ms-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
@@ -97,32 +96,23 @@
             </svg>
         </button>
 
-        <!-- Isi Dropdown -->
-        <div x-show="open"
-             @click.away="open = false"
+        <div x-show="openLaporan"
+             @click.away="openLaporan = false"
              class="absolute mt-2 w-56 bg-white dark:bg-gray-800 rounded shadow-lg py-1 z-50">
 
-            <x-nav-link :href="route('perangkatdaerah.index')" 
-                        :active="request()->routeIs('perangkatdaerah.index')" 
-                        class="block px-4 py-2">
+            <x-nav-link :href="route('perangkatdaerah.index')" :active="request()->routeIs('perangkatdaerah.index')" class="block px-4 py-2">
                 Perangkat Daerah
             </x-nav-link>
 
-            <x-nav-link :href="route('jenis_masalah.index')" 
-                        :active="request()->routeIs('jenis_masalah.index')" 
-                        class="block px-4 py-2">
+            <x-nav-link :href="route('jenis_masalah.index')" :active="request()->routeIs('jenis_masalah.index')" class="block px-4 py-2">
                 Jenis Masalah
             </x-nav-link>
 
-            <x-nav-link :href="route('bulan.index')" 
-                        :active="request()->routeIs('bulan.index')" 
-                        class="block px-4 py-2">
+            <x-nav-link :href="route('bulan.index')" :active="request()->routeIs('bulan.index')" class="block px-4 py-2">
                 Bulan
             </x-nav-link>
 
-            <x-nav-link :href="route('gangguan.index')" 
-                        :active="request()->routeIs('gangguan.index')" 
-                        class="block px-4 py-2">
+            <x-nav-link :href="route('gangguan.index')" :active="request()->routeIs('gangguan.index')" class="block px-4 py-2">
                 Gangguan
             </x-nav-link>
 
@@ -132,13 +122,12 @@
 
 </div>
 
-                    {{-- Dropdown Data Stok Opname --}}
+{{-- Dropdown Data Stok Opname --}}
 <div class="hidden sm:flex sm:items-center sm:ms-10">
 
-    <div x-data="{ open: false }" class="relative">
+    <div x-data="{ openStok: false }" class="relative">
 
-        <!-- Tombol Dropdown -->
-        <button @click="open = !open"
+        <button @click="openStok = !openStok"
             class="flex items-center text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">
             <span>Data Stok Opname</span>
             <svg class="ms-1 h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
@@ -148,32 +137,23 @@
             </svg>
         </button>
 
-        <!-- Isi Dropdown -->
-        <div x-show="open"
-            @click.away="open = false"
-            class="absolute mt-2 w-56 bg-white dark:bg-gray-800 rounded shadow-lg py-1 z-50">
+        <div x-show="openStok"
+             @click.away="openStok = false"
+             class="absolute mt-2 w-56 bg-white dark:bg-gray-800 rounded shadow-lg py-1 z-50">
 
-            <x-nav-link :href="route('barang.index')"
-                        :active="request()->routeIs('barang.index')"
-                        class="block px-4 py-2">
+            <x-nav-link :href="route('barang.index')" :active="request()->routeIs('barang.index')" class="block px-4 py-2">
                 Barang
             </x-nav-link>
 
-            <x-nav-link :href="route('stok_barang.index')"
-                        :active="request()->routeIs('stok_barang.index')"
-                        class="block px-4 py-2">
+            <x-nav-link :href="route('stok_barang.index')" :active="request()->routeIs('stok_barang.index')" class="block px-4 py-2">
                 Stok Barang
             </x-nav-link>
 
-            <x-nav-link :href="route('lokasi.index')"
-                        :active="request()->routeIs('lokasi.index')"
-                        class="block px-4 py-2">
+            <x-nav-link :href="route('lokasi.index')" :active="request()->routeIs('lokasi.index')" class="block px-4 py-2">
                 Lokasi
             </x-nav-link>
 
-            <x-nav-link :href="route('transaksi_barang.index')"
-                        :active="request()->routeIs('transaksi_barang.index')"
-                        class="block px-4 py-2">
+            <x-nav-link :href="route('transaksi_barang.index')" :active="request()->routeIs('transaksi_barang.index')" class="block px-4 py-2">
                 Transaksi Barang
             </x-nav-link>
 
@@ -182,7 +162,6 @@
     </div>
 
 </div>
-
 
                 </div>
                  

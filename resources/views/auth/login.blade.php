@@ -23,6 +23,26 @@
 
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
+        <!-- Captcha -->
+            <div class="mt-4">
+                <x-input-label for="captcha" :value="__('Captcha')" />
+
+                <p class="mt-1 text-sm text-gray-700">
+                    Berapa hasil dari <strong>{{ session('captcha_question') }}</strong>?
+                </p>
+
+                <x-text-input id="captcha"
+                            class="block mt-1 w-full"
+                            type="number"
+                            name="captcha"
+                            required
+                            placeholder="Masukkan jawaban" />
+
+                <x-input-error :messages="$errors->get('captcha')" class="mt-2" />
+            </div>
+
+
+
 
         <!-- Remember Me -->
         <div class="block mt-4">
