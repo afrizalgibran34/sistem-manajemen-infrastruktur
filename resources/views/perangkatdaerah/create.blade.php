@@ -1,34 +1,32 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Tambah Perangkat Daerah') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'perangkatdaerah',
+    'title' => __('Tambah Perangkat Daerah'),
+    'navName' => 'Perangkat Daerah',
+    'activeButton' => 'dataLaporan'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Tambah Perangkat Daerah</h4></div>
 
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+            <div class="card-body">
+                <form method="POST" action="{{ route('perangkatdaerah.store') }}">
+                    @csrf
 
-                    <form action="{{ route('perangkatdaerah.store') }}" method="POST">
-                        @csrf
+                    <div class="form-group">
+                        <label>Nama Perangkat Daerah</label>
+                        <input type="text" name="nama_perangkat" class="form-control" required>
+                    </div>
 
-                        <label class="block mb-2">Nama Perangkat</label>
-                        <input type="text" name="nama_perangkat"
-                               class="w-full p-2 border rounded text-black mb-4" required>
-
-                        <button class="px-4 py-2 bg-green-600 text-white rounded">Simpan</button>
-
-                        <a href="{{ route('perangkatdaerah.index') }}"
-                           class="px-4 py-2 bg-gray-600 text-white rounded ml-2">Kembali</a>
-                    </form>
-
-                </div>
-
+                    <button class="btn btn-primary">Simpan</button>
+                    <a href="{{ route('perangkatdaerah.index') }}" class="btn btn-secondary">Kembali</a>
+                </form>
             </div>
-
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

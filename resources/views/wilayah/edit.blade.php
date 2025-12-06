@@ -1,13 +1,38 @@
-<x-app-layout>
-    <x-slot name="header">
-    <h2 class="text-xl font-bold mb-4">Edit Wilayah</h2>
+@extends('layouts.app', [
+    'activePage' => 'wilayah',
+    'title' => __('Edit Wilayah'),
+    'navName' => 'Wilayah',
+    'activeButton' => 'dataJaringan'
+])
 
-    <form action="{{ route('wilayah.update', $data->id_wilayah) }}" method="POST">
-        @csrf @method('PUT')
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-        <label>Nama Wilayah</label>
-        <input type="text" name="nama_wilayah" value="{{ $data->nama_wilayah }}" class="border p-2 w-full" required>
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Edit Wilayah</h4></div>
 
-        <button class="mt-4 px-4 py-2 bg-blue-600 text-white rounded">Update</button>
-    </form>
-</x-app-layout>
+            <div class="card-body">
+
+                <form method="POST" action="{{ route('wilayah.update', $data->id_wilayah) }}">
+                    @csrf @method('PUT')
+
+                    <div class="form-group">
+                        <label>Nama Wilayah</label>
+                        <input type="text" 
+                               name="nama_wilayah" 
+                               value="{{ $data->nama_wilayah }}" 
+                               class="form-control" required>
+                    </div>
+
+                    <button class="btn btn-primary">Update</button>
+                    <a href="{{ route('wilayah.index') }}" class="btn btn-secondary">Kembali</a>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+@endsection

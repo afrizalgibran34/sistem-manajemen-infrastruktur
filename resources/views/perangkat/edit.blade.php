@@ -1,39 +1,35 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Edit Perangkat') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'perangkat',
+    'title' => __('Edit Perangkat'),
+    'navName' => 'Perangkat',
+    'activeButton' => 'dataJaringan'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Edit Perangkat</h4></div>
 
-                    <form action="{{ route('perangkat.update', $data->id_perangkat) }}" method="POST">
-                        @csrf @method('PUT')
+            <div class="card-body">
 
-                        <label class="block mb-2">Jenis Perangkat</label>
-                        <input type="text" name="jenis_perangkat"
-                               class="w-full p-2 border rounded text-black mb-4"
-                               value="{{ $data->jenis_perangkat }}"
-                               required>
+                <form method="POST" action="{{ route('perangkat.update', $data->id_perangkat) }}">
+                    @csrf @method('PUT')
 
-                        <button class="px-4 py-2 bg-blue-600 text-white rounded">
-                            Update
-                        </button>
+                    <div class="form-group">
+                        <label>Jenis Perangkat</label>
+                        <input type="text" name="jenis_perangkat" value="{{ $data->jenis_perangkat }}" class="form-control" required>
+                    </div>
 
-                        <a href="{{ route('perangkat.index') }}"
-                           class="px-4 py-2 bg-gray-600 text-white rounded ml-2">
-                            Kembali
-                        </a>
+                    <button class="btn btn-primary">Update</button>
+                    <a href="{{ route('perangkat.index') }}" class="btn btn-secondary">Kembali</a>
 
-                    </form>
+                </form>
 
-                </div>
             </div>
-
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

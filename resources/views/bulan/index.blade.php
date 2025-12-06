@@ -1,63 +1,84 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Data Bulan') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'bulan',
+    'title' => __('Data Bulan'),
+    'navName' => 'Bulan',
+    'activeButton' => 'dataLaporan'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        {{-- Tombol Tambah --}}
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <a href="{{ route('bulan.create') }}" class="btn btn-primary">
+                    + Tambah Bulan
+                </a>
+            </div>
+        </div>
 
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+        {{-- Table --}}
+        <div class="row">
+            <div class="col-md-12">
 
-                    <a href="{{ route('bulan.create') }}"
-                       class="px-4 py-2 bg-blue-600 text-white rounded inline-block mb-4">
-                        + Tambah Bulan
-                    </a>
+                <div class="card strpied-tabled-with-hover">
 
-                    <table class="w-full border border-gray-600 mt-4">
-                        <tr class="bg-gray-200 dark:bg-gray-700">
-                            <th class="border p-2">ID</th>
-                            <th class="border p-2">Nama Bulan</th>
-                            <th class="border p-2">Aksi</th>
-                        </tr>
+                    <div class="card-header">
+                        <h4 class="card-title">Data Bulan</h4>
+                        <p class="card-category">Daftar bulan yang digunakan dalam laporan</p>
+                    </div>
 
-                        @forelse($data as $row)
-                            <tr>
-                                <td class="border p-2">{{ $row->id_bulan }}</td>
-                                <td class="border p-2">{{ $row->nama_bulan }}</td>
+                    <div class="card-body table-full-width table-responsive">
 
-                                <td class="border p-2">
-                                    <a href="{{ route('bulan.edit', $row->id_bulan) }}"
-                                       class="px-3 py-1 bg-yellow-500 text-white rounded">
-                                        Edit
-                                    </a>
+                        <table class="table table-hover table-striped text-center align-middle">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">ID</th>
+                                    <th style="width: 60%;">Nama Bulan</th>
+                                    <th style="width: 30%;">Aksi</th>
+                                </tr>
+                            </thead>
 
-                                    <form action="{{ route('bulan.destroy', $row->id_bulan) }}"
-                                          method="POST" class="inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button onclick="return confirm('Hapus data ini?')"
-                                            class="px-3 py-1 bg-red-600 text-white rounded">
-                                            Hapus
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3" class="text-center p-2">Tidak ada data</td>
-                            </tr>
-                        @endforelse
+                            <tbody>
+                                @foreach ($data as $row)
+                                <tr>
+                                    <td>{{ $row->id_bulan }}</td>
+                                    <td>{{ $row->nama_bulan }}</td>
+                                    <td class="text-center">
 
-                    </table>
+                                        <a href="{{ route('bulan.edit', $row->id_bulan) }}"
+                                           class="btn btn-warning btn-sm mr-2">
+                                            Edit
+                                        </a>
+
+                                        <form action="{{ route('bulan.destroy', $row->id_bulan) }}"
+                                              method="POST"
+                                              style="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button onclick="return confirm('Yakin hapus data ini?')"
+                                                    class="btn btn-danger btn-sm">
+                                                Hapus
+                                            </button>
+
+                                        </form>
+
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
+
+                    </div>
 
                 </div>
 
             </div>
-
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

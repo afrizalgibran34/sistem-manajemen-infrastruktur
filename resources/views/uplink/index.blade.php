@@ -1,59 +1,83 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Data Uplink') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'uplink',
+    'title' => __('Data Uplink'),
+    'navName' => 'Uplink',
+    'activeButton' => 'dataJaringan'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+        {{-- Tombol Tambah --}}
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <a href="{{ route('uplink.create') }}" class="btn btn-primary">
+                    + Tambah Uplink
+                </a>
+            </div>
+        </div>
 
-                    <a href="{{ route('uplink.create') }}"
-                       class="px-4 py-2 bg-blue-600 text-white rounded mb-4 inline-block">
-                       + Tambah Uplink
-                    </a>
+        {{-- Table --}}
+        <div class="row">
+            <div class="col-md-12">
 
-                    <table class="w-full mt-4 border border-gray-600">
-                        <tr class="bg-gray-200 dark:bg-gray-700">
-                            <th class="p-2 border">ID</th>
-                            <th class="p-2 border">Jenis Uplink</th>
-                            <th class="p-2 border">Aksi</th>
-                        </tr>
+                <div class="card strpied-tabled-with-hover">
 
-                        @forelse ($data as $row)
-                        <tr>
-                            <td class="border p-2">{{ $row->id_uplink }}</td>
-                            <td class="border p-2">{{ $row->jenis_uplink }}</td>
+                    <div class="card-header">
+                        <h4 class="card-title">Data Uplink</h4>
+                        <p class="card-category">Jenis uplink jaringan yang tersedia</p>
+                    </div>
 
-                            <td class="border p-2">
-                                <a href="{{ route('uplink.edit', $row->id_uplink) }}"
-                                   class="px-3 py-1 bg-yellow-500 text-white rounded">
-                                    Edit
-                                </a>
+                    <div class="card-body table-full-width table-responsive">
 
-                                <form action="{{ route('uplink.destroy', $row->id_uplink) }}"
-                                      method="POST" class="inline">
-                                    @csrf @method('DELETE')
-                                    <button onclick="return confirm('Hapus data ini?')"
-                                        class="px-3 py-1 bg-red-600 text-white rounded">
-                                        Hapus
-                                    </button>
-                                </form>
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="3" class="text-center p-2">Tidak ada data</td>
-                        </tr>
-                        @endforelse
-                    </table>
+                        <table class="table table-hover table-striped text-center align-middle">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%;">ID</th>
+                                    <th style="width: 60%;">Jenis Uplink</th>
+                                    <th style="width: 30%;">Aksi</th>
+                                </tr>
+                            </thead>
 
+                            <tbody>
+                                @foreach ($data as $row)
+                                <tr>
+                                    <td>{{ $row->id_uplink }}</td>
+                                    <td>{{ $row->jenis_uplink }}</td>
+                                    <td class="text-center">
+
+                                        <a href="{{ route('uplink.edit', $row->id_uplink) }}"
+                                           class="btn btn-warning btn-sm mr-2">
+                                            Edit
+                                        </a>
+
+                                        <form action="{{ route('uplink.destroy', $row->id_uplink) }}"
+                                              method="POST"
+                                              style="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button onclick="return confirm('Yakin hapus data ini?')"
+                                                    class="btn btn-danger btn-sm">
+                                                Hapus
+                                            </button>
+
+                                        </form>
+
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
+
+                    </div>
                 </div>
 
             </div>
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

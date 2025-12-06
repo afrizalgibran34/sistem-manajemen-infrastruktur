@@ -1,117 +1,97 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Tambah Gangguan Jaringan') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'gangguan',
+    'title' => __('Tambah Gangguan'),
+    'navName' => 'Gangguan',
+    'activeButton' => 'dataLaporan'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="bg-white dark:bg-gray-800 shadow-sm sm:rounded-lg">
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Tambah Gangguan</h4></div>
 
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    
-                    <form action="{{ route('gangguan.store') }}" method="POST">
-                        @csrf
+            <div class="card-body">
+                <form method="POST" action="{{ route('gangguan.store') }}">
+                    @csrf
 
-                        <div class="grid grid-cols-2 gap-4">
+                    <div class="form-group">
+                        <label>Tanggal Kejadian</label>
+                        <input type="date" name="tanggal" class="form-control" required>
+                    </div>
 
-                            <div>
-                                <label>Tanggal</label>
-                                <input type="date" name="tanggal"
-                                       class="w-full p-2 border rounded text-black" required>
-                            </div>
+                    <div class="form-group">
+                        <label>Wilayah</label>
+                        <select name="id_wilayah" class="form-control" required>
+                            <option value="">-- Pilih Wilayah --</option>
+                            @foreach ($wilayah as $w)
+                                <option value="{{ $w->id_wilayah }}">{{ $w->nama_wilayah }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                            <div>
-                                <label>Wilayah</label>
-                                <select name="id_wilayah" class="w-full p-2 border rounded text-black" required>
-                                    <option value="">-- Pilih --</option>
-                                    @foreach ($wilayah as $item)
-                                        <option value="{{ $item->id_wilayah }}">{{ $item->nama_wilayah }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                    <div class="form-group">
+                        <label>Perangkat Daerah</label>
+                        <select name="id_perangkat" class="form-control" required>
+                            <option value="">-- Pilih Perangkat --</option>
+                            @foreach ($perangkat as $p)
+                                <option value="{{ $p->id_perangkat }}">{{ $p->nama_perangkat }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                            <div>
-                                <label>Perangkat Daerah</label>
-                                <select name="id_perangkat" class="w-full p-2 border rounded text-black" required>
-                                    <option value="">-- Pilih --</option>
-                                    @foreach ($perangkat as $item)
-                                        <option value="{{ $item->id_perangkat }}">{{ $item->nama_perangkat }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                    <div class="form-group">
+                        <label>Jenis Jaringan (FO / Wireless)</label>
+                        <input type="text" name="FO_wireless" class="form-control" required>
+                    </div>
 
-                            <div>
-                                <label>FO / Wireless</label>
-                                <input type="text" name="fo_wireless"
-                                       class="w-full p-2 border rounded text-black" required>
-                            </div>
+                    <div class="form-group">
+                        <label>Jenis Masalah</label>
+                        <select name="id_jenismasalah" class="form-control" required>
+                            <option value="">-- Pilih Masalah --</option>
+                            @foreach ($jenis_masalah as $j)
+                                <option value="{{ $j->id_jenismasalah }}">{{ $j->nama_masalah }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                            <div>
-                                <label>Jenis Masalah</label>
-                                <select name="id_jenismasalah" class="w-full p-2 border rounded text-black" required>
-                                    <option value="">-- Pilih --</option>
-                                    @foreach ($jenis_masalah as $item)
-                                        <option value="{{ $item->id_jenismasalah }}">{{ $item->nama_masalah }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                    <div class="form-group">
+                        <label>Keterangan Masalah</label>
+                        <textarea name="keterangan" class="form-control"></textarea>
+                    </div>
 
-                            <div>
-                                <label>Jumlah Kunjungan</label>
-                                <input type="number" name="jumlah_kunjungan"
-                                       class="w-full p-2 border rounded text-black">
-                            </div>
+                    <div class="form-group">
+                        <label>Penanganan</label>
+                        <textarea name="penanganan" class="form-control"></textarea>
+                    </div>
 
-                            <div>
-                                <label>Komplain Masuk</label>
-                                <input type="number" name="komplain_masuk"
-                                       class="w-full p-2 border rounded text-black">
-                            </div>
+                    <div class="form-group">
+                        <label>Jumlah Kunjungan</label>
+                        <input type="number" name="jumlah_kunjungan" class="form-control">
+                    </div>
 
-                            <div>
-                                <label>Masalah Selesai</label>
-                                <input type="number" name="masalah_selesai"
-                                       class="w-full p-2 border rounded text-black">
-                            </div>
+                    <div class="form-group">
+                        <label>Komplain Masuk</label>
+                        <input type="number" name="komplain_masuk" class="form-control">
+                    </div>
 
-                            <div>
-                                <label>Masalah Tidak Selesai</label>
-                                <input type="number" name="masalah_tidak_selesai"
-                                       class="w-full p-2 border rounded text-black">
-                            </div>
+                    <div class="form-group">
+                        <label>Masalah Selesai</label>
+                        <input type="number" name="masalahselesai" class="form-control">
+                    </div>
 
-                            <div class="col-span-2">
-                                <label>Keterangan</label>
-                                <textarea name="keterangan"
-                                          class="w-full p-2 border rounded text-black"></textarea>
-                            </div>
+                    <div class="form-group">
+                        <label>Masalah Tidak Selesai</label>
+                        <input type="number" name="masalahtidakselesai" class="form-control">
+                    </div>
 
-                            <div class="col-span-2">
-                                <label>Penanganan</label>
-                                <textarea name="penanganan"
-                                          class="w-full p-2 border rounded text-black"></textarea>
-                            </div>
-
-                        </div>
-
-                        <button class="px-4 py-2 bg-green-600 text-white rounded mt-4">
-                            Simpan
-                        </button>
-
-                        <a href="{{ route('gangguan.index') }}"
-                           class="px-4 py-2 bg-gray-600 text-white rounded ml-2 mt-4 inline-block">
-                           Kembali
-                        </a>
-
-                    </form>
-
-                </div>
-
+                    <button class="btn btn-primary">Simpan</button>
+                    <a href="{{ route('gangguan.index') }}" class="btn btn-secondary">Kembali</a>
+                </form>
             </div>
-
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

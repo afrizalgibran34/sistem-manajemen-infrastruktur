@@ -1,33 +1,40 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold">Edit Barang</h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'barang',
+    'title' => __('Edit Barang'),
+    'navName' => 'Barang',
+    'activeButton' => 'dataStok'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Edit Barang</h4></div>
 
-                <form action="{{ route('barang.update', $data->barang_id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
+            <div class="card-body">
 
-                    <label>Nama Barang</label>
-                    <input type="text" name="nama_barang"
-                           value="{{ $data->nama_barang }}"
-                           class="w-full p-2 border rounded text-black mb-4" required>
+                <form method="POST" action="{{ route('barang.update', $data->barang_id) }}">
+                    @csrf @method('PUT')
 
-                    <label>Satuan</label>
-                    <input type="text" name="satuan"
-                           value="{{ $data->satuan }}"
-                           class="w-full p-2 border rounded text-black mb-4" required>
+                    <div class="form-group">
+                        <label>Nama Barang</label>
+                        <input type="text" name="nama_barang" value="{{ $data->nama_barang }}" class="form-control" required>
+                    </div>
 
-                    <button class="px-4 py-2 bg-blue-600 text-white rounded">Update</button>
-                    <a href="{{ route('barang.index') }}"
-                       class="px-4 py-2 bg-gray-600 text-white rounded ml-2">Kembali</a>
+                    <div class="form-group">
+                        <label>Satuan</label>
+                        <input type="text" name="satuan" value="{{ $data->satuan }}" class="form-control" required>
+                    </div>
+
+                    <button class="btn btn-primary">Update</button>
+                    <a href="{{ route('barang.index') }}" class="btn btn-secondary">Kembali</a>
+
                 </form>
-            </div>
 
+            </div>
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

@@ -1,61 +1,63 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold">Edit Stok Barang</h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'stok_barang',
+    'title' => __('Edit Stok Barang'),
+    'navName' => 'Stok Barang',
+    'activeButton' => 'dataStok'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Edit Stok Barang</h4></div>
 
-                <form action="{{ route('stok_barang.update', $data->stok_id) }}" method="POST">
+            <div class="card-body">
+
+                <form method="POST" action="{{ route('stok_barang.update', $data->stok_id) }}">
                     @csrf
                     @method('PUT')
 
-                    <label>Barang</label>
-                    <select name="barang_id" class="w-full p-2 border rounded text-black mb-4" required>
-                        @foreach ($barang as $item)
-                            <option value="{{ $item->barang_id }}"
-                                {{ $data->barang_id == $item->barang_id ? 'selected' : '' }}>
-                                {{ $item->nama_barang }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <div class="form-group">
+                        <label>Barang</label>
+                        <select name="barang_id" class="form-control" required>
+                            @foreach ($barang as $b)
+                                <option value="{{ $b->barang_id }}"
+                                    {{ $data->barang_id == $b->barang_id ? 'selected' : '' }}>
+                                    {{ $b->nama_barang }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    <label>Satuan</label>
-                    <input type="text" name="satuan"
-                           value="{{ $data->satuan }}"
-                           class="w-full p-2 border rounded text-black mb-4">
+                    <div class="form-group">
+                        <label>Satuan</label>
+                        <input type="text" name="satuan" value="{{ $data->satuan }}" class="form-control" required>
+                    </div>
 
-                    <label>Kuantitas</label>
-                    <input type="text" name="kuantitas"
-                           value="{{ $data->kuantitas }}"
-                           class="w-full p-2 border rounded text-black mb-4">
+                    <div class="form-group">
+                        <label>Kuantitas</label>
+                        <input type="number" name="kuantitas" value="{{ $data->kuantitas }}" class="form-control" required>
+                    </div>
 
-                    <label>Terpakai</label>
-                    <input type="text" name="terpakai"
-                           value="{{ $data->terpakai }}"
-                           class="w-full p-2 border rounded text-black mb-4">
+                    <div class="form-group">
+                        <label>Terpakai</label>
+                        <input type="number" name="terpakai" value="{{ $data->terpakai }}" class="form-control">
+                    </div>
 
-                    <label>Sisa</label>
-                    <input type="text" name="sisa"
-                           value="{{ $data->sisa }}"
-                           class="w-full p-2 border rounded text-black mb-4">
+                    <div class="form-group">
+                        <label>Keterangan</label>
+                        <textarea name="keterangan" class="form-control">{{ $data->keterangan }}</textarea>
+                    </div>
 
-                    <label>Keterangan</label>
-                    <input type="text" name="keterangan"
-                           value="{{ $data->keterangan }}"
-                           class="w-full p-2 border rounded text-black mb-4">
-
-                    <button class="px-4 py-2 bg-blue-600 text-white rounded">Update</button>
-
-                    <a href="{{ route('stok_barang.index') }}"
-                       class="px-4 py-2 bg-gray-600 text-white rounded ml-2">Kembali</a>
+                    <button class="btn btn-primary">Update</button>
+                    <a href="{{ route('stok_barang.index') }}" class="btn btn-secondary">Kembali</a>
 
                 </form>
 
             </div>
-
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

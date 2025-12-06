@@ -1,39 +1,33 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Edit Jenis Masalah') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'jenis_masalah',
+    'title' => __('Edit Jenis Masalah'),
+    'navName' => 'Jenis Masalah',
+    'activeButton' => 'dataLaporan'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Edit Jenis Masalah</h4></div>
 
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+            <div class="card-body">
+                <form method="POST" action="{{ route('jenis_masalah.update', $data->id_jenismasalah) }}">
+                    @csrf @method('PUT')
 
-                    <form action="{{ route('jenis_masalah.update', $data->id_jenismasalah) }}" method="POST">
-                        @csrf
-                        @method('PUT')
+                    <div class="form-group">
+                        <label>Nama Masalah</label>
+                        <input type="text" name="nama_masalah" value="{{ $data->nama_masalah }}" class="form-control" required>
+                    </div>
 
-                        <label class="block mb-2">Nama Masalah</label>
-                        <input type="text" name="nama_masalah"
-                               class="w-full p-2 border rounded text-black mb-4"
-                               value="{{ $data->nama_masalah }}" required>
-
-                        <button class="px-4 py-2 bg-blue-600 text-white rounded">Update</button>
-
-                        <a href="{{ route('jenis_masalah.index') }}"
-                            class="px-4 py-2 bg-gray-600 text-white rounded ml-2">
-                            Kembali
-                        </a>
-
-                    </form>
-
-                </div>
-
+                    <button class="btn btn-primary">Update</button>
+                    <a href="{{ route('jenis_masalah.index') }}" class="btn btn-secondary">Kembali</a>
+                </form>
             </div>
 
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

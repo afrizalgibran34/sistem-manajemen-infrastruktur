@@ -1,47 +1,62 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold">Data Lokasi</h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'lokasi',
+    'title' => __('Data Lokasi'),
+    'navName' => 'Lokasi',
+    'activeButton' => 'dataStok'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto">
-            <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-                <a href="{{ route('lokasi.create') }}"
-                    class="px-4 py-2 bg-blue-600 text-white rounded mb-4 inline-block">
-                    + Tambah Lokasi
-                </a>
+        <a href="{{ route('lokasi.create') }}" class="btn btn-primary mb-3">+ Tambah Lokasi</a>
 
-                <table class="w-full border mt-3">
-                    <tr class="bg-gray-200 dark:bg-gray-700">
-                        <th class="border p-2">ID</th>
-                        <th class="border p-2">Nama Lokasi</th>
-                        <th class="border p-2">Aksi</th>
-                    </tr>
+        <div class="card strpied-tabled-with-hover">
+            <div class="card-header">
+                <h4 class="card-title">Data Lokasi</h4>
+                <p class="card-category">Daftar lokasi penyimpanan/penggunaan barang</p>
+            </div>
 
-                    @foreach ($data as $row)
+            <div class="card-body table-full-width table-responsive">
+
+                <table class="table table-hover table-striped text-center align-middle">
+                    <thead>
                         <tr>
-                            <td class="border p-2">{{ $row->lokasi_id }}</td>
-                            <td class="border p-2">{{ $row->nama_lokasi }}</td>
+                            <th>ID</th>
+                            <th>Nama Lokasi</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
 
-                            <td class="border p-2">
+                    <tbody>
+                        @foreach ($data as $row)
+                        <tr>
+                            <td>{{ $row->lokasi_id }}</td>
+                            <td>{{ $row->nama_lokasi }}</td>
+
+                            <td class="text-center">
                                 <a href="{{ route('lokasi.edit', $row->lokasi_id) }}"
-                                    class="px-3 py-1 bg-yellow-500 text-white rounded">Edit</a>
+                                   class="btn btn-warning btn-sm mr-2">
+                                    Edit
+                                </a>
 
                                 <form action="{{ route('lokasi.destroy', $row->lokasi_id) }}"
-                                    method="POST" class="inline">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button onclick="return confirm('Hapus?')"
-                                        class="px-3 py-1 bg-red-600 text-white rounded">Hapus</button>
+                                      method="POST" style="display:inline-block;">
+                                    @csrf @method('DELETE')
+                                    <button onclick="return confirm('Yakin hapus data ini?')"
+                                            class="btn btn-danger btn-sm">Hapus</button>
                                 </form>
                             </td>
+
                         </tr>
-                    @endforeach
+                        @endforeach
+                    </tbody>
 
                 </table>
 
             </div>
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

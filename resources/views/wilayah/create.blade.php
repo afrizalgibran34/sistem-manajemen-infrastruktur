@@ -1,12 +1,33 @@
-<x-app-layout>
-    <h2 class="text-xl font-bold mb-4">Tambah Wilayah</h2>
+@extends('layouts.app', [
+    'activePage' => 'wilayah',
+    'title' => __('Tambah Wilayah'),
+    'navName' => 'Wilayah',
+    'activeButton' => 'dataJaringan'
+])
 
-    <form action="{{ route('wilayah.store') }}" method="POST">
-        @csrf
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-        <label>Nama Wilayah</label>
-        <input type="text" name="nama_wilayah" class="border p-2 w-full" required>
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Tambah Wilayah</h4></div>
 
-        <button class="mt-4 px-4 py-2 bg-green-600 text-black rounded">Simpan</button>
-    </form>
-</x-app-layout>
+            <div class="card-body">
+                <form method="POST" action="{{ route('wilayah.store') }}">
+                    @csrf
+
+                    <div class="form-group">
+                        <label>Nama Wilayah</label>
+                        <input type="text" name="nama_wilayah" class="form-control" required>
+                    </div>
+
+                    <button class="btn btn-primary">Simpan</button>
+                    <a href="{{ route('wilayah.index') }}" class="btn btn-secondary">Kembali</a>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+@endsection

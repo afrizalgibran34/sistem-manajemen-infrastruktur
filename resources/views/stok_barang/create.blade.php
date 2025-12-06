@@ -1,47 +1,57 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold">Tambah Stok Barang</h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'stok_barang',
+    'title' => __('Tambah Stok Barang'),
+    'navName' => 'Stok Barang',
+    'activeButton' => 'dataStok'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Tambah Stok Barang</h4></div>
 
-                <form action="{{ route('stok_barang.store') }}" method="POST">
+            <div class="card-body">
+                <form method="POST" action="{{ route('stok_barang.store') }}">
                     @csrf
 
-                    <label>Barang</label>
-                    <select name="barang_id" class="w-full p-2 border rounded text-black mb-4" required>
-                        <option value="">-- Pilih Barang --</option>
-                        @foreach ($barang as $item)
-                            <option value="{{ $item->barang_id }}">{{ $item->nama_barang }}</option>
-                        @endforeach
-                    </select>
+                    <div class="form-group">
+                        <label>Barang</label>
+                        <select name="barang_id" class="form-control" required>
+                            <option value="">-- Pilih Barang --</option>
+                            @foreach ($barang as $b)
+                                <option value="{{ $b->barang_id }}">{{ $b->nama_barang }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    <label>Satuan</label>
-                    <input type="text" name="satuan" class="w-full p-2 border rounded text-black mb-4" required>
+                    <div class="form-group">
+                        <label>Satuan</label>
+                        <input type="text" name="satuan" class="form-control" required>
+                    </div>
 
-                    <label>Kuantitas</label>
-                    <input type="text" name="kuantitas" class="w-full p-2 border rounded text-black mb-4" required>
+                    <div class="form-group">
+                        <label>Kuantitas</label>
+                        <input type="number" name="kuantitas" class="form-control" required>
+                    </div>
 
-                    <label>Terpakai</label>
-                    <input type="text" name="terpakai" class="w-full p-2 border rounded text-black mb-4" required>
+                    <div class="form-group">
+                        <label>Terpakai</label>
+                        <input type="number" name="terpakai" class="form-control">
+                    </div>
 
-                    <label>Sisa</label>
-                    <input type="text" name="sisa" class="w-full p-2 border rounded text-black mb-4" required>
+                    <div class="form-group">
+                        <label>Keterangan</label>
+                        <textarea name="keterangan" class="form-control"></textarea>
+                    </div>
 
-                    <label>Keterangan</label>
-                    <input type="text" name="keterangan" class="w-full p-2 border rounded text-black mb-4">
-
-                    <button class="px-4 py-2 bg-green-600 text-white rounded">Simpan</button>
-
-                    <a href="{{ route('stok_barang.index') }}"
-                       class="px-4 py-2 bg-gray-600 text-white rounded ml-2">Kembali</a>
+                    <button class="btn btn-primary">Simpan</button>
+                    <a href="{{ route('stok_barang.index') }}" class="btn btn-secondary">Kembali</a>
                 </form>
-
             </div>
-
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

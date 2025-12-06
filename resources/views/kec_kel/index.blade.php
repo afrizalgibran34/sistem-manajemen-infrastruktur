@@ -1,34 +1,79 @@
-<x-app-layout>
-     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Data Kecamatan / Kelurahan
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'kec_kel',
+    'title' => __('Data Kec / Kel'),
+    'navName' => 'Kec / Kel',
+    'activeButton' => 'dataJaringan'
+])
 
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-    <a href="{{ route('kec_kel.create') }}" class="px-4 py-2 bg-blue-600 text-black rounded">Tambah</a>
+        {{-- Tombol Tambah --}}
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <a href="{{ route('kec_kel.create') }}" class="btn btn-primary">
+                    + Tambah Kec / Kel
+                </a>
+            </div>
+        </div>
 
-    <table class="w-full mt-4 border">
-        <tr class="bg-gray-200">
-            <th class="p-2 border">ID</th>
-            <th class="p-2 border">Nama</th>
-            <th class="p-2 border">Aksi</th>
-        </tr>
+        {{-- Table --}}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card strpied-tabled-with-hover">
 
-        @foreach ($data as $row)
-        <tr>
-            <td class="border p-2">{{ $row->id_kec_kel }}</td>
-            <td class="border p-2">{{ $row->nama_kec_kel }}</td>
-            <td class="border p-2">
-                <a href="{{ route('kec_kel.edit', $row->id_kec_kel) }}" class="text-blue-600">Edit</a>
+                    <div class="card-header">
+                        <h4 class="card-title">Data Kec / Kel</h4>
+                        <p class="card-category">Daftar kecamatan / kelurahan yang tersedia</p>
+                    </div>
 
-                <form action="{{ route('kec_kel.destroy', $row->id_kec_kel) }}" method="POST" class="inline">
-                    @csrf
-                    @method('DELETE')
-                    <button onclick="return confirm('Hapus?')" class="text-red-600">Hapus</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
-    </table>
-</x-app-layout>
+                    <div class="card-body table-full-width table-responsive">
+
+                        <table class="table table-hover table-striped text-center align-middle">
+                            <thead>
+                                <tr>
+                                    <th style="width: 10%; text-align:center;">ID</th>
+                                    <th style="width: 60%; text-align:center;">Nama Kec / Kel</th>
+                                    <th style="width: 30%; text-align:center;">Aksi</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                @foreach ($data as $row)
+                                <tr>
+                                    <td>{{ $row->id_kec_kel }}</td>
+                                    <td>{{ $row->nama_kec_kel }}</td>
+                                    <td class="text-center">
+
+                                        <a href="{{ route('kec_kel.edit', $row->id_kec_kel) }}"
+                                           class="btn btn-warning btn-sm mr-2">
+                                            Edit
+                                        </a>
+
+                                        <form action="{{ route('kec_kel.destroy', $row->id_kec_kel) }}"
+                                              method="POST" 
+                                              style="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="return confirm('Yakin hapus data ini?')"
+                                                    class="btn btn-danger btn-sm">
+                                                Hapus
+                                            </button>
+                                        </form>
+
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@endsection

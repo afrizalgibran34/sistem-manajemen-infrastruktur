@@ -1,32 +1,77 @@
-<x-app-layout>
-     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Wilayah') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'wilayah',
+    'title' => __('Data Wilayah'),
+    'navName' => 'Wilayah',
+    'activeButton' => 'dataJaringan'
+])
 
-    <a href="{{ route('wilayah.create') }}" class="px-4 py-2 bg-blue-600 text-black rounded">Tambah</a>
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-    <table class="w-full mt-4 border">
-        <tr class="bg-gray-200">
-            <th class="p-2 border">ID</th>
-            <th class="p-2 border">Nama Wilayah</th>
-            <th class="p-2 border">Aksi</th>
-        </tr>
+        {{-- TOMBOL TAMBAH --}}
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <a href="{{ route('wilayah.create') }}" class="btn btn-primary">
+                    + Tambah Wilayah
+                </a>
+            </div>
+        </div>
 
-        @foreach ($data as $row)
-        <tr>
-            <td class="border p-2">{{ $row->id_wilayah }}</td>
-            <td class="border p-2">{{ $row->nama_wilayah }}</td>
-            <td class="border p-2">
-                <a href="{{ route('wilayah.edit', $row->id_wilayah) }}" class="text-blue-600">Edit</a>
+        {{-- TABLE WILAYAH --}}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card strpied-tabled-with-hover">
+                    
+                    <div class="card-header">
+                        <h4 class="card-title">Data Wilayah</h4>
+                        <p class="card-category">Daftar seluruh wilayah yang tersedia</p>
+                    </div>
 
-                <form action="{{ route('wilayah.destroy', $row->id_wilayah) }}" method="POST" class="inline">
-                    @csrf @method('DELETE')
-                    <button onclick="return confirm('Yakin?')" class="text-red-600">Hapus</button>
-                </form>
-            </td>
-        </tr>
-        @endforeach
+                    <div class="card-body table-full-width table-responsive">
+    <table class="table table-hover table-striped text-center align-middle">
+        <thead>
+            <th width="80">ID</th>
+            <th class="text-center">Nama Wilayah</th>
+            <th width="180">Aksi</th>
+        </thead>
+
+        <tbody>
+            @foreach ($data as $row)
+            <tr>
+                <td>{{ $row->id_wilayah }}</td>
+                <td>{{ $row->nama_wilayah }}</td>
+                <td>
+                    <div class="d-flex justify-content-center gap-2">
+
+                        <a href="{{ route('wilayah.edit', $row->id_wilayah) }}" 
+                           class="btn btn-warning btn-sm mr-3">
+                            Edit
+                        </a>
+
+                        <form action="{{ route('wilayah.destroy', $row->id_wilayah) }}"
+                              method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button onclick="return confirm('Yakin hapus wilayah ini?')" 
+                                    class="btn btn-danger btn-sm">
+                                Hapus
+                            </button>
+                        </form>
+
+                    </div>
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
     </table>
-</x-app-layout>
+</div>
+
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@endsection

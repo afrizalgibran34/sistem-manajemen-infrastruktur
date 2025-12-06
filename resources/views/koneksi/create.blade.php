@@ -1,39 +1,33 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Tambah Koneksi') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'koneksi',
+    'title' => __('Tambah Koneksi'),
+    'navName' => 'Koneksi',
+    'activeButton' => 'dataJaringan'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Tambah Koneksi</h4></div>
 
-                    <form action="{{ route('koneksi.store') }}" method="POST">
-                        @csrf
+            <div class="card-body">
+                <form method="POST" action="{{ route('koneksi.store') }}">
+                    @csrf
 
-                        <div class="mb-4">
-                            <label class="block mb-1">Jenis Koneksi</label>
-                            <input type="text" name="jenis_koneksi"
-                                   class="w-full p-2 border rounded text-black"
-                                   required>
-                        </div>
+                    <div class="form-group">
+                        <label>Jenis Koneksi</label>
+                        <input type="text" name="jenis_koneksi" class="form-control" required>
+                    </div>
 
-                        <button class="px-4 py-2 bg-green-600 text-white rounded">
-                            Simpan
-                        </button>
+                    <button class="btn btn-primary">Simpan</button>
+                    <a href="{{ route('koneksi.index') }}" class="btn btn-secondary">Kembali</a>
 
-                        <a href="{{ route('koneksi.index') }}"
-                           class="px-4 py-2 bg-gray-600 text-white rounded ml-2">
-                            Kembali
-                        </a>
-                    </form>
-
-                </div>
+                </form>
             </div>
-
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

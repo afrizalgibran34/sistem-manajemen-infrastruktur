@@ -1,13 +1,35 @@
-<x-app-layout>
-    <h2 class="text-xl font-bold mb-4">Edit Klasifikasi</h2>
+@extends('layouts.app', [
+    'activePage' => 'klasifikasi',
+    'title' => __('Edit Klasifikasi'),
+    'navName' => 'Klasifikasi',
+    'activeButton' => 'dataJaringan'
+])
 
-    <form action="{{ route('klasifikasi.update', $data->id_klasifikasi) }}" method="POST">
-        @csrf
-        @method('PUT')
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-        <label>Klasifikasi</label>
-        <input type="text" name="klasifikasi" value="{{ $data->klasifikasi }}" class="border p-2 w-full" required>
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Edit Klasifikasi</h4></div>
 
-        <button class="mt-4 px-4 py-2 bg-blue-600 text-black rounded">Update</button>
-    </form>
-</x-app-layout>
+            <div class="card-body">
+
+                <form method="POST" action="{{ route('klasifikasi.update', $data->id_klasifikasi) }}">
+                    @csrf @method('PUT')
+
+                    <div class="form-group">
+                        <label>Nama Klasifikasi</label>
+                        <input type="text" name="klasifikasi" value="{{ $data->klasifikasi }}" class="form-control" required>
+                    </div>
+
+                    <button class="btn btn-primary">Update</button>
+                    <a href="{{ route('klasifikasi.index') }}" class="btn btn-secondary">Kembali</a>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+@endsection

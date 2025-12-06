@@ -1,39 +1,36 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Tambah Bulan') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'bulan',
+    'title' => __('Tambah Bulan'),
+    'navName' => 'Bulan',
+    'activeButton' => 'dataLaporan'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Tambah Bulan</h4></div>
 
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+            <div class="card-body">
 
-                    <form action="{{ route('bulan.store') }}" method="POST">
-                        @csrf
+                <form method="POST" action="{{ route('bulan.store') }}">
+                    @csrf
 
-                        <label class="block mb-2">Nama Bulan</label>
-                        <input type="text" name="nama_bulan"
-                               class="w-full p-2 border rounded text-black mb-4"
-                               placeholder="Contoh: Januari"
-                               required>
+                    <div class="form-group">
+                        <label>Nama Bulan</label>
+                        <input type="text" name="nama_bulan" class="form-control" required>
+                    </div>
 
-                        <button class="px-4 py-2 bg-green-600 text-white rounded">Simpan</button>
+                    <button class="btn btn-primary">Simpan</button>
+                    <a href="{{ route('bulan.index') }}" class="btn btn-secondary">Kembali</a>
 
-                        <a href="{{ route('bulan.index') }}"
-                           class="px-4 py-2 bg-gray-600 text-white rounded ml-2">
-                           Kembali
-                        </a>
-
-                    </form>
-
-                </div>
+                </form>
 
             </div>
 
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

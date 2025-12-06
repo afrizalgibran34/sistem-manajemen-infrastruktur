@@ -1,24 +1,35 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Edit Koneksi') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'koneksi',
+    'title' => __('Edit Koneksi'),
+    'navName' => 'Koneksi',
+    'activeButton' => 'dataJaringan'
+])
 
-    <div class="py-10 max-w-4xl mx-auto">
-        <div class="bg-white dark:bg-gray-800 p-6 shadow sm:rounded-lg">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <form action="{{ route('koneksi.update', $data->id_koneksi) }}" method="POST">
-                @csrf
-                @method('PUT')
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Edit Koneksi</h4></div>
 
-                <label class="block mb-2">Jenis Koneksi</label>
-                <input type="text" name="jenis_koneksi" class="border p-2 w-full rounded mb-4"
-                       value="{{ $data->jenis_koneksi }}" required>
+            <div class="card-body">
 
-                <button class="px-4 py-2 bg-blue-600 text-white rounded">Update</button>
-            </form>
+                <form method="POST" action="{{ route('koneksi.update', $data->id_koneksi) }}">
+                    @csrf @method('PUT')
 
+                    <div class="form-group">
+                        <label>Jenis Koneksi</label>
+                        <input type="text" name="jenis_koneksi" value="{{ $data->jenis_koneksi }}" class="form-control" required>
+                    </div>
+
+                    <button class="btn btn-primary">Update</button>
+                    <a href="{{ route('koneksi.index') }}" class="btn btn-secondary">Kembali</a>
+
+                </form>
+
+            </div>
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

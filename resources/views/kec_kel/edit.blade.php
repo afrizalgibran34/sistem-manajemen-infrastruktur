@@ -1,13 +1,35 @@
-<x-app-layout>
-    <h2 class="text-xl font-bold mb-4">Edit Kecamatan / Kelurahan</h2>
+@extends('layouts.app', [
+    'activePage' => 'kec_kel',
+    'title' => __('Edit Kec/Kel'),
+    'navName' => 'Kec Kel',
+    'activeButton' => 'dataJaringan'
+])
 
-    <form action="{{ route('kec_kel.update', $data->id_kec_kel) }}" method="POST">
-        @csrf
-        @method('PUT')
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-        <label>Nama Kecamatan / Kelurahan</label>
-        <input type="text" name="nama_kec_kel" value="{{ $data->nama_kec_kel }}" class="border p-2 w-full" required>
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Edit Kec/Kel</h4></div>
 
-        <button class="mt-4 px-4 py-2 bg-blue-600 text-black rounded">Update</button>
-    </form>
-</x-app-layout>
+            <div class="card-body">
+
+                <form method="POST" action="{{ route('kec_kel.update', $data->id_kec_kel) }}">
+                    @csrf @method('PUT')
+
+                    <div class="form-group">
+                        <label>Nama Kec/Kel</label>
+                        <input type="text" name="nama_kec_kel" value="{{ $data->nama_kec_kel }}" class="form-control" required>
+                    </div>
+
+                    <button class="btn btn-primary">Update</button>
+                    <a href="{{ route('kec_kel.index') }}" class="btn btn-secondary">Kembali</a>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+@endsection

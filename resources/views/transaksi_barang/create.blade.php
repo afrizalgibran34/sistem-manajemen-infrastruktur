@@ -1,52 +1,63 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold">Tambah Transaksi Barang</h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'transaksi_barang',
+    'title' => __('Tambah Transaksi Barang'),
+    'navName' => 'Transaksi Barang',
+    'activeButton' => 'dataStok'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+        <div class="card">
+            <div class="card-header"><h4 class="card-title">Tambah Transaksi Barang</h4></div>
 
-                <form action="{{ route('transaksi_barang.store') }}" method="POST">
+            <div class="card-body">
+                <form method="POST" action="{{ route('transaksi_barang.store') }}">
                     @csrf
 
-                    <label>Tanggal</label>
-                    <input type="text" name="tanggal" class="w-full p-2 border rounded text-black mb-4" required>
+                    <div class="form-group">
+                        <label>Tanggal</label>
+                        <input type="date" name="tanggal" class="form-control" required>
+                    </div>
 
-                    <label>Lokasi</label>
-                    <select name="lokasi_id" class="w-full p-2 border rounded text-black mb-4" required>
-                        <option value="">-- Pilih Lokasi --</option>
-                        @foreach ($lokasi as $item)
-                            <option value="{{ $item->lokasi_id }}">{{ $item->nama_lokasi }}</option>
-                        @endforeach
-                    </select>
+                    <div class="form-group">
+                        <label>Lokasi</label>
+                        <select name="lokasi_id" class="form-control" required>
+                            <option value="">-- Pilih Lokasi --</option>
+                            @foreach ($lokasi as $l)
+                                <option value="{{ $l->lokasi_id }}">{{ $l->nama_lokasi }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    <label>Barang</label>
-                    <select name="barang_id" class="w-full p-2 border rounded text-black mb-4" required>
-                        <option value="">-- Pilih Barang --</option>
-                        @foreach ($barang as $item)
-                            <option value="{{ $item->barang_id }}">{{ $item->nama_barang }}</option>
-                        @endforeach
-                    </select>
+                    <div class="form-group">
+                        <label>Barang</label>
+                        <select name="barang_id" class="form-control" required>
+                            <option value="">-- Pilih Barang --</option>
+                            @foreach ($barang as $b)
+                                <option value="{{ $b->barang_id }}">{{ $b->nama_barang }}</option>
+                            @endforeach
+                        </select>
+                    </div>
 
-                    <label>Jumlah</label>
-                    <input type="text" name="jumlah" class="w-full p-2 border rounded text-black mb-4" required>
+                    <div class="form-group">
+                        <label>Jumlah</label>
+                        <input type="number" name="jumlah" class="form-control" required>
+                    </div>
 
-                    <label>Keterangan</label>
-                    <input type="text" name="keterangan" class="w-full p-2 border rounded text-black mb-4">
+                    <div class="form-group">
+                        <label>Keterangan</label>
+                        <textarea name="keterangan" class="form-control"></textarea>
+                    </div>
 
-                    <button class="px-4 py-2 bg-green-600 text-white rounded">Simpan</button>
-
-                    <a href="{{ route('transaksi_barang.index') }}"
-                        class="px-4 py-2 bg-gray-600 text-white rounded ml-2">
-                        Kembali
-                    </a>
+                    <button class="btn btn-primary">Simpan</button>
+                    <a href="{{ route('transaksi_barang.index') }}" class="btn btn-secondary">Kembali</a>
 
                 </form>
-
             </div>
-
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

@@ -1,60 +1,81 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-semibold">Edit Transaksi Barang</h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'transaksi_barang',
+    'title' => __('Edit Transaksi Barang'),
+    'navName' => 'Transaksi Barang',
+    'activeButton' => 'dataStok'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto">
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="bg-white dark:bg-gray-800 p-6 rounded shadow">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
 
-                <form action="{{ route('transaksi_barang.update', $data->transaksi_id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
+                <div class="card">
 
-                    <label>Tanggal</label>
-                    <input type="text" name="tanggal" value="{{ $data->tanggal }}"
-                           class="w-full p-2 border rounded text-black mb-4" required>
+                    <div class="card-header">
+                        <h4 class="card-title">Edit Transaksi Barang</h4>
+                    </div>
 
-                    <label>Lokasi</label>
-                    <select name="lokasi_id" class="w-full p-2 border rounded text-black mb-4" required>
-                        @foreach ($lokasi as $item)
-                            <option value="{{ $item->lokasi_id }}"
-                                {{ $data->lokasi_id == $item->lokasi_id ? 'selected' : '' }}>
-                                {{ $item->nama_lokasi }}
-                            </option>
-                        @endforeach
-                    </select>
+                    <div class="card-body">
+                        <form method="POST" action="{{ route('transaksi_barang.update', $data->transaksi_id) }}">
+                            @csrf
+                            @method('PUT')
 
-                    <label>Barang</label>
-                    <select name="barang_id" class="w-full p-2 border rounded text-black mb-4" required>
-                        @foreach ($barang as $item)
-                            <option value="{{ $item->barang_id }}"
-                                {{ $data->barang_id == $item->barang_id ? 'selected' : '' }}>
-                                {{ $item->nama_barang }}
-                            </option>
-                        @endforeach
-                    </select>
+                            <div class="form-group">
+                                <label>Tanggal</label>
+                                <input type="date" name="tanggal" class="form-control"
+                                       value="{{ $data->tanggal }}" required>
+                            </div>
 
-                    <label>Jumlah</label>
-                    <input type="text" name="jumlah" value="{{ $data->jumlah }}"
-                           class="w-full p-2 border rounded text-black mb-4" required>
+                            <div class="form-group">
+                                <label>Lokasi</label>
+                                <select name="lokasi_id" class="form-control" required>
+                                    @foreach ($lokasi as $l)
+                                    <option value="{{ $l->lokasi_id }}"
+                                        {{ $data->lokasi_id == $l->lokasi_id ? 'selected' : '' }}>
+                                        {{ $l->nama_lokasi }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                    <label>Keterangan</label>
-                    <input type="text" name="keterangan" value="{{ $data->keterangan }}"
-                           class="w-full p-2 border rounded text-black mb-4">
+                            <div class="form-group">
+                                <label>Barang</label>
+                                <select name="barang_id" class="form-control" required>
+                                    @foreach ($barang as $b)
+                                    <option value="{{ $b->barang_id }}"
+                                        {{ $data->barang_id == $b->barang_id ? 'selected' : '' }}>
+                                        {{ $b->nama_barang }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
 
-                    <button class="px-4 py-2 bg-blue-600 text-white rounded">Update</button>
+                            <div class="form-group">
+                                <label>Jumlah</label>
+                                <input type="number" name="jumlah" class="form-control"
+                                       value="{{ $data->jumlah }}" required>
+                            </div>
 
-                    <a href="{{ route('transaksi_barang.index') }}"
-                        class="px-4 py-2 bg-gray-600 text-white rounded ml-2">
-                        Kembali
-                    </a>
+                            <div class="form-group">
+                                <label>Keterangan</label>
+                                <textarea name="keterangan"
+                                          class="form-control">{{ $data->keterangan }}</textarea>
+                            </div>
 
-                </form>
+                            <button class="btn btn-primary">Update</button>
+                            <a href="{{ route('transaksi_barang.index') }}" class="btn btn-secondary">Kembali</a>
+
+                        </form>
+                    </div>
+
+                </div>
 
             </div>
-
         </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection
