@@ -43,7 +43,7 @@
 
                     <div class="form-group">
                         <label>Jenis Jaringan (FO / Wireless)</label>
-                        <input type="text" name="FO_wireless" class="form-control" required>
+                        <input type="text" name="fo_wireless" class="form-control" required>
                     </div>
 
                     <div class="form-group">
@@ -78,12 +78,12 @@
 
                     <div class="form-group">
                         <label>Masalah Selesai</label>
-                        <input type="number" name="masalahselesai" class="form-control">
+                        <input type="number" name="masalah_selesai" class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label>Masalah Tidak Selesai</label>
-                        <input type="number" name="masalahtidakselesai" class="form-control">
+                        <input type="number" name="masalah_tidak_selesai" class="form-control">
                     </div>
 
                     <button class="btn btn-primary">Simpan</button>

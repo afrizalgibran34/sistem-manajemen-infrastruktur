@@ -1,4 +1,9 @@
-@extends('layouts.app', ['title' => 'Dashboard'])
+@extends('layouts.app', [
+    'activePage' => 'dashboard',
+    'title' => 'Dashboard',
+    'navName' => 'Data Analisis',
+    'activeButton' => 'Dashboard',      
+    ])
 
 @section('content')
     <h4 class="card-title">Selamat datang!</h4>

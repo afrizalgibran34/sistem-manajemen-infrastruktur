@@ -53,8 +53,8 @@
 
                     <div class="form-group">
                         <label>Jenis Jaringan (FO / Wireless)</label>
-                        <input type="text" name="FO_wireless"
-                               value="{{ $data->FO_wireless }}"
+                        <input type="text" name="fo_wireless"
+                               value="{{ $data->fo_wireless }}"
                                class="form-control" required>
                     </div>
 
@@ -96,15 +96,15 @@
 
                     <div class="form-group">
                         <label>Masalah Selesai</label>
-                        <input type="number" name="masalahselesai"
-                               value="{{ $data->masalahselesai }}"
+                        <input type="number" name="masalah_selesai"
+                               value="{{ $data->masalah_selesai }}"
                                class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label>Masalah Tidak Selesai</label>
-                        <input type="number" name="masalahtidakselesai"
-                               value="{{ $data->masalahtidakselesai }}"
+                        <input type="number" name="masalah_tidak_selesai"
+                               value="{{ $data->masalah_tidak_selesai }}"
                                class="form-control">
                     </div>
 

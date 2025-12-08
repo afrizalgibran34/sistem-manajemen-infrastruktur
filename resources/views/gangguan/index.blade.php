@@ -49,8 +49,8 @@
                                     <td>{{ $row->tanggal }}</td>
                                     <td>{{ $row->wilayah->nama_wilayah ?? '-' }}</td>
                                     <td>{{ $row->perangkat->nama_perangkat ?? '-' }}</td>
-                                    <td>{{ $row->jenisMasalah->nama_masalah ?? '-' }}</td>
-                                    <td>{{ $row->FO_wireless }}</td>
+                                    <td>{{ $row->jenis_masalah->nama_masalah ?? '-' }}</td>
+                                    <td>{{ $row->fo_wireless }}</td>
 
                                     <td class="text-center">
 

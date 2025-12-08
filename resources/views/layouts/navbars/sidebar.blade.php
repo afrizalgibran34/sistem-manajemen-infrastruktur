@@ -2,7 +2,7 @@
     <div class="sidebar-wrapper">
         <div class="logo">
             <a href="{{ route('dashboard') }}" class="simple-text">
-                {{ config('app.name', 'Laravel') }}
+                Sistem Manajemen Aset Infrastruktur
             </a>
         </div>
 
