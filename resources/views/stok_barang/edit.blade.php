@@ -46,11 +46,6 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Sisa</label>
-                        <input type="number" name="sisa" value="{{ $data->sisa }}" class="form-control">
-                    </div>
-
-                    <div class="form-group">
                         <label>Keterangan</label>
                         <textarea name="keterangan" class="form-control">{{ $data->keterangan }}</textarea>
                     </div>

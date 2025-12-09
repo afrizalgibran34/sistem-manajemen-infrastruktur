@@ -11,19 +11,30 @@ class Gangguan extends Model
 
     protected $fillable = [
         'tanggal',
+        'bulan',
+        'id_titik',
         'id_wilayah',
-        'id_perangkat',
         'fo_wireless',
         'id_jenismasalah',
         'keterangan',
         'penanganan',
         'jumlah_kunjungan',
-        'komplain_masuk',
-        'masalah_selesai',
-        'masalah_tidak_selesai'
+        'status_masalah'
     ];
 
-    public function wilayah() { return $this->belongsTo(Wilayah::class, 'id_wilayah'); }
-    public function perangkat() { return $this->belongsTo(PerangkatDaerah::class, 'id_perangkat'); }
-    public function jenis_masalah() { return $this->belongsTo(JenisMasalah::class, 'id_jenismasalah'); }
+    // Relasi
+    public function titik()
+    {
+        return $this->belongsTo(TitikLokasi::class, 'id_titik');
+    }
+
+    public function jenis_masalah()
+    {
+        return $this->belongsTo(JenisMasalah::class, 'id_jenismasalah');
+    }
+
+    public function wilayah()
+    {
+        return $this->belongsTo(Wilayah::class, 'id_wilayah');
+    }
 }

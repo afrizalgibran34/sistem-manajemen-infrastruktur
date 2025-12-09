@@ -1,66 +1,121 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('layouts.app', [
+    'activePage' => 'login',
+    'title' => 'Login - Sistem Manajemen Aset Infrastruktur'
+])
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+@section('content')
+<style>
+    .login-bg {
+        background: linear-gradient(135deg, #7F56D9, #9E77ED);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 0 20px;
+    }
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
+    .login-card {
+        background: white;
+        border-radius: 12px;
+        padding: 40px 35px;
+        width: 100%;
+        max-width: 400px;
+        box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+        animation: fadeIn 0.6s ease;
+    }
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+    .login-title {
+        font-weight: 700;
+        font-size: 22px;
+        color: #4A4A4A;
+        text-align: center;
+        margin-bottom: 10px;
+    }
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
+    .login-subtitle {
+        color: #7F56D9;
+        font-size: 14px;
+        letter-spacing: 0.5px;
+        text-align: center;
+        margin-bottom: 25px;
+    }
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-        <!-- Captcha -->
-        <div class="mt-4">
-             <p class="mt-1 text-sm text-gray-700">
-                Berapa hasil dari <strong>{{ session('captcha_question') }}</strong>?
-            </p>
+    .btn-login {
+        width: 100%;
+        background-color: #7F56D9;
+        color: white;
+        border-radius: 8px;
+        padding: 10px 0;
+        font-weight: 600;
+        font-size: 15px;
+        transition: 0.3s;
+    }
 
-            <x-text-input id="captcha"
-                class="block mt-1 w-full"
-                type="number"
-                name="captcha"
-                required
-                placeholder="Masukkan jawaban" />
+    .btn-login:hover {
+        background-color: #6B46C1;
+        color: white;
+    }
 
-            <x-input-error :messages="$errors->get('captcha')" class="mt-2" />
-        </div>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 
+</style>
 
+<div class="login-bg">
 
+    <div class="login-card">
 
+        <h2 class="login-title">Sistem Manajemen Aset Infrastruktur</h2>
+        <p class="login-subtitle">Masuk ke akun Anda</p>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+        <form method="POST" action="{{ route('login') }}">
+            @csrf
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
+            {{-- EMAIL --}}
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email"
+                       class="form-control @error('email') is-invalid @enderror"
+                       name="email"
+                       value="{{ old('email') }}"
+                       required autofocus>
+                @error('email')
+                    <span class="text-danger small d-block">{{ $message }}</span>
+                @enderror
+            </div>
 
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+            {{-- PASSWORD --}}
+            <div class="form-group mt-3">
+                <label>Password</label>
+                <input type="password"
+                       class="form-control @error('password') is-invalid @enderror"
+                       name="password"
+                       required>
+                @error('password')
+                    <span class="text-danger small d-block">{{ $message }}</span>
+                @enderror
+            </div>
+
+            {{-- CAPTCHA --}}
+            <div class="form-group mt-3">
+                <label>Captcha: <strong>{{ session('captcha_question') }}</strong></label>
+                <input type="number"
+                       class="form-control @error('captcha') is-invalid @enderror"
+                       name="captcha"
+                       required
+                       placeholder="Masukkan jawaban">
+                @error('captcha')
+                    <span class="text-danger small d-block">{{ $message }}</span>
+                @enderror
+            </div>
+
+            {{-- BUTTON --}}
+            <button type="submit" class="btn btn-login mt-4">
+                Login
+            </button>
+        </form>
+    </div>
+</div>
+@endsection

@@ -56,21 +56,19 @@
 
                     <div class="form-group">
                         <label>Koneksi</label>
-                        <select name="id_koneksi" class="form-control" required>
+                        <select name="koneksi" class="form-control" required>
                             <option value="">-- Pilih Koneksi --</option>
-                            @foreach ($koneksi as $k)
-                                <option value="{{ $k->id_koneksi }}">{{ $k->jenis_koneksi }}</option>
-                            @endforeach
+                            <option value="FO">FO</option>
+                            <option value="Wireless">Wireless</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label>Status</label>
-                        <select name="id_status" class="form-control" required>
+                        <select name="status" class="form-control" required>
                             <option value="">-- Pilih Status --</option>
-                            @foreach ($status as $s)
-                                <option value="{{ $s->id_status }}">{{ $s->status }}</option>
-                            @endforeach
+                            <option value="On">On</option>
+                            <option value="Off">Off</option>
                         </select>
                     </div>
 
@@ -96,22 +94,12 @@
 
                     <div class="form-group">
                         <label>Perangkat</label>
-                        <select name="id_perangkat" class="form-control" required>
-                            <option value="">-- Pilih Perangkat --</option>
-                            @foreach ($perangkat as $p)
-                                <option value="{{ $p->id_perangkat }}">{{ $p->jenis_perangkat }}</option>
-                            @endforeach
-                        </select>
+                        <input type="text" name="perangkat" class="form-control" placeholder="Masukkan nama perangkat" required>
                     </div>
 
                     <div class="form-group">
                         <label>Keterangan</label>
                         <textarea name="keterangan" class="form-control"></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Rencana Pengembangan</label>
-                        <textarea name="rencana_pengembangan" class="form-control"></textarea>
                     </div>
 
                     <div class="form-group">

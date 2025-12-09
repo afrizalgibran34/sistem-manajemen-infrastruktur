@@ -12,14 +12,16 @@ use App\Models\Backbone;
 use App\Models\Uplink;
 use App\Models\Perangkat;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+
+
 
 class TitikLokasiController extends Controller
 {
     public function index()
     {
         $data = TitikLokasi::with([
-            'wilayah', 'kec_kel', 'klasifikasi', 'koneksi',
-            'status', 'backbone', 'uplink', 'perangkat'
+            'wilayah', 'kec_kel', 'klasifikasi',  'backbone', 'uplink'
         ])->get();
 
         return view('titik_lokasi.index', compact('data'));
@@ -31,13 +33,11 @@ class TitikLokasiController extends Controller
             'wilayah' => Wilayah::all(),
             'kec_kel' => Kec_Kel::all(),
             'klasifikasi' => Klasifikasi::all(),
-            'koneksi' => Koneksi::all(),
-            'status' => Status::all(),
             'backbone' => Backbone::all(),
             'uplink' => Uplink::all(),
-            'perangkat' => Perangkat::all(),
         ]);
     }
+
 
     public function store(Request $request)
     {
@@ -46,17 +46,34 @@ class TitikLokasiController extends Controller
             'id_wilayah' => 'required',
             'id_kec_kel' => 'required',
             'id_klasifikasi' => 'required',
-            'id_koneksi' => 'required',
-            'id_status' => 'required',
+            'koneksi' => 'required',
+            'status' => 'required',
+            'perangkat' => 'required',
             'id_backbone' => 'required',
             'id_uplink' => 'required',
-            'id_perangkat' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
         ]);
 
-        TitikLokasi::create($request->all());
+        TitikLokasi::create([
+            'nama_titik' => $request->nama_titik,
+            'id_wilayah' => $request->id_wilayah,
+            'id_kec_kel' => $request->id_kec_kel,
+            'id_klasifikasi' => $request->id_klasifikasi,
+            'koneksi' => $request->koneksi,
+            'status' => $request->status,
+            'perangkat' => $request->perangkat,
+            'id_backbone' => $request->id_backbone,
+            'id_uplink' => $request->id_uplink,
+            'keterangan' => $request->keterangan,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
 
-        return redirect()->route('titik_lokasi.index')->with('success', 'Data berhasil ditambahkan');
+        return redirect()->route('titik_lokasi.index')
+                         ->with('success', 'Titik lokasi berhasil ditambahkan.');
     }
+
 
     public function edit($id)
     {
@@ -65,25 +82,62 @@ class TitikLokasiController extends Controller
             'wilayah' => Wilayah::all(),
             'kec_kel' => Kec_Kel::all(),
             'klasifikasi' => Klasifikasi::all(),
-            'koneksi' => Koneksi::all(),
-            'status' => Status::all(),
             'backbone' => Backbone::all(),
             'uplink' => Uplink::all(),
-            'perangkat' => Perangkat::all(),
         ]);
     }
-
     public function update(Request $request, $id)
     {
-        $data = TitikLokasi::findOrFail($id);
-        $data->update($request->all());
+        $request->validate([
+            'nama_titik' => 'required',
+            'id_wilayah' => 'required',
+            'id_kec_kel' => 'required',
+            'id_klasifikasi' => 'required',
+            'koneksi' => 'required',
+            'status' => 'required',
+            'perangkat' => 'required',
+            'id_backbone' => 'required',
+            'id_uplink' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+        ]);
 
-        return redirect()->route('titik_lokasi.index')->with('success', 'Data berhasil diperbarui');
+        $data = TitikLokasi::findOrFail($id);
+
+        $data->update([
+            'nama_titik' => $request->nama_titik,
+            'id_wilayah' => $request->id_wilayah,
+            'id_kec_kel' => $request->id_kec_kel,
+            'id_klasifikasi' => $request->id_klasifikasi,
+            'koneksi' => $request->koneksi,
+            'status' => $request->status,
+            'perangkat' => $request->perangkat,
+            'id_backbone' => $request->id_backbone,
+            'id_uplink' => $request->id_uplink,
+            'keterangan' => $request->keterangan,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+        ]);
+
+        return redirect()->route('titik_lokasi.index')
+                         ->with('success', 'Data titik lokasi berhasil diupdate.');
     }
+
+
 
     public function destroy($id)
     {
         TitikLokasi::findOrFail($id)->delete();
         return redirect()->route('titik_lokasi.index')->with('success', 'Data berhasil dihapus');
+    }
+    
+    public function exportPdf()
+    {
+        $data = TitikLokasi::with(['wilayah','kec_kel','klasifikasi','backbone','uplink'])->get();
+
+        $pdf = Pdf::loadView('titik_lokasi.pdf', compact('data'))
+                ->setPaper('a4', 'landscape'); 
+
+        return $pdf->download('data_titik_lokasi.pdf');
     }
 }

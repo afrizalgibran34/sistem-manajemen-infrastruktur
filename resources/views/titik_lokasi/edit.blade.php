@@ -63,25 +63,17 @@
 
                     <div class="form-group">
                         <label>Koneksi</label>
-                        <select name="id_koneksi" class="form-control" required>
-                            @foreach ($koneksi as $k)
-                                <option value="{{ $k->id_koneksi }}" 
-                                    {{ $data->id_koneksi == $k->id_koneksi ? 'selected' : '' }}>
-                                    {{ $k->jenis_koneksi }}
-                                </option>
-                            @endforeach
+                        <select name="koneksi" class="form-control" required>
+                            <option value="FO" {{ $data->koneksi == 'FO' ? 'selected' : '' }}>FO</option>
+                            <option value="Wireless" {{ $data->koneksi == 'Wireless' ? 'selected' : '' }}>Wireless</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <label>Status</label>
-                        <select name="id_status" class="form-control" required>
-                            @foreach ($status as $s)
-                                <option value="{{ $s->id_status }}" 
-                                    {{ $data->id_status == $s->id_status ? 'selected' : '' }}>
-                                    {{ $s->status }}
-                                </option>
-                            @endforeach
+                        <select name="status" class="form-control" required>
+                            <option value="On" {{ $data->status == 'On' ? 'selected' : '' }}>On</option>
+                            <option value="Off" {{ $data->status == 'Off' ? 'selected' : '' }}>Off</option>
                         </select>
                     </div>
 
@@ -111,24 +103,12 @@
 
                     <div class="form-group">
                         <label>Perangkat</label>
-                        <select name="id_perangkat" class="form-control" required>
-                            @foreach ($perangkat as $p)
-                                <option value="{{ $p->id_perangkat }}" 
-                                    {{ $data->id_perangkat == $p->id_perangkat ? 'selected' : '' }}>
-                                    {{ $p->jenis_perangkat }}
-                                </option>
-                            @endforeach
-                        </select>
+                        <input type="text" name="perangkat" value="{{ $data->perangkat }}" class="form-control" required>
                     </div>
 
                     <div class="form-group">
                         <label>Keterangan</label>
                         <textarea name="keterangan" class="form-control">{{ $data->keterangan }}</textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Rencana Pengembangan</label>
-                        <textarea name="rencana_pengembangan" class="form-control">{{ $data->rencana_pengembangan }}</textarea>
                     </div>
 
                     <div class="form-group">

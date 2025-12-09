@@ -4,23 +4,22 @@ namespace App\Http\Controllers;
 
 use App\Models\Gangguan;
 use App\Models\Wilayah;
-use App\Models\PerangkatDaerah;
 use App\Models\JenisMasalah;
+use App\Models\TitikLokasi;
 use Illuminate\Http\Request;
 
 class GangguanController extends Controller
 {
     public function index()
     {
-        $data = Gangguan::with(['wilayah', 'perangkat', 'jenis_masalah'])->get();
+        $data = Gangguan::with(['titik', 'wilayah', 'jenis_masalah'])->get();
         return view('gangguan.index', compact('data'));
     }
 
     public function create()
     {
         return view('gangguan.create', [
-            'wilayah' => Wilayah::all(),
-            'perangkat' => PerangkatDaerah::all(),
+            'titik' => TitikLokasi::all(),
             'jenis_masalah' => JenisMasalah::all(),
         ]);
     }
@@ -29,13 +28,24 @@ class GangguanController extends Controller
     {
         $request->validate([
             'tanggal' => 'required',
-            'id_wilayah' => 'required',
-            'id_perangkat' => 'required',
-            'fo_wireless' => 'required',
+            'id_titik' => 'required',
             'id_jenismasalah' => 'required',
         ]);
 
-        Gangguan::create($request->all());
+        $titik = TitikLokasi::findOrFail($request->id_titik);
+
+        Gangguan::create([
+            'tanggal' => $request->tanggal,
+            'bulan' => date('F', strtotime($request->tanggal)),
+            'id_titik' => $request->id_titik,
+            'id_wilayah' => $titik->id_wilayah,
+            'fo_wireless' => $titik->koneksi,
+            'id_jenismasalah' => $request->id_jenismasalah,
+            'keterangan' => $request->keterangan,
+            'penanganan' => $request->penanganan,
+            'jumlah_kunjungan' => $request->jumlah_kunjungan ?? 0,
+            'status_masalah' => $request->status_masalah,
+        ]);
 
         return redirect()->route('gangguan.index');
     }
@@ -44,15 +54,29 @@ class GangguanController extends Controller
     {
         return view('gangguan.edit', [
             'data' => Gangguan::findOrFail($id),
-            'wilayah' => Wilayah::all(),
-            'perangkat' => PerangkatDaerah::all(),
+            'titik' => TitikLokasi::all(),
             'jenis_masalah' => JenisMasalah::all(),
         ]);
     }
 
     public function update(Request $request, $id)
     {
-        Gangguan::findOrFail($id)->update($request->all());
+        $data = Gangguan::findOrFail($id);
+        $titik = TitikLokasi::findOrFail($request->id_titik);
+
+        $data->update([
+            'tanggal' => $request->tanggal,
+            'bulan' => date('F', strtotime($request->tanggal)),
+            'id_titik' => $request->id_titik,
+            'id_wilayah' => $titik->id_wilayah,
+            'fo_wireless' => $titik->koneksi,
+            'id_jenismasalah' => $request->id_jenismasalah,
+            'keterangan' => $request->keterangan,
+            'penanganan' => $request->penanganan,
+            'jumlah_kunjungan' => $request->jumlah_kunjungan ?? 0,
+            'status_masalah' => $request->status_masalah,
+        ]);
+
         return redirect()->route('gangguan.index');
     }
 

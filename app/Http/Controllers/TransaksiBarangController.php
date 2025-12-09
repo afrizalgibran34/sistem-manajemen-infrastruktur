@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\TransaksiBarang;
 use App\Models\Lokasi;
 use App\Models\Barang;
+use App\Models\StokBarang;
 use Illuminate\Http\Request;
 
 class TransaksiBarangController extends Controller
@@ -29,12 +30,39 @@ class TransaksiBarangController extends Controller
             'tanggal' => 'required',
             'lokasi_id' => 'required',
             'barang_id' => 'required',
-            'jumlah' => 'required'
+            'jumlah' => 'required|integer|min:1'
         ]);
 
-        TransaksiBarang::create($request->all());
-        return redirect()->route('transaksi_barang.index');
+        // Ambil stok barang berdasar barang_id
+        $stok = StokBarang::where('barang_id', $request->barang_id)->first();
+
+        if (!$stok) {
+            return back()->withErrors('Data stok barang tidak ditemukan.');
+        }
+
+        // Cek stok tersisa cukup
+        if ($request->jumlah > $stok->sisa) {
+            return back()->withErrors('Jumlah melebihi stok tersisa.');
+        }
+
+        // Update stok
+        $stok->terpakai = $stok->terpakai + $request->jumlah;
+        $stok->sisa = $stok->kuantitas - $stok->terpakai;
+        $stok->save();
+
+        // Simpan transaksi
+        TransaksiBarang::create([
+            'tanggal' => $request->tanggal,
+            'lokasi_id' => $request->lokasi_id,
+            'barang_id' => $request->barang_id,
+            'jumlah' => $request->jumlah,
+            'keterangan' => $request->keterangan,
+        ]);
+
+        return redirect()->route('transaksi_barang.index')
+            ->with('success', 'Transaksi berhasil ditambahkan & stok diperbarui.');
     }
+
 
     public function edit($id)
     {
