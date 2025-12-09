@@ -12,7 +12,7 @@ class PetaController extends Controller
         // Ambil semua titik dari tabel titik_lokasi
         $titik = DB::table('titik_lokasi')->get();
         
-        // Kirim ke view peta.blade.php
-        return view('peta', compact('titik'));
+        // Kirim ke view peta/index.blade.php
+        return view('peta.index', compact('titik'));
     }
 }
