@@ -93,7 +93,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Perangkat</label>
+                        <label>Perangkat Yang Terpasang</label>
                         <input type="text" name="perangkat" class="form-control" placeholder="Masukkan nama perangkat" required>
                     </div>
 

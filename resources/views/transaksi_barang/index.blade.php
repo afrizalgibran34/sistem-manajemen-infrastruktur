@@ -12,11 +12,6 @@
         <a href="{{ route('transaksi_barang.create') }}" class="btn btn-primary mb-3">
             + Tambah Transaksi
         </a>
-        
-        <a href="{{ route('titik_lokasi.exportPdf') }}" class="btn btn-danger mb-3">
-            Export PDF
-        </a>
-
 
         <div class="card strpied-tabled-with-hover">
 

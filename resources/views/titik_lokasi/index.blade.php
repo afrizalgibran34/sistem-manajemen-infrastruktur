@@ -11,10 +11,6 @@
 
         <div class="d-flex justify-content-between mb-3">
 
-            <a href="{{ route('titik_lokasi.create') }}" class="btn btn-primary">
-                + Tambah Titik Lokasi
-            </a>
-
             <a href="{{ route('titik_lokasi.exportPdf') }}" class="btn btn-danger">
                 Export PDF
             </a>
