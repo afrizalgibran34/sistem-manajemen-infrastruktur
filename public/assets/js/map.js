@@ -56,17 +56,6 @@ class MapManager {
         );
 
         tileLayer.addTo(this.map);
-
-        tileLayer.on("loading", () => console.log("Tiles loading..."));
-        tileLayer.on("load", () => console.log("Tiles loaded successfully"));
-        tileLayer.on("tileerror", (error) => {
-            console.error("CartoDB tiles error, falling back to OSM...", error);
-
-            // Fallback ke OSM jika CartoDB gagal
-            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-                maxZoom: 19,
-            }).addTo(this.map);
-        });
     }
 
     addMarkers(data) {
