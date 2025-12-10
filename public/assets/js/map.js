@@ -44,6 +44,7 @@ class MapManager {
     addTileLayer() {
         const tileLayer = L.tileLayer(
             "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}.png",
+            // osm : https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png
             {
                 attribution:
                     '&copy; <a href="https://carto.com/">CARTO</a> | Map data © OpenStreetMap contributors',
