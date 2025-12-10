@@ -139,13 +139,6 @@
                                             Tambah Data Jenis Masalah
                                         </a>
                                     </li>
-
-                                    <li class="nav-item @if($activePage=='bulan') active @endif">
-                                        <a class="nav-link" href="{{ route('bulan.index') }}">
-                                            Tambah Data Bulan
-                                        </a>
-                                    </li>
-
                                 </ul>
                             </div>
                         </li>

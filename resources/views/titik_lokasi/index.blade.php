@@ -52,7 +52,7 @@
         <tbody>
             @foreach ($data as $row)
             <tr>
-                <td class="align-top">{{ $row->id_titik }}</td>
+                <td class="align-top">{{ $loop->iteration }}</td>
                 <td class="align-top">{{ $row->nama_titik }}</td>
                 <td class="align-top">{{ $row->wilayah->nama_wilayah ?? '-' }}</td>
                 <td class="align-top">{{ $row->kec_kel->nama_kec_kel ?? '-' }}</td>
