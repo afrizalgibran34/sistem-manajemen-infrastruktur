@@ -9,8 +9,20 @@
 <div class="content">
     <div class="container-fluid">
 
+        {{-- CARD GRAFIK DIATAS --}}
+        <div class="card mb-4">
+            <div class="card-header">
+                <h4 class="card-title">Grafik Pemakaian Stok</h4>
+            </div>
+            <div class="card-body">
+                <canvas id="stokChart"></canvas>
+            </div>
+        </div>
+
+        {{-- TOMBOL TAMBAH --}}
         <a href="{{ route('stok_barang.create') }}" class="btn btn-primary mb-3">+ Tambah Stok Barang</a>
 
+        {{-- TABEL --}}
         <div class="card strpied-tabled-with-hover">
 
             <div class="card-header">
@@ -73,3 +85,50 @@
     </div>
 </div>
 @endsection
+
+{{-- CDN ChartJS --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{{-- SCRIPT GRAFIK --}}
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const ctx = document.getElementById('stokChart').getContext('2d');
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($data->pluck('barang')->pluck('nama_barang')) !!},
+            datasets: [
+                {
+                    label: 'Kuantitas',
+                    data: {!! json_encode($data->pluck('kuantitas')) !!},
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                },
+                {
+                    label: 'Terpakai',
+                    data: {!! json_encode($data->pluck('terpakai')) !!},
+                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
+                },
+                {
+                    label: 'Sisa',
+                    data: {!! json_encode($data->pluck('sisa')) !!}
+                    ,
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                },
+            ]
+        },
+        options: {
+            responsive: true,
+            interaction: {
+                mode: 'index',
+                intersect: false,
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+});
+</script>
