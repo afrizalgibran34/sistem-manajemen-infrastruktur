@@ -1,29 +1,54 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Profile') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'profile',
+    'title' => __('Profil Pengguna'),
+    'navName' => 'Profil',
+    'activeButton' => 'profile'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-6">
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-profile-information-form')
-                </div>
-            </div>
+@section('content')
+<div class="content">
+    <div class="container-fluid">
 
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.update-password-form')
-                </div>
-            </div>
-
-            <div class="p-4 sm:p-8 bg-white dark:bg-gray-800 shadow sm:rounded-lg">
-                <div class="max-w-xl">
-                    @include('profile.partials.delete-user-form')
-                </div>
+        {{-- Judul Halaman --}}
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h3 class="text-dark font-weight-bold">Pengaturan Profil</h3>
+                <p class="text-muted">Kelola informasi akun dan keamanan Anda</p>
             </div>
         </div>
+
+        <div class="row">
+
+            {{-- Update Biodata --}}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Informasi Pengguna</h5>
+                    </div>
+
+                    <div class="card-body">
+                        @include('profile.partials.update-profile-information-form')
+                    </div>
+                </div>
+            </div>
+
+            {{-- Update Password --}}
+            <div class="col-md-6 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Ganti Password</h5>
+                    </div>
+
+                    <div class="card-body">
+                        @include('profile.partials.update-password-form')
+                    </div>
+                </div>
+            </div>
+
+            
+
+        </div>
+
     </div>
-</x-app-layout>
+</div>
+@endsection

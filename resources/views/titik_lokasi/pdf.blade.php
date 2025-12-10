@@ -35,7 +35,7 @@
     <tbody>
         @foreach ($data as $row)
         <tr>
-            <td>{{ $row->id_titik }}</td>
+            <td>{{ $loop->iteration }}</td>
             <td>{{ $row->nama_titik }}</td>
             <td>{{ $row->wilayah->nama_wilayah ?? '-' }}</td>
             <td>{{ $row->kec_kel->nama_kec_kel ?? '-' }}</td>

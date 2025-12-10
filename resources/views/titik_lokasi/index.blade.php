@@ -34,7 +34,7 @@
     <table class="table table-hover table-striped align-middle text-start">
         <thead>
             <tr>
-                <th>ID</th>
+                <th>No</th>
                 <th>Nama Titik</th>
                 <th>Wilayah</th>
                 <th>PD/Unit Kerja</th>
