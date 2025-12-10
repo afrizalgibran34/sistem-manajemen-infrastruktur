@@ -1,121 +1,250 @@
-@extends('layouts.app', [
-    'activePage' => 'login',
-    'title' => 'Login - Sistem Manajemen Aset Infrastruktur'
-])
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="csrf-token" content="{{ csrf_token() }}" />
+        <title>{{ config("app.name", "Laravel") }} - Login</title>
+        <script src="https://cdn.tailwindcss.com"></script>
+        <style>
+            @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
 
-@section('content')
-<style>
-    .login-bg {
-        background: linear-gradient(135deg, #7F56D9, #9E77ED);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 0 20px;
-    }
+            * {
+                font-family: "Inter", sans-serif;
+            }
 
-    .login-card {
-        background: white;
-        border-radius: 12px;
-        padding: 40px 35px;
-        width: 100%;
-        max-width: 400px;
-        box-shadow: 0 8px 18px rgba(0,0,0,0.15);
-        animation: fadeIn 0.6s ease;
-    }
+            .login-bg {
+                background-color: #ffffff;
+            }
 
-    .login-title {
-        font-weight: 700;
-        font-size: 22px;
-        color: #4A4A4A;
-        text-align: center;
-        margin-bottom: 10px;
-    }
+            @media (min-width: 1024px) {
+                .login-bg {
+                    background-image: url("{{ asset('assets/img/background-login.png') }}");
+                    background-size: cover;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-color: #1e3a5f;
+                }
+            }
 
-    .login-subtitle {
-        color: #7F56D9;
-        font-size: 14px;
-        letter-spacing: 0.5px;
-        text-align: center;
-        margin-bottom: 25px;
-    }
+            .dark-mode .login-bg {
+                background-color: #111827;
+            }
 
-    .btn-login {
-        width: 100%;
-        background-color: #7F56D9;
-        color: white;
-        border-radius: 8px;
-        padding: 10px 0;
-        font-weight: 600;
-        font-size: 15px;
-        transition: 0.3s;
-    }
+            @media (min-width: 1024px) {
+                .dark-mode .login-bg {
+                    background-color: #1e3a5f;
+                }
+            }
 
-    .btn-login:hover {
-        background-color: #6B46C1;
-        color: white;
-    }
+            .theme-toggle {
+                transition: all 0.3s ease;
+            }
+            .theme-toggle:hover {
+                transform: scale(1.1);
+            }
 
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(10px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+            input:focus {
+                outline: none;
+            }
 
-</style>
+            .refresh-icon {
+                cursor: pointer;
+                transition: transform 0.3s ease;
+            }
+            .refresh-icon:hover {
+                transform: rotate(180deg);
+            }
 
-<div class="login-bg">
+            .light-mode .login-card {
+                background: rgba(255, 255, 255, 0.95);
+                backdrop-filter: blur(10px);
+                color: #1f2937;
+            }
 
-    <div class="login-card">
+            .light-mode .input-field {
+                background: #f3f4f6;
+                border: 1px solid #e5e7eb;
+                color: #1f2937;
+            }
 
-        <h2 class="login-title">Sistem Manajemen Aset Infrastruktur</h2>
-        <p class="login-subtitle">Masuk ke akun Anda</p>
+            .light-mode .input-field::placeholder {
+                color: #9ca3af;
+            }
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
+            .light-mode .input-field:focus {
+                background: #ffffff;
+                border-color: #3b82f6;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            }
 
-            {{-- EMAIL --}}
-            <div class="form-group">
-                <label>Username</label>
-                <input type="text"
-                       class="form-control @error('username') is-invalid @enderror"
-                       name="username"
-                       value="{{ old('username') }}"
-                       required autofocus>
-                @error('username')
-                    <span class="text-danger small d-block">{{ $message }}</span>
-                @enderror
+            .dark-mode .login-card {
+                background: rgba(31, 41, 55, 0.95);
+                backdrop-filter: blur(10px);
+                color: #fff;
+            }
+
+            .dark-mode .input-field {
+                background: rgba(31, 41, 55, 0.5);
+                border: 1px solid #4b5563;
+                color: #f9fafb;
+            }
+
+            .dark-mode .input-field::placeholder {
+                color: #9ca3af;
+            }
+
+            .dark-mode .captcha-display {
+                background: rgba(31, 41, 55, 0.5);
+                color: #f9fafb;
+                border: 1px solid #4b5563;
+            }
+        </style>
+    </head>
+
+    <body class="light-mode" id="themeBody">
+        <div class="min-h-screen login-bg flex flex-col lg:flex-row">
+            <!-- Left side -->
+            <div
+                class="hidden lg:flex lg:w-1/2 items-center justify-center p-8 xl:p-12"
+            >
+                <div class="text-white max-w-md">
+                    <h1 class="text-4xl xl:text-6xl font-bold mb-4">
+                        Nama app
+                    </h1>
+                    <p class="text-xl xl:text-2xl font-light">
+                        Aplikasi jaringan
+                    </p>
+                </div>
             </div>
 
-            {{-- PASSWORD --}}
-            <div class="form-group mt-3">
-                <label>Password</label>
-                <input type="password"
-                       class="form-control @error('password') is-invalid @enderror"
-                       name="password"
-                       required>
-                @error('password')
-                    <span class="text-danger small d-block">{{ $message }}</span>
-                @enderror
-            </div>
+            <!-- Right side = Login form -->
+            <div
+                class="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 lg:p-8"
+            >
+                <div class="w-full max-w-md px-2 sm:px-0">
+                    <div
+                        class="login-card rounded-2xl p-6 sm:p-8 relative lg:shadow-2xl"
+                    >
+                        <!-- Theme Toggle -->
+                        <button
+                            type="button"
+                            id="themeToggle"
+                            class="theme-toggle absolute top-6 right-6 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-100"
+                            onclick="toggleTheme()"
+                        >
+                            <svg
+                                id="sunIcon"
+                                class="w-6 h-6 hidden"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                            >
+                                <path
+                                    fill-rule="evenodd"
+                                    d="M10 2a1 1 0 011 1v1a1..."
+                                />
+                            </svg>
 
-            {{-- CAPTCHA --}}
-            <div class="form-group mt-3">
-                <label>Captcha: <strong>{{ session('captcha_question') }}</strong></label>
-                <input type="number"
-                       class="form-control @error('captcha') is-invalid @enderror"
-                       name="captcha"
-                       required
-                       placeholder="Masukkan jawaban">
-                @error('captcha')
-                    <span class="text-danger small d-block">{{ $message }}</span>
-                @enderror
-            </div>
+                            <svg
+                                id="moonIcon"
+                                class="w-6 h-6"
+                                fill="currentColor"
+                                viewBox="0 0 20 20"
+                            >
+                                <path d="M17.293 13.293A8 8 0 016.707..." />
+                            </svg>
+                        </button>
 
-            {{-- BUTTON --}}
-            <button type="submit" class="btn btn-login mt-4">
-                Login
-            </button>
-        </form>
-    </div>
-</div>
-@endsection
+                        <div class="text-center mb-6 sm:mb-8">
+                            <h2
+                                class="text-2xl sm:text-3xl font-bold text-blue-600 mb-2"
+                            >
+                                LOGIN
+                            </h2>
+                            <p class="subtitle-text text-sm sm:text-base">
+                                Silakan masuk ke akun Anda
+                            </p>
+                        </div>
+
+                        <!-- Login Form -->
+                        <form method="POST" action="{{ route('login') }}">
+                            @csrf
+
+                            <!-- Username -->
+                            <div class="mb-4 sm:mb-5">
+                                <label
+                                    class="label-text block mb-2 text-sm font-medium"
+                                    >Username</label
+                                >
+                                <input
+                                    type="text"
+                                    name="username"
+                                    value="{{ old('username') }}"
+                                    required
+                                    autofocus
+                                    class="input-field w-full px-4 py-2.5 rounded-lg"
+                                    placeholder="Masukkan username"
+                                />
+                                @error('username')
+                                <p class="text-sm text-red-600 mt-1">
+                                    {{ $message }}
+                                </p>
+                                @enderror
+                            </div>
+
+                            <!-- Password -->
+                            <div class="mb-4 sm:mb-5">
+                                <label
+                                    class="label-text block mb-2 text-sm font-medium"
+                                    >Password</label
+                                >
+                                <input
+                                    type="password"
+                                    name="password"
+                                    required
+                                    class="input-field w-full px-4 py-2.5 rounded-lg"
+                                    placeholder="Masukkan password"
+                                />
+                            </div>
+
+                            <!-- Captcha -->
+                            <div class="mb-4 sm:mb-5">
+                                <label
+                                    class="label-text block mb-2 text-sm font-medium"
+                                    >Verifikasi</label
+                                >
+                                <div
+                                    class="captcha-display px-4 py-3 text-center rounded-lg font-semibold mb-3"
+                                >
+                                    {{ session("captcha_question") }} = ?
+                                </div>
+                                <input
+                                    type="number"
+                                    name="captcha"
+                                    required
+                                    class="input-field w-full px-4 py-2.5 rounded-lg"
+                                    placeholder="Jawaban Anda"
+                                />
+                            </div>
+
+                            <!-- Submit Button -->
+                            <button
+                                type="submit"
+                                class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg"
+                            >
+                                Masuk
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            function toggleTheme() {
+                const body = document.getElementById("themeBody");
+                body.classList.toggle("dark-mode");
+            }
+        </script>
+    </body>
+</html>
