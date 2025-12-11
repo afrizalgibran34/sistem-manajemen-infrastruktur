@@ -1,18 +1,50 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Dashboard') }}
-        </h2>
-    </x-slot>
+@extends('layouts.app', [
+    'activePage' => 'dashboard',
+    'title' => 'Dashboard'
+])
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h4 class="text-lg font-semibold mb-2">Selamat datang!</h4>
-                    <p>Ini dashboard sistem manajemen infrastruktur.</p>
+@section('content')
+<div class="p-4 p-md-6">
+    <!-- Page Header -->
+    <div class="mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+    </div>
+
+    <!-- Earnings Overview Charts -->
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white border-0 py-3">
+                    <h6 class="text-primary mb-0 font-weight-bold">Earnings Overview</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-center" style="height: 300px;">
+                        <div class="text-center text-muted">
+                            <i class="fas fa-chart-line fa-3x mb-3 opacity-50"></i>
+                            <p class="mb-0">Chart data will be displayed here</p>
+                            <small>No data available yet</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-white border-0 py-3">
+                    <h6 class="text-primary mb-0 font-weight-bold">Earnings Overview</h6>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-center" style="height: 300px;">
+                        <div class="text-center text-muted">
+                            <i class="fas fa-chart-area fa-3x mb-3 opacity-50"></i>
+                            <p class="mb-0">Chart data will be displayed here</p>
+                            <small>No data available yet</small>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</x-app-layout>
+</div>
+@endsection
