@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class KecKelController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Kec_Kel::all();
+        $perPage = $request->get('per_page', 10);
+        $data = Kec_Kel::paginate($perPage)->withQueryString();
         return view('kec_kel.index', compact('data'));
     }
 

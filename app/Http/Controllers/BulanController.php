@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class BulanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Bulan::all();
+        $perPage = $request->get('per_page', 10);
+        $data = Bulan::paginate($perPage)->withQueryString();
         return view('bulan.index', compact('data'));
     }
 

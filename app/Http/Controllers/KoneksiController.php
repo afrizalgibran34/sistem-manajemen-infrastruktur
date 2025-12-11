@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class KoneksiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Koneksi::all();
+        $perPage = $request->get('per_page', 10);
+        $data = Koneksi::paginate($perPage)->withQueryString();
         return view('koneksi.index', compact('data'));
     }
 

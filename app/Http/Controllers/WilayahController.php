@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class WilayahController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Wilayah::all();
+        $perPage = $request->get('per_page', 10);
+        $data = Wilayah::paginate($perPage)->withQueryString();
         return view('wilayah.index', compact('data'));
     }
 

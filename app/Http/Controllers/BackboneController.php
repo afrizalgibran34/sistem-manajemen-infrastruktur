@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class BackboneController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Backbone::all();
+        $perPage = $request->get('per_page', 10);
+        $data = Backbone::paginate($perPage)->withQueryString();
         return view('backbone.index', compact('data'));
     }
 

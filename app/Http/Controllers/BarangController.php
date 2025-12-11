@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class BarangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Barang::all();
+        $perPage = $request->get('per_page', 10);
+        $data = Barang::paginate($perPage)->withQueryString();
         return view('barang.index', compact('data'));
     }
 

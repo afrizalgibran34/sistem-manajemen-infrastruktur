@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class KlasifikasiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Klasifikasi::all();
+        $perPage = $request->get('per_page', 10);
+        $data = Klasifikasi::paginate($perPage)->withQueryString();
         return view('klasifikasi.index', compact('data'));
     }
 

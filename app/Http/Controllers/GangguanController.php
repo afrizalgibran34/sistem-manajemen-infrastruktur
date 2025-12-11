@@ -10,9 +10,10 @@ use Illuminate\Http\Request;
 
 class GangguanController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Gangguan::with(['wilayah', 'perangkat', 'jenis_masalah'])->get();
+        $perPage = $request->get('per_page', 10);
+        $data = Gangguan::with(['wilayah', 'perangkat', 'jenis_masalah'])->paginate($perPage)->withQueryString();
         return view('gangguan.index', compact('data'));
     }
 

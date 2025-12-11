@@ -15,12 +15,13 @@ use Illuminate\Http\Request;
 
 class TitikLokasiController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = $request->get('per_page', 10);
         $data = TitikLokasi::with([
             'wilayah', 'kec_kel', 'klasifikasi', 'koneksi',
             'status', 'backbone', 'uplink', 'perangkat'
-        ])->get();
+        ])->paginate($perPage)->withQueryString();
 
         return view('titik_lokasi.index', compact('data'));
     }

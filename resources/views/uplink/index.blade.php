@@ -29,8 +29,26 @@
                         <p class="card-category">Jenis uplink jaringan yang tersedia</p>
                     </div>
 
-                    <div class="card-body table-full-width table-responsive">
+                    <div class="card-body">
+                        {{-- Entries Dropdown --}}
+                        <div class="d-flex justify-content-between align-items-center mb-3 px-3">
+                            <div class="d-flex align-items-center gap-2">
+                                <label class="mb-0 text-sm text-gray-600">Show</label>
+                                <select id="entriesSelect" class="form-select form-select-sm" style="width: 80px;" onchange="changeEntries(this.value)">
+                                    <option value="5" {{ request('per_page') == 5 ? 'selected' : '' }}>5</option>
+                                    <option value="10" {{ request('per_page', 10) == 10 ? 'selected' : '' }}>10</option>
+                                    <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
+                                    <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                                    <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100</option>
+                                </select>
+                                <label class="mb-0 text-sm text-gray-600">entries</label>
+                            </div>
+                            <div class="text-sm text-gray-600">
+                                Showing {{ $data->firstItem() ?? 0 }} to {{ $data->lastItem() ?? 0 }} of {{ $data->total() }} entries
+                            </div>
+                        </div>
 
+                        <div class="table-responsive">
                         <table class="table table-hover table-striped text-center align-middle">
                             <thead>
                                 <tr>
@@ -71,7 +89,12 @@
                             </tbody>
 
                         </table>
+                        </div>
 
+                        {{-- Pagination --}}
+                        <div class="px-3 py-3">
+                            {{ $data->links() }}
+                        </div>
                     </div>
                 </div>
 
@@ -80,4 +103,13 @@
 
     </div>
 </div>
+
+<script>
+function changeEntries(perPage) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('per_page', perPage);
+    url.searchParams.delete('page'); // Reset to page 1
+    window.location.href = url.toString();
+}
+</script>
 @endsection

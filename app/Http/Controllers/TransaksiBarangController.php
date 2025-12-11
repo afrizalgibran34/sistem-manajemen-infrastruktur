@@ -9,9 +9,10 @@ use Illuminate\Http\Request;
 
 class TransaksiBarangController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = TransaksiBarang::with(['lokasi', 'barang'])->get();
+        $perPage = $request->get('per_page', 10);
+        $data = TransaksiBarang::with(['lokasi', 'barang'])->paginate($perPage)->withQueryString();
         return view('transaksi_barang.index', compact('data'));
     }
 

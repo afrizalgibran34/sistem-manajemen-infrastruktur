@@ -7,9 +7,10 @@ use Illuminate\Http\Request;
 
 class UplinkController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $data = Uplink::all();
+        $perPage = $request->get('per_page', 10);
+        $data = Uplink::paginate($perPage)->withQueryString();
         return view('uplink.index', compact('data'));
     }
 
