@@ -1,6 +1,18 @@
-@extends('layouts.app', ['title' => 'Dashboard'])
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Dashboard') }}
+        </h2>
+    </x-slot>
 
-@section('content')
-    <h4 class="card-title">Selamat datang!</h4>
-    <p class="card-category">Ini dashboard dengan Light Bootstrap Dashboard.</p>
-@endsection
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <h4 class="text-lg font-semibold mb-2">Selamat datang!</h4>
+                    <p>Ini dashboard sistem manajemen infrastruktur.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</x-app-layout>

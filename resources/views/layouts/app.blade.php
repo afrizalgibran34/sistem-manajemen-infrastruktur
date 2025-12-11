@@ -4,82 +4,64 @@
 <head>
     <meta charset="utf-8" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('assets/img/apple-icon.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('assets/img/favicon.ico') }}">
-    
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>{{ $title ?? config('app.name', 'Laravel') }}</title>
 
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
-        name='viewport' />
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.bunny.net">
+    <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-    <!-- Fonts and icons -->
-    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" />
+    <!-- Bootstrap CSS for existing views -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- CSS Files -->
-    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/light-bootstrap-dashboard.css?v=2.0.0') }}" rel="stylesheet" />
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <!-- Extra styles (opsional) -->
     @stack('styles')
 
 </head>
 
-<body>
+<body class="font-sans antialiased">
     @php
     $activePage = $activePage ?? '';
     $activeButton = $activeButton ?? '';
     $navName = $navName ?? '';
-@endphp
+    @endphp
 
-
-    <div class="wrapper @guest wrapper-full-page @endguest">
-
-        {{-- Sidebar hanya muncul kalau user sudah login --}}
+    <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
         @auth
-            @include('layouts.navbars.sidebar')
+            @include('layouts.navigation')
         @endauth
 
-        <div class="@auth main-panel @endauth">
+        <!-- Page Heading -->
+        @if (isset($header))
+            <header class="bg-white dark:bg-gray-800 shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
+        @endif
 
-            {{-- Navbar --}}
-            @auth
-                @include('layouts.navbars.navbar')
-            @endauth
-
-            <div class="content">
-            <div class="container-fluid">
-                {{-- Jika layout dipakai sebagai component (x-app-layout) pakai $slot,
-                    jika dipakai sebagai classic layout pakai section('content') --}}
-                @isset($slot)
-                    {{ $slot }}
-                @else
-                    @yield('content')
-                @endisset
+        <!-- Page Content -->
+        <main>
+            <div class="py-12">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    {{-- Jika layout dipakai sebagai component (x-app-layout) pakai $slot,
+                        jika dipakai sebagai classic layout pakai section('content') --}}
+                    @isset($slot)
+                        {{ $slot }}
+                    @else
+                        @yield('content')
+                    @endisset
+                </div>
             </div>
-        </div>
-
-            {{-- Footer --}}
-            @auth
-                @include('layouts.footer.nav')
-            @endauth
-
-        </div>
+        </main>
     </div>
 
-    <!-- Core JS Files -->
-    <script src="{{ asset('assets/js/core/jquery.3.2.1.min.js') }}"></script>
-    <script src="{{ asset('assets/js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/js/core/bootstrap.min.js') }}"></script>
-
-    <!-- Plugins -->
-    <script src="{{ asset('assets/js/plugins/chartist.min.js') }}"></script>
-    <script src="{{ asset('assets/js/plugins/bootstrap-notify.js') }}"></script>
-    <!-- Light Bootstrap Dashboard control -->
-    <script src="{{ asset('assets/js/light-bootstrap-dashboard.js?v=2.0.0') }}"></script>
+    <!-- Bootstrap JS for existing views -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Extra scripts -->
     @stack('scripts')
