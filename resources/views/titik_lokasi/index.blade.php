@@ -9,13 +9,10 @@
 <div class="content">
     <div class="container-fluid">
 
-        {{-- Tombol Tambah --}}
-        <div class="row mb-3">
-            <div class="col-md-12">
-                <a href="{{ route('titik_lokasi.create') }}" class="btn btn-primary">
-                    + Tambah Titik Lokasi
-                </a>
-            </div>
+        <div class="d-flex justify-content-between mb-3">
+            <a href="{{ route('titik_lokasi.exportPdf') }}" class="btn btn-danger">
+                Export PDF
+            </a>
         </div>
 
         {{-- Table --}}
@@ -53,26 +50,33 @@
                         <table class="table table-hover table-striped text-center align-middle">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>Nama Titik</th>
-                                    <th>Wilayah</th>
-                                    <th>Kec/Kel</th>
-                                    <th>Klasifikasi</th>
-                                    <th>Status</th>
-                                    <th>Aksi</th>
+                                    <th>NO</th>
+                                    <th>NAMA TITIK</th>
+                                    <th>WILAYAH</th>
+                                    <th>PD/UNIT KERJA</th>
+                                    <th>KLASIFIKASI AREA</th>
+                                    <th>KONEKSI</th>
+                                    <th>BACKBONE</th>
+                                    <th>UPLINK</th>
+                                    <th>PERANGKAT</th>
+                                    <th>KETERANGAN</th>
+                                    <th>AKSI</th>
                                 </tr>
                             </thead>
 
                             <tbody>
                                 @foreach ($data as $row)
                                 <tr>
-                                    <td>{{ $row->id_titik }}</td>
+                                    <td>{{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}</td>
                                     <td>{{ $row->nama_titik }}</td>
                                     <td>{{ $row->wilayah->nama_wilayah ?? '-' }}</td>
-                                    <td>{{ $row->kecKel->nama_kec_kel ?? '-' }}</td>
+                                    <td>{{ $row->kec_kel->nama_kec_kel ?? '-' }}</td>
                                     <td>{{ $row->klasifikasi->klasifikasi ?? '-' }}</td>
-                                    <td>{{ $row->status->status ?? '-' }}</td>
-
+                                    <td>{{ $row->koneksi }}</td>
+                                    <td>{{ $row->backbone->jenis_backbone ?? '-' }}</td>
+                                    <td>{{ $row->uplink->jenis_uplink ?? '-' }}</td>
+                                    <td>{{ $row->perangkat }}</td>
+                                    <td>{{ $row->keterangan }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('titik_lokasi.edit', $row->id_titik) }}"
                                            class="btn btn-warning btn-sm mr-2">

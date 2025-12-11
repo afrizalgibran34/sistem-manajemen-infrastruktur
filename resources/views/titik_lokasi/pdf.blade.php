@@ -18,17 +18,16 @@
 <table>
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Nama Titik</th>
-            <th>Wilayah</th>
-            <th>PD/Unit Kerja</th>
-            <th>Klasifikasi</th>
-            <th>Koneksi</th>
-            <th>Status</th>
-            <th>Backbone</th>
-            <th>Uplink</th>
-            <th>Perangkat</th>
-            <th>Keterangan</th>
+            <th>NO</th>
+            <th>NAMA TITIK</th>
+            <th>WILAYAH</th>
+            <th>PD/UNIT KERJA</th>
+            <th>KLASIFIKASI AREA</th>
+            <th>KONEKSI</th>
+            <th>BACKBONE</th>
+            <th>UPLINK</th>
+            <th>PERANGKAT</th>
+            <th>KETERANGAN</th>
         </tr>
     </thead>
 
@@ -41,7 +40,6 @@
             <td>{{ $row->kec_kel->nama_kec_kel ?? '-' }}</td>
             <td>{{ $row->klasifikasi->klasifikasi ?? '-' }}</td>
             <td>{{ $row->koneksi }}</td>
-            <td>{{ $row->status }}</td>
             <td>{{ $row->backbone->jenis_backbone ?? '-' }}</td>
             <td>{{ $row->uplink->jenis_uplink ?? '-' }}</td>
             <td>{{ $row->perangkat }}</td>
