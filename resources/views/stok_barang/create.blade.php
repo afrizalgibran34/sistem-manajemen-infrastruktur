@@ -10,7 +10,7 @@
     <div class="container-fluid">
 
         <div class="card">
-            <div class="card-header"><h4 class="card-title">Tambah Stok Barang</h4></div>
+            <div class="card-header"><h4 class="card-title">Input Stok Barang</h4></div>
 
             <div class="card-body">
                 <form method="POST" action="{{ route('stok_barang.store') }}">
@@ -35,7 +35,7 @@
                         <label>Kuantitas</label>
                         <input type="number" name="kuantitas" class="form-control" required>
                     </div>
-
+                    
                     <div class="form-group">
                         <label>Terpakai</label>
                         <input type="number" name="terpakai" class="form-control">
