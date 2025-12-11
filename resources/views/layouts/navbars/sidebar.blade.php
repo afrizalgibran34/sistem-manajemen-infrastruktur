@@ -44,9 +44,6 @@
                 <a href="{{ route('klasifikasi.index') }}" class="block py-2.5 pl-[3.25rem] pr-4 text-white/85 no-underline text-[0.85rem] transition-all duration-200 hover:bg-white/10 hover:text-white @if($activePage=='klasifikasi') bg-white/15 text-white font-medium @endif">
                     Tambah Data Klasifikasi
                 </a>
-                <a href="{{ route('status.index') }}" class="block py-2.5 pl-[3.25rem] pr-4 text-white/85 no-underline text-[0.85rem] transition-all duration-200 hover:bg-white/10 hover:text-white @if($activePage=='status') bg-white/15 text-white font-medium @endif">
-                    STATUS
-                </a>
                 <a href="{{ route('backbone.index') }}" class="block py-2.5 pl-[3.25rem] pr-4 text-white/85 no-underline text-[0.85rem] transition-all duration-200 hover:bg-white/10 hover:text-white @if($activePage=='backbone') bg-white/15 text-white font-medium @endif">
                     Tambah Data Backbone
                 </a>

@@ -5,7 +5,6 @@ use App\Http\Controllers\WilayahController;
 use App\Http\Controllers\KecKelController;
 use App\Http\Controllers\KlasifikasiController;
 use App\Http\Controllers\KoneksiController;
-use App\Http\Controllers\StatusController;
 use App\Http\Controllers\BackboneController;
 use App\Http\Controllers\UplinkController;
 use App\Http\Controllers\PerangkatController;
@@ -52,7 +51,6 @@ Route::middleware('auth')->group(function () {
     Route::resource('kec_kel', KecKelController::class);
     Route::resource('klasifikasi', KlasifikasiController::class);
     Route::resource('koneksi', KoneksiController::class);
-    Route::resource('status', StatusController::class);
     Route::resource('backbone', BackboneController::class);
     Route::resource('uplink', UplinkController::class);
     Route::resource('perangkat', PerangkatController::class);
