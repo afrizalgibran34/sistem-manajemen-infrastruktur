@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-    'activePage' => 'titik_lokasi',
+    'activePage' => 'titik_lokasi_index',
     'title' => __('Data Titik Lokasi'),
     'navName' => 'Titik Lokasi',
     'activeButton' => 'dataJaringan'

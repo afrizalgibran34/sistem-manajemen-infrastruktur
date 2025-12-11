@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-    'activePage' => 'gangguan',
+    'activePage' => 'gangguan_create',
     'title' => __('Tambah Gangguan'),
     'navName' => 'Gangguan',
     'activeButton' => 'dataLaporan'
