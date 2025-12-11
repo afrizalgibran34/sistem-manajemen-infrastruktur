@@ -1,6 +1,8 @@
 @extends('layouts.app', [
     'activePage' => 'dashboard',
-    'title' => 'Dashboard'
+    'title' => 'Dashboard',
+    'navName' => 'Data Analisis',
+    'activeButton' => 'Dashboard'
 ])
 
 @section('content')

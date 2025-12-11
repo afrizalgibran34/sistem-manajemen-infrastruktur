@@ -16,7 +16,7 @@ use Illuminate\View\View;
 class RegisteredUserController extends Controller
 {
     /**
-     * Display the registration view.
+     * Show register form
      */
     public function create(): View
     {
@@ -24,26 +24,28 @@ class RegisteredUserController extends Controller
     }
 
     /**
-     * Handle an incoming registration request.
-     *
-     * @throws \Illuminate\Validation\ValidationException
+     * Register new user (username + password)
      */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
+            'name'     => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users,username'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
         $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
+            'name'     => $request->name,
+            'username' => $request->username,
             'password' => Hash::make($request->password),
         ]);
 
         event(new Registered($user));
 
+        // Jika admin yang menambah user, biasanya tidak auto-login:
+        // return redirect()->route('users.index')->with('success', 'User berhasil ditambahkan.');
+
+        // Breeze default: auto login
         Auth::login($user);
 
         return redirect(RouteServiceProvider::HOME);

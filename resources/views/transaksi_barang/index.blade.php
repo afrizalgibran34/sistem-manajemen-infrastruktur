@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'activePage' => 'transaksi_barang',
-    'title' => __('Transaksi Barang'),
-    'navName' => 'Transaksi Barang',
+    'title' => __('Data Barang Keluar'),
+    'navName' => 'Data Barang Keluar',
     'activeButton' => 'dataStok'
 ])
 
@@ -16,8 +16,8 @@
         <div class="card strpied-tabled-with-hover">
 
             <div class="card-header">
-                <h4 class="card-title">Data Transaksi Barang</h4>
-                <p class="card-category">Catatan keluar/masuk barang per lokasi</p>
+                <h4 class="card-title">Data Barang Keluar</h4>
+                <p class="card-category">Catatan keluar barang per lokasi</p>
             </div>
 
             <div class="card-body">

@@ -57,6 +57,9 @@ Route::middleware('auth')->group(function () {
     Route::resource('uplink', UplinkController::class);
     Route::resource('perangkat', PerangkatController::class);
     Route::resource('titik_lokasi', TitikLokasiController::class);
+    Route::get('/titik_lokasi/export/pdf', [TitikLokasiController::class, 'exportPdf'])
+    ->name('titik_lokasi.exportPdf');
+
     Route::resource('perangkatdaerah', PerangkatDaerahController::class)->middleware('auth');
     Route::resource('jenis_masalah', JenisMasalahController::class)->middleware('auth');
     Route::resource('bulan', BulanController::class)->middleware('auth');

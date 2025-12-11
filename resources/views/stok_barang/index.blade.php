@@ -57,6 +57,7 @@
                             <th>ID</th>
                             <th>Nama Barang</th>
                             <th>Kuantitas</th>
+                            <th>Satuan</th>
                             <th>Terpakai</th>
                             <th>Sisa</th>
                             <th>Keterangan</th>
@@ -70,6 +71,7 @@
                             <td>{{ $row->stok_id }}</td>
                             <td>{{ $row->barang->nama_barang ?? '-' }}</td>
                             <td>{{ $row->kuantitas }}</td>
+                            <td>{{ $row->satuan }}</td>
                             <td>{{ $row->terpakai }}</td>
                             <td>{{ $row->sisa }}</td>
                             <td>{{ $row->keterangan }}</td>

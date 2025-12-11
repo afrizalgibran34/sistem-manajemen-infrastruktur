@@ -14,24 +14,19 @@ class TitikLokasi extends Model
         'id_wilayah',
         'id_kec_kel',
         'id_klasifikasi',
-        'id_koneksi',
-        'id_status',
+        'koneksi',
+        'status',
+        'perangkat',
         'id_backbone',
         'id_uplink',
-        'id_perangkat',
         'keterangan',
-        'rencana_pengembangan',
         'latitude',
         'longitude',
     ];
 
-    // RELASI FK
     public function wilayah() { return $this->belongsTo(Wilayah::class, 'id_wilayah'); }
     public function kec_kel() { return $this->belongsTo(Kec_Kel::class, 'id_kec_kel'); }
     public function klasifikasi() { return $this->belongsTo(Klasifikasi::class, 'id_klasifikasi'); }
-    public function koneksi() { return $this->belongsTo(Koneksi::class, 'id_koneksi'); }
-    public function status() { return $this->belongsTo(Status::class, 'id_status'); }
     public function backbone() { return $this->belongsTo(Backbone::class, 'id_backbone'); }
     public function uplink() { return $this->belongsTo(Uplink::class, 'id_uplink'); }
-    public function perangkat() { return $this->belongsTo(Perangkat::class, 'id_perangkat'); }
 }

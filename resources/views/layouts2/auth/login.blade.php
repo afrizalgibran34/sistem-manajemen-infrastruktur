@@ -11,7 +11,7 @@
                             <div class="card-header ">
                                 <h3 class="header text-center">{{ __('Login') }}</h3>
                             </div>
-                            <div class="card-body ">
+                            <div class="card-body">
                                 <div class="card-body">
                                     <div class="form-group">
                                         <label for="email" class="col-md-6 col-form-label">{{ __('E-Mail Address') }}</label>

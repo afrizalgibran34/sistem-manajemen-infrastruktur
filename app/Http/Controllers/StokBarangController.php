@@ -46,9 +46,25 @@ class StokBarangController extends Controller
 
     public function update(Request $request, $id)
     {
-        StokBarang::findOrFail($id)->update($request->all());
+        $stok = StokBarang::findOrFail($id);
+
+        // Hitung sisa
+        $sisa = $request->kuantitas - $request->terpakai;
+
+        // Update manual field yang boleh diupdate
+        $stok->update([
+            'stok_id'     => $request->stok_id,
+            'barang_id'   => $request->barang_id,
+            'satuan'      => $request->satuan,
+            'kuantitas'   => $request->kuantitas,
+            'terpakai'    => $request->terpakai,
+            'sisa'        => $sisa,
+            'keterangan'  => $request->keterangan,
+        ]);
+
         return redirect()->route('stok_barang.index');
     }
+
 
     public function destroy($id)
     {
