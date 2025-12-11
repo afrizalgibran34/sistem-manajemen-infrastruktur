@@ -1,5 +1,5 @@
 @extends('layouts.app', [
-    'activePage' => 'transaksi_barang',
+    'activePage' => 'barang_keluar',
     'title' => __('Data Barang Keluar'),
     'navName' => 'Data Barang Keluar',
     'activeButton' => 'dataStok'
