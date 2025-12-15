@@ -79,6 +79,104 @@
         </div>
     </div>
 </div>
+
+{{-- Sidebar Overlay --}}
+<div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 hidden z-40"></div>
+
+{{-- Detail Sidebar --}}
+<div id="detail-sidebar" class="fixed right-0 top-0 h-full w-full md:w-96 bg-white shadow-lg transform translate-x-full transition-transform duration-300 ease-in-out z-50">
+    <div class="flex flex-col h-full">
+        {{-- Sidebar Header --}}
+        <div class="flex items-center justify-between p-4 border-b border-gray-200 bg-gray-50 sticky top-0 z-10 mt-5">
+            <h2 class="text-lg font-semibold text-gray-800">Detail Lokasi</h2>
+            <button id="close-sidebar" class="text-gray-500 hover:text-gray-700 focus:outline-none">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        {{-- Sidebar Content --}}
+        <div class="flex-1 overflow-y-auto p-4">
+            <div class="space-y-4">
+                {{-- Nama Titik --}}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Nama Titik</label>
+                    <p id="detail-nama-titik" class="text-gray-900">-</p>
+                </div>
+
+                {{-- Wilayah --}}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Wilayah</label>
+                    <p id="detail-wilayah" class="text-gray-900">-</p>
+                </div>
+
+                {{-- Kecamatan/Kelurahan --}}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Kecamatan/Kelurahan</label>
+                    <p id="detail-kec-kel" class="text-gray-900">-</p>
+                </div>
+
+                {{-- Klasifikasi --}}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Klasifikasi</label>
+                    <p id="detail-klasifikasi" class="text-gray-900">-</p>
+                </div>
+
+                {{-- Koneksi --}}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Koneksi</label>
+                    <p id="detail-koneksi" class="text-gray-900">-</p>
+                </div>
+
+                {{-- Status --}}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                    <div id="detail-status" class="inline-flex items-center px-3 py-2 rounded-md text-sm font-medium">
+                        <span id="detail-status-dot" class="w-2 h-2 rounded-full mr-2"></span>
+                        <span id="detail-status-text">-</span>
+                    </div>
+                </div>
+
+                {{-- Perangkat --}}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Perangkat</label>
+                    <p id="detail-perangkat" class="text-gray-900">-</p>
+                </div>
+
+                {{-- Backbone --}}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Backbone</label>
+                    <p id="detail-backbone" class="text-gray-900">-</p>
+                </div>
+
+                {{-- Uplink --}}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Uplink</label>
+                    <p id="detail-uplink" class="text-gray-900">-</p>
+                </div>
+
+                {{-- Keterangan --}}
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Keterangan</label>
+                    <p id="detail-keterangan" class="text-gray-900">-</p>
+                </div>
+
+                {{-- Koordinat --}}
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Latitude</label>
+                        <p id="detail-latitude" class="text-gray-900">-</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Longitude</label>
+                        <p id="detail-longitude" class="text-gray-900">-</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 
 @push('styles')
