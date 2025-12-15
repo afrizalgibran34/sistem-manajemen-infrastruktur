@@ -37,6 +37,8 @@ Route::get('/login', function () {
     return view('auth.login');
 });
 
+Route::post('/captcha/refresh', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'refreshCaptcha'])->name('captcha.refresh');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

@@ -19,29 +19,8 @@
 
             @media (min-width: 1024px) {
                 .login-bg {
-                    background-image: url("{{ asset('assets/img/background-login.png') }}");
-                    background-size: cover;
-                    background-position: center;
-                    background-repeat: no-repeat;
-                    background-color: #1e3a5f;
+                    background-color: #ffffff;
                 }
-            }
-
-            .dark-mode .login-bg {
-                background-color: #111827;
-            }
-
-            @media (min-width: 1024px) {
-                .dark-mode .login-bg {
-                    background-color: #1e3a5f;
-                }
-            }
-
-            .theme-toggle {
-                transition: all 0.3s ease;
-            }
-            .theme-toggle:hover {
-                transform: scale(1.1);
             }
 
             input:focus {
@@ -56,104 +35,78 @@
                 transform: rotate(180deg);
             }
 
-            .light-mode .login-card {
+            .login-card {
                 background: rgba(255, 255, 255, 0.95);
                 backdrop-filter: blur(10px);
                 color: #1f2937;
             }
 
-            .light-mode .input-field {
+            .input-field {
                 background: #f3f4f6;
                 border: 1px solid #e5e7eb;
                 color: #1f2937;
             }
 
-            .light-mode .input-field::placeholder {
+            .input-field::placeholder {
                 color: #9ca3af;
             }
 
-            .light-mode .input-field:focus {
+            .input-field:focus {
                 background: #ffffff;
                 border-color: #3b82f6;
                 box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
             }
 
-            .dark-mode .login-card {
-                background: rgba(31, 41, 55, 0.95);
-                backdrop-filter: blur(10px);
-                color: #fff;
+            .captcha-display {
+                background: #f3f4f6;
+                color: #1f2937;
             }
 
-            .dark-mode .input-field {
-                background: rgba(31, 41, 55, 0.5);
-                border: 1px solid #4b5563;
-                color: #f9fafb;
+            .password-toggle {
+                position: absolute;
+                right: 0.875rem;
+                top: 50%;
+                transform: translateY(-50%);
+                cursor: pointer;
+                opacity: 0.6;
+                transition: opacity 0.2s;
+                z-index: 10;
+                color: #6b7280;
             }
 
-            .dark-mode .input-field::placeholder {
-                color: #9ca3af;
+            .password-toggle:hover {
+                opacity: 1;
             }
 
-            .dark-mode .captcha-display {
-                background: rgba(31, 41, 55, 0.5);
-                color: #f9fafb;
-                border: 1px solid #4b5563;
+            .captcha-refresh {
+                cursor: pointer;
+                opacity: 0.6;
+                transition: all 0.2s;
+                color: #6b7280;
+                padding: 0.5rem;
+                border-radius: 0.375rem;
+                background: #f3f4f6;
+                border: 1px solid #e5e7eb;
+            }
+
+            .captcha-refresh:hover {
+                opacity: 1;
+                background-color: #e5e7eb;
+                transform: scale(1.05);
+            }
+
+            .captcha-refresh:active {
+                transform: scale(0.95);
             }
         </style>
     </head>
 
-    <body class="light-mode" id="themeBody">
-        <div class="min-h-screen login-bg flex flex-col lg:flex-row">
-            <!-- Left side -->
-            <div
-                class="hidden lg:flex lg:w-1/2 items-center justify-center p-8 xl:p-12"
-            >
-                <div class="text-white max-w-md">
-                    <h1 class="text-4xl xl:text-6xl font-bold mb-4">
-                        Nama app
-                    </h1>
-                    <p class="text-xl xl:text-2xl font-light">
-                        Aplikasi jaringan
-                    </p>
-                </div>
-            </div>
-
-            <!-- Right side = Login form -->
-            <div
-                class="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-6 lg:p-8"
-            >
+    <body>
+        <div class="min-h-screen login-bg flex items-center justify-center p-4 sm:p-6 lg:p-8">
                 <div class="w-full max-w-md px-2 sm:px-0">
                     <div
                         class="login-card rounded-2xl p-6 sm:p-8 relative lg:shadow-2xl"
                     >
-                        <!-- Theme Toggle -->
-                        <button
-                            type="button"
-                            id="themeToggle"
-                            class="theme-toggle absolute top-6 right-6 p-2 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-100"
-                            onclick="toggleTheme()"
-                        >
-                            <svg
-                                id="sunIcon"
-                                class="w-6 h-6 hidden"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                            >
-                                <path
-                                    fill-rule="evenodd"
-                                    d="M10 2a1 1 0 011 1v1a1..."
-                                />
-                            </svg>
-
-                            <svg
-                                id="moonIcon"
-                                class="w-6 h-6"
-                                fill="currentColor"
-                                viewBox="0 0 20 20"
-                            >
-                                <path d="M17.293 13.293A8 8 0 016.707..." />
-                            </svg>
-                        </button>
 
                         <div class="text-center mb-6 sm:mb-8">
                             <h2
@@ -198,13 +151,33 @@
                                     class="label-text block mb-2 text-sm font-medium"
                                     >Password</label
                                 >
-                                <input
-                                    type="password"
-                                    name="password"
-                                    required
-                                    class="input-field w-full px-4 py-2.5 rounded-lg"
-                                    placeholder="Masukkan password"
-                                />
+                                <div class="relative">
+                                    <input
+                                        id="password"
+                                        type="password"
+                                        name="password"
+                                        required
+                                        class="input-field w-full px-4 py-2.5 pr-12 rounded-lg"
+                                        placeholder="Masukkan password"
+                                    />
+                                    <!-- Password Toggle Icon -->
+                                    <button 
+                                        type="button" 
+                                        onclick="togglePasswordVisibility()"
+                                        class="password-toggle"
+                                        aria-label="Toggle password visibility"
+                                    >
+                                        <!-- Eye Icon (show password) -->
+                                        <svg id="eyeIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+                                        </svg>
+                                        <!-- Eye Slash Icon (hide password) -->
+                                        <svg id="eyeSlashIcon" class="w-5 h-5 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+                                        </svg>
+                                    </button>
+                                </div>
                             </div>
 
                             <!-- Captcha -->
@@ -213,18 +186,37 @@
                                     class="label-text block mb-2 text-sm font-medium"
                                     >Verifikasi</label
                                 >
-                                <div
-                                    class="captcha-display px-4 py-3 text-center rounded-lg font-semibold mb-3"
-                                >
-                                    {{ session("captcha_question") }} = ?
+                                <div class="flex gap-2 mb-3">
+                                    <div
+                                        class="captcha-display flex-1 px-4 py-3 text-center rounded-lg font-semibold"
+                                    >
+                                        {{ session("captcha_question") }} = ?
+                                    </div>
+                                    <!-- Captcha Refresh Icon -->
+                                    <button 
+                                        type="button" 
+                                        onclick="refreshCaptcha()"
+                                        class="captcha-refresh flex items-center justify-center w-12 h-12"
+                                        aria-label="Refresh captcha"
+                                    >
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+                                        </svg>
+                                    </button>
                                 </div>
                                 <input
+                                    id="captcha"
                                     type="number"
                                     name="captcha"
                                     required
                                     class="input-field w-full px-4 py-2.5 rounded-lg"
                                     placeholder="Jawaban Anda"
                                 />
+                                @error('captcha')
+                                <p class="text-sm text-red-600 mt-1">
+                                    {{ $message }}
+                                </p>
+                                @enderror
                             </div>
 
                             <!-- Submit Button -->
@@ -241,9 +233,91 @@
         </div>
 
         <script>
-            function toggleTheme() {
-                const body = document.getElementById("themeBody");
-                body.classList.toggle("dark-mode");
+            // Toggle password visibility
+            function togglePasswordVisibility() {
+                const passwordInput = document.getElementById('password');
+                const eyeIcon = document.getElementById('eyeIcon');
+                const eyeSlashIcon = document.getElementById('eyeSlashIcon');
+
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    eyeIcon.classList.add('hidden');
+                    eyeSlashIcon.classList.remove('hidden');
+                } else {
+                    passwordInput.type = 'password';
+                    eyeIcon.classList.remove('hidden');
+                    eyeSlashIcon.classList.add('hidden');
+                }
+            }
+
+            // Refresh captcha dynamically
+            function refreshCaptcha() {
+                const button = event.target.closest('button');
+                
+                // Prevent multiple clicks
+                if (button.disabled) return;
+                
+                const originalIcon = button.innerHTML;
+                
+                // Show loading state
+                button.innerHTML = `
+                    <svg class="animate-spin w-5 h-5" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                `;
+                button.disabled = true;
+
+                fetch('/captcha/refresh', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Update the captcha display
+                    const captchaDisplay = document.querySelector('.captcha-display');
+                    captchaDisplay.textContent = data.question + ' = ?';
+                    
+                    // Add success animation
+                    captchaDisplay.style.transition = 'all 0.3s ease';
+                    captchaDisplay.style.transform = 'scale(1.05)';
+                    captchaDisplay.style.backgroundColor = '#dcfce7'; // light green
+                    
+                    setTimeout(() => {
+                        captchaDisplay.style.transform = 'scale(1)';
+                        captchaDisplay.style.backgroundColor = '';
+                    }, 300);
+                    
+                    // Clear the input field
+                    document.getElementById('captcha').value = '';
+                })
+                .catch(error => {
+                    console.error('Error refreshing captcha:', error);
+                    // Show error message
+                    const captchaSection = document.querySelector('.captcha-display').closest('div.mb-4');
+                    let errorMsg = captchaSection.querySelector('.captcha-error-msg');
+                    if (!errorMsg) {
+                        errorMsg = document.createElement('p');
+                        errorMsg.className = 'mt-2 text-sm text-red-600 captcha-error-msg';
+                        errorMsg.textContent = 'Gagal memuat captcha baru. Silakan coba lagi.';
+                        captchaSection.appendChild(errorMsg);
+                        
+                        // Remove error message after 3 seconds
+                        setTimeout(() => {
+                            if (errorMsg.parentNode) {
+                                errorMsg.remove();
+                            }
+                        }, 3000);
+                    }
+                })
+                .finally(() => {
+                    // Restore original button state
+                    button.innerHTML = originalIcon;
+                    button.disabled = false;
+                });
             }
         </script>
     </body>
