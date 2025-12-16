@@ -22,9 +22,15 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Satuan</label>
-                        <input type="text" name="satuan" class="form-control" required>
+                        <label>Jenis Barang</label>
+                        <select name="jenis_barang" class="form-control" required>
+                            <option value="">-- Pilih Jenis Barang --</option>
+                            <option value="Perangkat FO">Perangkat FO</option>
+                            <option value="Perangkat Wireless">Perangkat Wireless</option>
+                            <option value="Perangkat LAN">Perangkat LAN</option>
+                        </select>
                     </div>
+
 
                     <button class="btn btn-primary">Simpan</button>
                     <a href="{{ route('barang.index') }}" class="btn btn-secondary">Kembali</a>

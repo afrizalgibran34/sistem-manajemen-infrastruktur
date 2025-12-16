@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'activePage' => 'barang_keluar',
-    'title' => __('Tambah Transaksi Barang'),
-    'navName' => 'Transaksi Barang',
+    'title' => __('Input Barang Keluar'),
+    'navName' => 'Input Barang Keluar',
     'activeButton' => 'dataStok'
 ])
 
@@ -10,7 +10,7 @@
     <div class="container-fluid">
 
         <div class="card">
-            <div class="card-header"><h4 class="card-title">Tambah Transaksi Barang</h4></div>
+            <div class="card-header"><h4 class="card-title">Input Barang Keluar</h4></div>
 
             <div class="card-body">
                 <form method="POST" action="{{ route('transaksi_barang.store') }}">
@@ -40,12 +40,6 @@
                             @endforeach
                         </select>
                     </div>
-
-                    <div class="form-group">
-                        <label>Jumlah</label>
-                        <input type="number" name="jumlah" class="form-control" required>
-                    </div>
-
                     <div class="form-group">
                         <label>Keterangan</label>
                         <textarea name="keterangan" class="form-control"></textarea>

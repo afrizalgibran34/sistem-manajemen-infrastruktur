@@ -41,7 +41,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Nama Barang</th>
-                            <th>Satuan</th>
+                            <th>Jenis Barang</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -49,9 +49,9 @@
                     <tbody>
                         @foreach ($data as $row)
                         <tr>
-                            <td>{{ $row->barang_id }}</td>
+                            <td>{{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}</td>
                             <td>{{ $row->nama_barang }}</td>
-                            <td>{{ $row->satuan }}</td>
+                            <td>{{ $row->jenis_barang }}</td>
                             <td class="text-center">
 
                                 <a href="{{ route('barang.edit', $row->barang_id) }}" class="btn btn-warning btn-sm mr-2">

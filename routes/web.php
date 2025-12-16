@@ -61,15 +61,20 @@ Route::middleware('auth')->group(function () {
     Route::resource('titik_lokasi', TitikLokasiController::class);
     Route::get('/titik_lokasi/export/pdf', [TitikLokasiController::class, 'exportPdf'])
     ->name('titik_lokasi.exportPdf');
-
     Route::resource('perangkatdaerah', PerangkatDaerahController::class)->middleware('auth');
     Route::resource('jenis_masalah', JenisMasalahController::class)->middleware('auth');
     Route::resource('bulan', BulanController::class)->middleware('auth');
     Route::resource('gangguan', GangguanController::class)->middleware('auth');
+    Route::get('/gangguan/export/pdf', [GangguanController::class, 'exportPdf'])
+    ->name('gangguan.exportPdf');
     Route::resource('barang', BarangController::class)->middleware('auth');
     Route::resource('stok_barang', StokBarangController::class)->middleware('auth');
+    Route::get('/barang/{id}/jenis', [BarangController::class, 'getJenisBarang']);
     Route::resource('lokasi', LokasiController::class)->middleware('auth');
     Route::resource('transaksi_barang', TransaksiBarangController::class)->middleware('auth');
+    Route::get('/barang-keluar/export/pdf', [TransaksiBarangController::class, 'cetakPdf']
+    )->name('transaksi_barang.pdf');
+
 
 
 

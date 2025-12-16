@@ -9,20 +9,22 @@
 <div class="content">
     <div class="container-fluid">
 
-        <div class="d-flex justify-content-between mb-3">
-            <a href="{{ route('gangguan.create') }}" class="btn btn-primary">
-                + Tambah Gangguan
-            </a>
-        </div>
-
         <div class="row">
             <div class="col-md-12">
 
                 <div class="card strpied-tabled-with-hover">
 
-                    <div class="card-header">
-                        <h4 class="card-title">Laporan Gangguan Jaringan</h4>
-                        <p class="card-category">Rekap semua gangguan berdasarkan titik layanan</p>
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="card-title mb-0">Laporan Gangguan Jaringan</h4>
+                            <p class="card-category mb-0">
+                                Rekap semua gangguan berdasarkan titik layanan
+                            </p>
+                        </div>
+
+                        <a href="{{ route('gangguan.exportPdf') }}" class="btn btn-danger btn-sm">
+                            Export PDF
+                        </a>
                     </div>
 
                     <div class="card-body">

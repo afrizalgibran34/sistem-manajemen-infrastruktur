@@ -22,10 +22,21 @@
                         <input type="text" name="nama_barang" value="{{ $data->nama_barang }}" class="form-control" required>
                     </div>
 
-                    <div class="form-group">
-                        <label>Satuan</label>
-                        <input type="text" name="satuan" value="{{ $data->satuan }}" class="form-control" required>
-                    </div>
+                    <select name="jenis_barang" class="form-control" required>
+                        <option value="Perangkat FO"
+                            {{ $barang->jenis_barang == 'Perangkat FO' ? 'selected' : '' }}>
+                            Perangkat FO
+                        </option>
+                        <option value="Perangkat Wireless"
+                            {{ $barang->jenis_barang == 'Perangkat Wireless' ? 'selected' : '' }}>
+                            Perangkat Wireless
+                        </option>
+                        <option value="Perangkat LAN"
+                            {{ $barang->jenis_barang == 'Perangkat LAN' ? 'selected' : '' }}>
+                            Perangkat LAN
+                        </option>
+                    </select>
+
 
                     <button class="btn btn-primary">Update</button>
                     <a href="{{ route('barang.index') }}" class="btn btn-secondary">Kembali</a>

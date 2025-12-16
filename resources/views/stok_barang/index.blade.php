@@ -15,12 +15,11 @@
                 <h4 class="card-title">Grafik Pemakaian Stok</h4>
             </div>
             <div class="card-body">
+                
                 <canvas id="stokChart"></canvas>
             </div>
         </div>
 
-        {{-- TOMBOL TAMBAH --}}
-        <a href="{{ route('stok_barang.create') }}" class="btn btn-primary mb-3">+ Tambah Stok Barang</a>
 
         {{-- TABEL --}}
         <div class="card strpied-tabled-with-hover">
@@ -31,6 +30,12 @@
             </div>
 
             <div class="card-body">
+                @if($asetTua > 0)
+                <div class="alert alert-warning">
+                    ⚠️ Terdapat <strong>{{ $asetTua }}</strong> aset yang berusia lebih dari 5 tahun.
+                </div>
+                @endif
+
                 {{-- Entries Dropdown --}}
                 <div class="d-flex justify-content-between align-items-center mb-3 px-3">
                     <div class="d-flex align-items-center gap-2">
@@ -56,11 +61,15 @@
                         <tr>
                             <th>ID</th>
                             <th>Nama Barang</th>
+                            <th>Jenis Barang</th>
                             <th>Kuantitas</th>
                             <th>Satuan</th>
                             <th>Terpakai</th>
                             <th>Sisa</th>
                             <th>Keterangan</th>
+                            <th>Foto Barang</th>
+                            <th>Kondisi Barang</th>
+                            <th>Tahun Pengadaan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -68,17 +77,30 @@
                     <tbody>
                         @foreach ($data as $row)
                         <tr>
-                            <td>{{ $row->stok_id }}</td>
+                            <td>{{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}</td>
                             <td>{{ $row->barang->nama_barang ?? '-' }}</td>
+                            <td>{{ $row->barang->jenis_barang ?? '-' }}</td>
                             <td>{{ $row->kuantitas }}</td>
                             <td>{{ $row->satuan }}</td>
                             <td>{{ $row->terpakai }}</td>
                             <td>{{ $row->sisa }}</td>
                             <td>{{ $row->keterangan }}</td>
+                            <td>
+                                @if ($row->foto)
+                                    <img src="{{ asset('storage/'.$row->foto) }}"
+                                        width="60" class="img-thumbnail">
+                                @else
+                                    -
+                                @endif
+                            </td>
+                            <td>{{ $row->kondisi ?? '-' }}</td>
+                            <td>{{ $row->tahun_pengadaan ?? '-' }}</td>
+
+
 
                             <td class="text-center">
                                 <a href="{{ route('stok_barang.edit', $row->stok_id) }}"
-                                   class="btn btn-warning btn-sm mr-2">
+                                   class="btn btn-warning btn-sm mb-2">
                                     Edit
                                 </a>
 
@@ -110,6 +132,7 @@
 </div>
 
 <script>
+    
 function changeEntries(perPage) {
     const url = new URL(window.location.href);
     url.searchParams.set('per_page', perPage);
@@ -118,6 +141,7 @@ function changeEntries(perPage) {
 }
 </script>
 @endsection
+
 
 {{-- CDN ChartJS --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -163,5 +187,42 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
     });
+});
+</script>
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const barangSelect = document.getElementById('barang_id');
+    const wrapper = document.getElementById('jenis-barang-wrapper');
+    const inputJenis = document.getElementById('jenis_barang');
+
+    if (!barangSelect) {
+        console.error('Select barang_id tidak ditemukan');
+        return;
+    }
+
+    barangSelect.addEventListener('change', async function () {
+        const barangId = this.value;
+
+        if (!barangId) {
+            wrapper.style.display = 'none';
+            inputJenis.value = '';
+            return;
+        }
+
+        try {
+            const response = await fetch(`/barang/${barangId}/jenis`);
+            const data = await response.json();
+
+            inputJenis.value = data.jenis_barang ?? '-';
+            wrapper.style.display = 'block';
+
+        } catch (error) {
+            console.error('Gagal ambil jenis barang:', error);
+        }
+    });
+
 });
 </script>

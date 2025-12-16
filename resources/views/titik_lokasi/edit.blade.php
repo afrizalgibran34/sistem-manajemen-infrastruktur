@@ -11,7 +11,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Edit Titik Lokasi</h4>
+                <h4 class="card-title">Edit Titik/Lokasi Layanan</h4>
             </div>
 
             <div class="card-body">
@@ -21,7 +21,7 @@
                     @method('PUT')
 
                     <div class="form-group">
-                        <label>Nama Titik</label>
+                        <label>Titik/Lokasi Layanan</label>
                         <input type="text" name="nama_titik" value="{{ $data->nama_titik }}" class="form-control" required>
                     </div>
 
@@ -38,7 +38,7 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Kecamatan / Kelurahan</label>
+                        <label>PD/UNIT KERJA/INSTANSI</label>
                         <select name="id_kec_kel" class="form-control" required>
                             @foreach ($kec_kel as $k)
                                 <option value="{{ $k->id_kec_kel }}" 

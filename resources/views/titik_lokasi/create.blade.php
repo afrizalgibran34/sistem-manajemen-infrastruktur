@@ -11,7 +11,7 @@
 
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Tambah Titik Lokasi</h4>
+                <h4 class="card-title">Tambah Titik/Lokasi Layanan</h4>
             </div>
 
             <div class="card-body">
@@ -20,7 +20,7 @@
                     @csrf
 
                     <div class="form-group">
-                        <label>Nama Titik</label>
+                        <label>Titik/Lokasi Layanan</label>
                         <input type="text" name="nama_titik" class="form-control" required>
                     </div>
 
@@ -35,9 +35,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Kecamatan / Kelurahan</label>
+                        <label>PD/UNIT KERJA/INSTANSI</label>
                         <select name="id_kec_kel" class="form-control" required>
-                            <option value="">-- Pilih Kec/Kel --</option>
+                            <option value="">-- Pilih PD/UNIT KERJA/INSTANSI --</option>
                             @foreach ($kec_kel as $k)
                                 <option value="{{ $k->id_kec_kel }}">{{ $k->nama_kec_kel }}</option>
                             @endforeach

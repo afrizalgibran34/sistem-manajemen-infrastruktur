@@ -8,22 +8,21 @@
 @section('content')
 <div class="content">
     <div class="container-fluid">
-
-        <div class="d-flex justify-content-between mb-3">
-            <a href="{{ route('titik_lokasi.exportPdf') }}" class="btn btn-danger">
-                Export PDF
-            </a>
-        </div>
-
-        {{-- Table --}}
         <div class="row">
             <div class="col-md-12">
 
                 <div class="card strpied-tabled-with-hover">
+                      <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="card-title mb-0">Data Titik Lokasi</h4>
+                            <p class="card-category mb-0">
+                               Semua titik lokasi jaringan
+                            </p>
+                        </div>
 
-                    <div class="card-header">
-                        <h4 class="card-title">Data Titik Lokasi</h4>
-                        <p class="card-category">Semua titik lokasi jaringan</p>
+                         <a href="{{ route('titik_lokasi.exportPdf') }}" class="btn btn-danger">
+                            Export PDF
+                         </a>
                     </div>
 
                     <div class="card-body">
@@ -51,14 +50,15 @@
                             <thead>
                                 <tr>
                                     <th>NO</th>
-                                    <th>NAMA TITIK</th>
+                                    <th>Titik/Lokasi Layanan</th>
                                     <th>WILAYAH</th>
-                                    <th>PD/UNIT KERJA</th>
+                                    <th>PD/UNIT KERJA/INSTANSI</th>
                                     <th>KLASIFIKASI AREA</th>
                                     <th>KONEKSI</th>
+                                    <th>STATUS</th>
                                     <th>BACKBONE</th>
                                     <th>UPLINK</th>
-                                    <th>PERANGKAT</th>
+                                    <th>PERANGKAT YANG TERPASANG</th>
                                     <th>KETERANGAN</th>
                                     <th>AKSI</th>
                                 </tr>
@@ -73,13 +73,14 @@
                                     <td>{{ $row->kec_kel->nama_kec_kel ?? '-' }}</td>
                                     <td>{{ $row->klasifikasi->klasifikasi ?? '-' }}</td>
                                     <td>{{ $row->koneksi }}</td>
+                                    <td>{{ $row->status }}</td>
                                     <td>{{ $row->backbone->jenis_backbone ?? '-' }}</td>
                                     <td>{{ $row->uplink->jenis_uplink ?? '-' }}</td>
                                     <td>{{ $row->perangkat }}</td>
                                     <td>{{ $row->keterangan }}</td>
                                     <td class="text-center">
                                         <a href="{{ route('titik_lokasi.edit', $row->id_titik) }}"
-                                           class="btn btn-warning btn-sm mr-2">
+                                           class="btn btn-warning btn-sm mb-2">
                                             Edit
                                         </a>
 
