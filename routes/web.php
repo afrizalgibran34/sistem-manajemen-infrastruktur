@@ -65,6 +65,7 @@ Route::middleware('auth')->group(function () {
     ->name('gangguan.exportPdf');
     Route::resource('barang', BarangController::class)->middleware('auth');
     Route::resource('stok_barang', StokBarangController::class)->middleware('auth');
+    Route::get('/barang/{id}/jenis', [BarangController::class, 'getJenisBarang']);
     Route::resource('lokasi', LokasiController::class)->middleware('auth');
     Route::resource('transaksi_barang', TransaksiBarangController::class)->middleware('auth');
     Route::get('/barang-keluar/export/pdf', [TransaksiBarangController::class, 'cetakPdf']

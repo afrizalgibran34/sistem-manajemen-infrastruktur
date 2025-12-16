@@ -21,9 +21,9 @@ class BarangController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'nama_barang' => 'required',
-            'satuan' => 'required',
+            $request->validate([
+            'nama_barang' => 'required|string',
+            'jenis_barang' => 'required|in:Perangkat FO,Perangkat Wireless,Perangkat LAN',
         ]);
 
         Barang::create($request->all());
@@ -38,13 +38,33 @@ class BarangController extends Controller
 
     public function update(Request $request, $id)
     {
-        Barang::findOrFail($id)->update($request->all());
-        return redirect()->route('barang.index');
+        $request->validate([
+            'nama_barang' => 'required|string',
+            'jenis_barang' => 'required|in:Perangkat FO,Perangkat Wireless,Perangkat LAN',
+        ]);
+
+        $barang = Barang::findOrFail($id);
+
+        $barang->update([
+            'nama_barang' => $request->nama_barang,
+            'jenis_barang' => $request->jenis_barang,
+        ]);
+
+        return redirect()->route('barang.index')
+            ->with('success', 'Data barang berhasil diperbarui');
     }
 
     public function destroy($id)
     {
         Barang::findOrFail($id)->delete();
         return redirect()->route('barang.index');
+    }
+    public function getJenisBarang($id)
+    {
+        $barang = Barang::findOrFail($id);
+
+        return response()->json([
+            'jenis_barang' => $barang->jenis_barang
+        ]);
     }
 }
