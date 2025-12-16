@@ -7,13 +7,14 @@ use App\Models\Lokasi;
 use App\Models\Barang;
 use App\Models\StokBarang;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransaksiBarangController extends Controller
 {
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = TransaksiBarang::with(['lokasi', 'barang'])->paginate($perPage)->withQueryString();
+        $data = TransaksiBarang::with(['lokasi', 'barang'])->paginate($perPage)->appends($request->query());
         return view('transaksi_barang.index', compact('data'));
     }
 
@@ -28,41 +29,24 @@ class TransaksiBarangController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tanggal' => 'required',
+            'tanggal' => 'required|date',
             'lokasi_id' => 'required',
             'barang_id' => 'required',
-            'jumlah' => 'required|integer|min:1'
+            'keterangan' => 'nullable|string',
         ]);
 
-        // Ambil stok barang berdasar barang_id
-        $stok = StokBarang::where('barang_id', $request->barang_id)->first();
-
-        if (!$stok) {
-            return back()->withErrors('Data stok barang tidak ditemukan.');
-        }
-
-        // Cek stok tersisa cukup
-        if ($request->jumlah > $stok->sisa) {
-            return back()->withErrors('Jumlah melebihi stok tersisa.');
-        }
-
-        // Update stok
-        $stok->terpakai = $stok->terpakai + $request->jumlah;
-        $stok->sisa = $stok->kuantitas - $stok->terpakai;
-        $stok->save();
-
-        // Simpan transaksi
         TransaksiBarang::create([
             'tanggal' => $request->tanggal,
             'lokasi_id' => $request->lokasi_id,
             'barang_id' => $request->barang_id,
-            'jumlah' => $request->jumlah,
+            'jumlah' => 1, // ⬅️ DEFAULT JUMLAH
             'keterangan' => $request->keterangan,
         ]);
 
         return redirect()->route('transaksi_barang.index')
-            ->with('success', 'Transaksi berhasil ditambahkan & stok diperbarui.');
+            ->with('success', 'Transaksi barang berhasil ditambahkan');
     }
+
 
 
     public function edit($id)
@@ -84,5 +68,18 @@ class TransaksiBarangController extends Controller
     {
         TransaksiBarang::findOrFail($id)->delete();
         return redirect()->route('transaksi_barang.index');
+    }
+
+    public function cetakPdf()
+    {
+        $data = TransaksiBarang::with(['barang', 'lokasi'])
+            ->orderBy('tanggal', 'desc')
+            ->get();
+
+        $pdf = Pdf::loadView('laporan.barang_keluar.pdf', [
+            'data' => $data
+        ])->setPaper('A4', 'landscape');
+
+        return $pdf->download('laporan-barang-keluar.pdf');
     }
 }

@@ -9,15 +9,26 @@
 <div class="content">
     <div class="container-fluid">
 
-        <a href="{{ route('transaksi_barang.create') }}" class="btn btn-primary mb-3">
-            + Tambah Transaksi
-        </a>
-
         <div class="card strpied-tabled-with-hover">
 
-            <div class="card-header">
-                <h4 class="card-title">Data Barang Keluar</h4>
-                <p class="card-category">Catatan keluar barang per lokasi</p>
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <div>
+                    <h4 class="card-title mb-0">Data Barang Keluar</h4>
+                    <p class="card-category mb-0">Catatan keluar barang per lokasi</p>
+                </div>
+
+                <div>
+                    <a href="{{ route('transaksi_barang.create') }}"
+                    class="btn btn-primary btn-sm mr-2">
+                        Input Barang Keluar
+                    </a>
+
+                    <a href="{{ route('transaksi_barang.pdf') }}"
+                    target="_blank"
+                    class="btn btn-danger btn-sm">
+                        Export PDF
+                    </a>
+                </div>
             </div>
 
             <div class="card-body">
@@ -41,7 +52,7 @@
 
                 <div class="table-responsive">
 
-                <table class="table table-hover table-striped text-center align-middle">
+                <table class="table table-hover table-striped align-middle">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -67,7 +78,7 @@
                             <td class="text-center">
 
                                 <a href="{{ route('transaksi_barang.edit', $row->transaksi_id) }}"
-                                   class="btn btn-warning btn-sm mr-2">
+                                   class="btn btn-warning btn-sm mb-2">
                                     Edit
                                 </a>
 

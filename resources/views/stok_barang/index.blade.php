@@ -19,8 +19,6 @@
             </div>
         </div>
 
-        {{-- TOMBOL TAMBAH --}}
-        <a href="{{ route('stok_barang.create') }}" class="btn btn-primary mb-3">+ Tambah Stok Barang</a>
 
         {{-- TABEL --}}
         <div class="card strpied-tabled-with-hover">
@@ -110,6 +108,7 @@
 </div>
 
 <script>
+    
 function changeEntries(perPage) {
     const url = new URL(window.location.href);
     url.searchParams.set('per_page', perPage);
@@ -118,6 +117,7 @@ function changeEntries(perPage) {
 }
 </script>
 @endsection
+
 
 {{-- CDN ChartJS --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -165,3 +165,5 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+
+

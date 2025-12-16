@@ -6,6 +6,7 @@ use App\Models\Gangguan;
 use App\Models\Wilayah;
 use App\Models\JenisMasalah;
 use App\Models\TitikLokasi;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 
 class GangguanController extends Controller
@@ -13,7 +14,7 @@ class GangguanController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = Gangguan::with(['titik', 'wilayah', 'jenis_masalah'])->paginate($perPage)->withQueryString();
+        $data = Gangguan::with(['titik', 'wilayah', 'jenis_masalah'])->paginate($perPage)->appends($request->query());
         return view('gangguan.index', compact('data'));
     }
 
@@ -86,4 +87,19 @@ class GangguanController extends Controller
         Gangguan::findOrFail($id)->delete();
         return redirect()->route('gangguan.index');
     }
+
+    public function exportPdf()
+    {
+        $data = Gangguan::with([
+            'wilayah',
+            'jenis_masalah',
+            'titik'   // PAKAI RELASI YANG SUDAH ADA
+        ])->orderBy('tanggal', 'asc')->get();
+
+        $pdf = Pdf::loadView('gangguan.pdf', compact('data'))
+                ->setPaper('A4', 'landscape');
+
+        return $pdf->download('laporan-gangguan-jaringan.pdf');
+    }
+
 }

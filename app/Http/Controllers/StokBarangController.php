@@ -11,7 +11,7 @@ class StokBarangController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = StokBarang::with('barang')->paginate($perPage)->withQueryString();
+        $data = StokBarang::with('barang')->paginate($perPage)->appends($request->query());
         return view('stok_barang.index', compact('data'));
     }
 
@@ -27,13 +27,23 @@ class StokBarangController extends Controller
         $request->validate([
             'barang_id' => 'required',
             'satuan' => 'required',
-            'kuantitas' => 'required',
-            'terpakai' => 'required',
-            'sisa' => 'required'
+            'kuantitas' => 'required|integer|min:1',
+            'keterangan' => 'nullable|string',
         ]);
 
-        StokBarang::create($request->all());
-        return redirect()->route('stok_barang.index');
+        $kuantitas = $request->kuantitas;
+
+        StokBarang::create([
+            'barang_id' => $request->barang_id,
+            'satuan' => $request->satuan,
+            'kuantitas' => $kuantitas,
+            'terpakai' => 0,              // otomatis
+            'sisa' => $kuantitas,          // otomatis
+            'keterangan' => $request->keterangan,
+        ]);
+
+        return redirect()->route('stok_barang.index')
+            ->with('success', 'Stok berhasil ditambahkan');
     }
 
     public function edit($id)

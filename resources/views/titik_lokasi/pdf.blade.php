@@ -19,9 +19,9 @@
     <thead>
         <tr>
             <th>NO</th>
-            <th>NAMA TITIK</th>
+            <th>Titik/Lokasi Layanan</th>
             <th>WILAYAH</th>
-            <th>PD/UNIT KERJA</th>
+            <th>PD/UNIT KERJA/INSTANSI</th>
             <th>KLASIFIKASI AREA</th>
             <th>KONEKSI</th>
             <th>BACKBONE</th>
