@@ -29,7 +29,7 @@
                         <label>Wilayah</label>
                         <select name="id_wilayah" class="form-control" required>
                             @foreach ($wilayah as $w)
-                                <option value="{{ $w->id_wilayah }}" 
+                                <option value="{{ $w->id_wilayah }}"
                                     {{ $data->id_wilayah == $w->id_wilayah ? 'selected' : '' }}>
                                     {{ $w->nama_wilayah }}
                                 </option>
@@ -38,10 +38,10 @@
                     </div>
 
                     <div class="form-group">
-                        <label>PD/UNIT KERJA/INSTANSI</label>
+                        <label>PD / UNIT KERJA / INSTANSI</label>
                         <select name="id_kec_kel" class="form-control" required>
                             @foreach ($kec_kel as $k)
-                                <option value="{{ $k->id_kec_kel }}" 
+                                <option value="{{ $k->id_kec_kel }}"
                                     {{ $data->id_kec_kel == $k->id_kec_kel ? 'selected' : '' }}>
                                     {{ $k->nama_kec_kel }}
                                 </option>
@@ -53,7 +53,7 @@
                         <label>Klasifikasi</label>
                         <select name="id_klasifikasi" class="form-control" required>
                             @foreach ($klasifikasi as $k)
-                                <option value="{{ $k->id_klasifikasi }}" 
+                                <option value="{{ $k->id_klasifikasi }}"
                                     {{ $data->id_klasifikasi == $k->id_klasifikasi ? 'selected' : '' }}>
                                     {{ $k->klasifikasi }}
                                 </option>
@@ -63,10 +63,33 @@
 
                     <div class="form-group">
                         <label>Koneksi</label>
-                        <select name="koneksi" class="form-control" required>
+                        <select name="koneksi" id="koneksi" class="form-control" required>
                             <option value="FO" {{ $data->koneksi == 'FO' ? 'selected' : '' }}>FO</option>
                             <option value="Wireless" {{ $data->koneksi == 'Wireless' ? 'selected' : '' }}>Wireless</option>
                         </select>
+                    </div>
+
+                    {{-- PANJANG FO --}}
+                    <div class="form-group" id="panjang_fo_group"
+                        @if($data->koneksi != 'FO') style="display:none;" @endif>
+                        <label>Panjang FO (meter)</label>
+                        <input type="number"
+                               name="panjang_fo"
+                               class="form-control"
+                               min="0"
+                               value="{{ $data->panjang_fo }}">
+                    </div>
+
+                    {{-- TAHUN PEMBANGUNAN --}}
+                    <div class="form-group">
+                        <label>Tahun Pembangunan</label>
+                        <input type="number"
+                               name="tahun_pembangunan"
+                               class="form-control"
+                               min="1900"
+                               max="{{ date('Y') }}"
+                               value="{{ $data->tahun_pembangunan }}"
+                               required>
                     </div>
 
                     <div class="form-group">
@@ -81,7 +104,7 @@
                         <label>Backbone</label>
                         <select name="id_backbone" class="form-control" required>
                             @foreach ($backbone as $b)
-                                <option value="{{ $b->id_backbone }}" 
+                                <option value="{{ $b->id_backbone }}"
                                     {{ $data->id_backbone == $b->id_backbone ? 'selected' : '' }}>
                                     {{ $b->jenis_backbone }}
                                 </option>
@@ -93,7 +116,7 @@
                         <label>Uplink</label>
                         <select name="id_uplink" class="form-control" required>
                             @foreach ($uplink as $u)
-                                <option value="{{ $u->id_uplink }}" 
+                                <option value="{{ $u->id_uplink }}"
                                     {{ $data->id_uplink == $u->id_uplink ? 'selected' : '' }}>
                                     {{ $u->jenis_uplink }}
                                 </option>
@@ -131,4 +154,25 @@
 
     </div>
 </div>
+
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const koneksi = document.getElementById('koneksi');
+        const foGroup = document.getElementById('panjang_fo_group');
+
+        if (!koneksi || !foGroup) return;
+
+        koneksi.addEventListener('change', function () {
+            if (this.value === 'FO') {
+                foGroup.style.display = 'block';
+            } else {
+                foGroup.style.display = 'none';
+                foGroup.querySelector('input').value = '';
+            }
+        });
+    });
+</script>
+@endpush
+
 @endsection

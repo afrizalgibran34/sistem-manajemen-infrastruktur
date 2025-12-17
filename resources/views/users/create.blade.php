@@ -37,20 +37,38 @@
                     </div>
 
                     <div class="form-group">
-                        <label>Password</label>
+                    <label>Password</label>
+                    <div class="input-group">
                         <input type="password"
-                               name="password"
-                               class="form-control"
-                               required>
+                            name="password"
+                            id="password"
+                            class="form-control"
+                            required>
+                        <div class="input-group-append">
+                            <span class="input-group-text toggle-password" data-target="password" style="cursor:pointer">
+                                <i class="fa fa-eye"></i>
+                            </span>
+                        </div>
                     </div>
+                </div>
+
 
                     <div class="form-group">
                         <label>Konfirmasi Password</label>
-                        <input type="password"
-                               name="password_confirmation"
-                               class="form-control"
-                               required>
+                        <div class="input-group">
+                            <input type="password"
+                                name="password_confirmation"
+                                id="password_confirmation"
+                                class="form-control"
+                                required>
+                            <div class="input-group-append">
+                                <span class="input-group-text toggle-password" data-target="password_confirmation" style="cursor:pointer">
+                                    <i class="fa fa-eye"></i>
+                                </span>
+                            </div>
+                        </div>
                     </div>
+
                     
                     <button class="btn btn-primary mt-2">Simpan</button>
                     <a href="{{ route('users.index') }}" class="btn btn-secondary mt-2">
@@ -63,3 +81,26 @@
     </div>
 </div>
 @endsection
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.toggle-password').forEach(function (toggle) {
+            toggle.addEventListener('click', function () {
+                const targetId = this.getAttribute('data-target');
+                const input = document.getElementById(targetId);
+                const icon = this.querySelector('i');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            });
+        });
+    });
+</script>
+@endpush

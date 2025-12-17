@@ -33,13 +33,20 @@
                         </a>
                     </div>
             <div class="card-body">
-                @if($asetTua > 0)
-                <div class="alert alert-warning">
-                    ⚠️ Terdapat <strong>{{ $asetTua }}</strong> stok barang yang berusia lebih dari 5 tahun.
-                </div>
-                {{ $asetTuaData->count() }}
+               @if($asetTua > 0)
+                    <div class="alert alert-warning">
+                        ⚠️ Terdapat <strong>{{ $asetTua }}</strong> stok barang yang berusia lebih dari 5 tahun.
 
+                        <ul class="mt-2 mb-0">
+                            @foreach($asetTuaData as $row)
+                                <li>
+                                    {{ $row->barang->nama_barang }}
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 @endif
+
 
                 {{-- Entries Dropdown --}}
                 <div class="d-flex justify-content-between align-items-center mb-3 px-3">
@@ -67,14 +74,15 @@
                             <th>ID</th>
                             <th>Nama Barang</th>
                             <th>Jenis Barang</th>
+                            <th>Spesifikasi Barang</th>
                             <th>Kuantitas</th>
                             <th>Satuan</th>
                             <th>Terpakai</th>
                             <th>Sisa</th>
-                            <th>Keterangan</th>
                             <th>Foto Barang</th>
                             <th>Kondisi Barang</th>
                             <th>Tahun Pengadaan</th>
+                            <th>Keterangan</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -85,11 +93,11 @@
                             <td>{{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}</td>
                             <td>{{ $row->barang->nama_barang ?? '-' }}</td>
                             <td>{{ $row->barang->jenis_barang ?? '-' }}</td>
+                            <td>{{ $row->spesifikasi }}</td>
                             <td>{{ $row->kuantitas }}</td>
                             <td>{{ $row->satuan }}</td>
                             <td>{{ $row->terpakai }}</td>
                             <td>{{ $row->sisa }}</td>
-                            <td>{{ $row->keterangan }}</td>
                             <td>
                                 @if ($row->foto)
                                     <img src="{{ asset('storage/'.$row->foto) }}"
@@ -100,6 +108,7 @@
                             </td>
                             <td>{{ $row->kondisi ?? '-' }}</td>
                             <td>{{ $row->tahun_pengadaan ?? '-' }}</td>
+                            <td>{{ $row->keterangan }}</td>
 
 
 

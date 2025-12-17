@@ -42,21 +42,24 @@
                     </div>
 
                     <div class="card-body">
-                        {{-- Entries Dropdown --}}
+
+                        {{-- Entries --}}
                         <div class="d-flex justify-content-between align-items-center mb-3 px-3">
                             <div class="d-flex align-items-center gap-2">
-                                <label class="mb-0 text-sm text-gray-600">Show</label>
-                                <select class="form-select form-select-sm" style="width:80px"
+                                <label class="mb-0">Show</label>
+                                <select class="form-select form-select-sm"
+                                        style="width:80px"
                                         onchange="changeEntries(this.value)">
-                                    <option value="5" {{ request('per_page') == 5 ? 'selected' : '' }}>5</option>
-                                    <option value="10" {{ request('per_page',10) == 10 ? 'selected' : '' }}>10</option>
-                                    <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
-                                    <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
-                                    <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100</option>
+                                    @foreach ([5,10,25,50,100] as $n)
+                                        <option value="{{ $n }}" {{ request('per_page',10) == $n ? 'selected' : '' }}>
+                                            {{ $n }}
+                                        </option>
+                                    @endforeach
                                 </select>
-                                <label class="mb-0 text-sm text-gray-600">entries</label>
+                                <label class="mb-0">entries</label>
                             </div>
-                            <div class="text-sm text-gray-600">
+
+                            <div>
                                 Showing {{ $data->firstItem() ?? 0 }}
                                 to {{ $data->lastItem() ?? 0 }}
                                 of {{ $data->total() }} entries
@@ -68,16 +71,17 @@
                                 <thead>
                                     <tr>
                                         <th>NO</th>
-                                        <th>Titik/Lokasi Layanan</th>
+                                        <th>TITIK LOKASI</th>
                                         <th>WILAYAH</th>
-                                        <th>PD/UNIT KERJA</th>
-                                        <th>KLASIFIKASI AREA</th>
+                                        <th>PD / UNIT</th>
+                                        <th>KLASIFIKASI</th>
                                         <th>KONEKSI</th>
+                                        <th>PANJANG FO (m)</th>
+                                        <th>TAHUN PEMBANGUNAN</th>
                                         <th>STATUS</th>
                                         <th>BACKBONE</th>
                                         <th>UPLINK</th>
                                         <th>PERANGKAT</th>
-                                        <th>KETERANGAN</th>
                                         <th>AKSI</th>
                                     </tr>
                                 </thead>
@@ -91,20 +95,36 @@
                                         <td>{{ $row->kec_kel->nama_kec_kel ?? '-' }}</td>
                                         <td>{{ $row->klasifikasi->klasifikasi ?? '-' }}</td>
                                         <td>{{ $row->koneksi }}</td>
+
+                                        {{-- PANJANG FO --}}
+                                        <td>
+                                            @if($row->koneksi === 'FO')
+                                                {{ $row->panjang_fo ?? '-' }}
+                                            @else
+                                                -
+                                            @endif
+                                        </td>
+
+                                        {{-- TAHUN --}}
+                                        <td>{{ $row->tahun_pembangunan }}</td>
+
                                         <td>{{ $row->status }}</td>
                                         <td>{{ $row->backbone->jenis_backbone ?? '-' }}</td>
                                         <td>{{ $row->uplink->jenis_uplink ?? '-' }}</td>
                                         <td>{{ $row->perangkat }}</td>
-                                        <td>{{ $row->keterangan }}</td>
+
                                         <td>
                                             <a href="{{ route('titik_lokasi.edit', $row->id_titik) }}"
-                                               class="btn btn-warning btn-sm mb-2">Edit</a>
+                                               class="btn btn-warning btn-sm mb-1">Edit</a>
 
                                             <form action="{{ route('titik_lokasi.destroy', $row->id_titik) }}"
                                                   method="POST" style="display:inline-block">
-                                                @csrf @method('DELETE')
+                                                @csrf
+                                                @method('DELETE')
                                                 <button onclick="return confirm('Yakin hapus?')"
-                                                        class="btn btn-danger btn-sm">Hapus</button>
+                                                        class="btn btn-danger btn-sm">
+                                                    Hapus
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
@@ -114,15 +134,19 @@
                         </div>
 
                         {{ $data->links() }}
+
                     </div>
                 </div>
 
             </div>
         </div>
+
     </div>
 </div>
+@endsection
 
-{{-- CHART JS --}}
+{{-- ================= SCRIPT ================= --}}
+@push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -140,7 +164,10 @@ document.addEventListener("DOMContentLoaded", function () {
         options: {
             responsive: true,
             scales: {
-                y: { beginAtZero: true, ticks: { stepSize: 1 } }
+                y: {
+                    beginAtZero: true,
+                    ticks: { stepSize: 1 }
+                }
             }
         }
     });
@@ -153,4 +180,4 @@ function changeEntries(perPage) {
     window.location.href = url.toString();
 }
 </script>
-@endsection
+@endpush

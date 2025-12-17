@@ -17,6 +17,8 @@ class TitikLokasi extends Model
         'koneksi',
         'status',
         'perangkat',
+        'panjang_fo',
+        'tahun_pembangunan',
         'id_backbone',
         'id_uplink',
         'keterangan',
