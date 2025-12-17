@@ -10,7 +10,7 @@ class WilayahController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = Wilayah::paginate($perPage)->withQueryString();
+        $data = Wilayah::paginate($perPage);
         return view('wilayah.index', compact('data'));
     }
 

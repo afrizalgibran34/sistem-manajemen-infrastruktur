@@ -8,21 +8,37 @@
 @section('content')
 <div class="content">
     <div class="container-fluid">
+
+        {{-- ================= CHART ================= --}}
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Jumlah Titik Lokasi per Wilayah</h4>
+                    </div>
+                    <div class="card-body">
+                        <canvas id="wilayahChart" height="100"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{-- ========================================= --}}
+
         <div class="row">
             <div class="col-md-12">
 
                 <div class="card strpied-tabled-with-hover">
-                      <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card-header d-flex justify-content-between align-items-center">
                         <div>
                             <h4 class="card-title mb-0">Data Titik Lokasi</h4>
                             <p class="card-category mb-0">
-                               Semua titik lokasi jaringan
+                                Semua titik lokasi jaringan
                             </p>
                         </div>
 
-                         <a href="{{ route('titik_lokasi.exportPdf') }}" class="btn btn-danger">
+                        <a href="{{ route('titik_lokasi.exportPdf') }}" class="btn btn-danger">
                             Export PDF
-                         </a>
+                        </a>
                     </div>
 
                     <div class="card-body">
@@ -30,9 +46,10 @@
                         <div class="d-flex justify-content-between align-items-center mb-3 px-3">
                             <div class="d-flex align-items-center gap-2">
                                 <label class="mb-0 text-sm text-gray-600">Show</label>
-                                <select id="entriesSelect" class="form-select form-select-sm" style="width: 80px;" onchange="changeEntries(this.value)">
+                                <select class="form-select form-select-sm" style="width:80px"
+                                        onchange="changeEntries(this.value)">
                                     <option value="5" {{ request('per_page') == 5 ? 'selected' : '' }}>5</option>
-                                    <option value="10" {{ request('per_page', 10) == 10 ? 'selected' : '' }}>10</option>
+                                    <option value="10" {{ request('per_page',10) == 10 ? 'selected' : '' }}>10</option>
                                     <option value="25" {{ request('per_page') == 25 ? 'selected' : '' }}>25</option>
                                     <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
                                     <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100</option>
@@ -40,88 +57,99 @@
                                 <label class="mb-0 text-sm text-gray-600">entries</label>
                             </div>
                             <div class="text-sm text-gray-600">
-                                Showing {{ $data->firstItem() ?? 0 }} to {{ $data->lastItem() ?? 0 }} of {{ $data->total() }} entries
+                                Showing {{ $data->firstItem() ?? 0 }}
+                                to {{ $data->lastItem() ?? 0 }}
+                                of {{ $data->total() }} entries
                             </div>
                         </div>
 
                         <div class="table-responsive">
+                            <table class="table table-hover table-striped text-center align-middle">
+                                <thead>
+                                    <tr>
+                                        <th>NO</th>
+                                        <th>Titik/Lokasi Layanan</th>
+                                        <th>WILAYAH</th>
+                                        <th>PD/UNIT KERJA</th>
+                                        <th>KLASIFIKASI AREA</th>
+                                        <th>KONEKSI</th>
+                                        <th>STATUS</th>
+                                        <th>BACKBONE</th>
+                                        <th>UPLINK</th>
+                                        <th>PERANGKAT</th>
+                                        <th>KETERANGAN</th>
+                                        <th>AKSI</th>
+                                    </tr>
+                                </thead>
 
-                        <table class="table table-hover table-striped text-center align-middle">
-                            <thead>
-                                <tr>
-                                    <th>NO</th>
-                                    <th>Titik/Lokasi Layanan</th>
-                                    <th>WILAYAH</th>
-                                    <th>PD/UNIT KERJA/INSTANSI</th>
-                                    <th>KLASIFIKASI AREA</th>
-                                    <th>KONEKSI</th>
-                                    <th>STATUS</th>
-                                    <th>BACKBONE</th>
-                                    <th>UPLINK</th>
-                                    <th>PERANGKAT YANG TERPASANG</th>
-                                    <th>KETERANGAN</th>
-                                    <th>AKSI</th>
-                                </tr>
-                            </thead>
+                                <tbody>
+                                    @foreach ($data as $row)
+                                    <tr>
+                                        <td>{{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}</td>
+                                        <td>{{ $row->nama_titik }}</td>
+                                        <td>{{ $row->wilayah->nama_wilayah ?? '-' }}</td>
+                                        <td>{{ $row->kec_kel->nama_kec_kel ?? '-' }}</td>
+                                        <td>{{ $row->klasifikasi->klasifikasi ?? '-' }}</td>
+                                        <td>{{ $row->koneksi }}</td>
+                                        <td>{{ $row->status }}</td>
+                                        <td>{{ $row->backbone->jenis_backbone ?? '-' }}</td>
+                                        <td>{{ $row->uplink->jenis_uplink ?? '-' }}</td>
+                                        <td>{{ $row->perangkat }}</td>
+                                        <td>{{ $row->keterangan }}</td>
+                                        <td>
+                                            <a href="{{ route('titik_lokasi.edit', $row->id_titik) }}"
+                                               class="btn btn-warning btn-sm mb-2">Edit</a>
 
-                            <tbody>
-                                @foreach ($data as $row)
-                                <tr>
-                                    <td>{{ $loop->iteration + ($data->currentPage() - 1) * $data->perPage() }}</td>
-                                    <td>{{ $row->nama_titik }}</td>
-                                    <td>{{ $row->wilayah->nama_wilayah ?? '-' }}</td>
-                                    <td>{{ $row->kec_kel->nama_kec_kel ?? '-' }}</td>
-                                    <td>{{ $row->klasifikasi->klasifikasi ?? '-' }}</td>
-                                    <td>{{ $row->koneksi }}</td>
-                                    <td>{{ $row->status }}</td>
-                                    <td>{{ $row->backbone->jenis_backbone ?? '-' }}</td>
-                                    <td>{{ $row->uplink->jenis_uplink ?? '-' }}</td>
-                                    <td>{{ $row->perangkat }}</td>
-                                    <td>{{ $row->keterangan }}</td>
-                                    <td class="text-center">
-                                        <a href="{{ route('titik_lokasi.edit', $row->id_titik) }}"
-                                           class="btn btn-warning btn-sm mb-2">
-                                            Edit
-                                        </a>
-
-                                        <form action="{{ route('titik_lokasi.destroy', $row->id_titik) }}"
-                                              method="POST"
-                                              style="display:inline-block;">
-                                            @csrf
-                                            @method('DELETE')
-
-                                            <button onclick="return confirm('Yakin hapus data ini?')"
-                                                    class="btn btn-danger btn-sm">
-                                                Hapus
-                                            </button>
-
-                                        </form>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-
-                        </table>
+                                            <form action="{{ route('titik_lokasi.destroy', $row->id_titik) }}"
+                                                  method="POST" style="display:inline-block">
+                                                @csrf @method('DELETE')
+                                                <button onclick="return confirm('Yakin hapus?')"
+                                                        class="btn btn-danger btn-sm">Hapus</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
 
-                        {{-- Pagination --}}
-                        <div class="px-3 py-3">
-                            {{ $data->links() }}
-                        </div>
+                        {{ $data->links() }}
                     </div>
                 </div>
 
             </div>
         </div>
-
     </div>
 </div>
 
+{{-- CHART JS --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 <script>
+document.addEventListener("DOMContentLoaded", function () {
+    new Chart(document.getElementById('wilayahChart'), {
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($labels) !!},
+            datasets: [{
+                label: 'Jumlah Titik Lokasi',
+                data: {!! json_encode($jumlah) !!},
+                backgroundColor: 'rgba(54, 162, 235, 0.6)'
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: { beginAtZero: true, ticks: { stepSize: 1 } }
+            }
+        }
+    });
+});
+
 function changeEntries(perPage) {
     const url = new URL(window.location.href);
     url.searchParams.set('per_page', perPage);
-    url.searchParams.delete('page'); // Reset to page 1
+    url.searchParams.delete('page');
     window.location.href = url.toString();
 }
 </script>

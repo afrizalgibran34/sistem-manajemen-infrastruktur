@@ -10,7 +10,7 @@ class StatusController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = Status::paginate($perPage)->withQueryString();
+        $data = Status::paginate($perPage);
         return view('status.index', compact('data'));
     }
 

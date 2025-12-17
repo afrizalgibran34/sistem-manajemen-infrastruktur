@@ -1,64 +1,113 @@
 @extends('layouts.app', [
     'activePage' => 'dashboard',
-    'title' => 'Dashboard',
-    'navName' => 'Data Analisis',
+    'title' => __('Dashboard'),
+    'navName' => 'Dashboard',
     'activeButton' => 'Dashboard'
 ])
 
 @section('content')
-<div class="p-4">
-    <h1 class="h3 mb-4">Dashboard</h1>
+<div class="content">
+    <div class="container-fluid">
 
-    <div class="card">
-        <div class="card-header">
-            Grafik Stok Barang
+        <div class="row">
+            {{-- BAR CHART --}}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Jumlah Titik Lokasi per Wilayah</h4>
+                    </div>
+                    <div class="card-body" style="height: 350px;">
+                        <canvas id="wilayahChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            {{-- PIE CHART --}}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Status Titik Lokasi</h4>
+                    </div>
+                    <div class="card-body text-center" style="height: 350px;">
+                        <canvas id="statusChart"></canvas>
+
+                        <div class="mt-3">
+                            <span class="badge bg-success me-2">ON: {{ $on }}</span>
+                            <span class="badge bg-danger">OFF: {{ $off }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="card-body">
-            <canvas id="dashboardChart"></canvas>
-        </div>
+
     </div>
 </div>
 
-{{-- CDN ChartJS --}}
+{{-- CHART JS --}}
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const ctx = document.getElementById('dashboardChart');
 
-    new Chart(ctx, {
+    // BAR CHART
+    new Chart(document.getElementById('wilayahChart'), {
         type: 'bar',
         data: {
-            labels: {!! json_encode(
-                $data->map(fn($row) => optional($row->barang)->nama_barang)
-            ) !!},
-            datasets: [
-                {
-                    label: 'Kuantitas',
-                    data: {!! json_encode($data->pluck('kuantitas')) !!},
-                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
-                },
-                {
-                    label: 'Terpakai',
-                    data: {!! json_encode($data->pluck('terpakai')) !!},
-                    backgroundColor: 'rgba(255, 99, 132, 0.6)',
-                },
-                {
-                    label: 'Sisa',
-                    data: {!! json_encode($data->pluck('sisa')) !!},
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                },
-            ]
+            labels: {!! json_encode($labels) !!},
+            datasets: [{
+                label: 'Jumlah Titik Lokasi',
+                data: {!! json_encode($jumlah) !!},
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                barPercentage: 0.8,
+                categoryPercentage: 0.9
+            }]
         },
         options: {
             responsive: true,
+            maintainAspectRatio: false,
             scales: {
+                x: {
+                    offset: true,
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 0,
+                        minRotation: 0
+                    }
+                },
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
                 }
             }
         }
     });
+
+    // PIE CHART
+    new Chart(document.getElementById('statusChart'), {
+        type: 'pie',
+        data: {
+            labels: ['ON', 'OFF'],
+            datasets: [{
+                data: [{{ $on }}, {{ $off }}],
+                backgroundColor: [
+                    'rgba(40, 167, 69, 0.7)',
+                    'rgba(220, 53, 69, 0.7)'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
 });
 </script>
 @endsection

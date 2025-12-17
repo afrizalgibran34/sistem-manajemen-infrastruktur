@@ -10,7 +10,7 @@ class KecKelController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = Kec_Kel::paginate($perPage)->withQueryString();
+        $data = Kec_Kel::paginate($perPage);
         return view('kec_kel.index', compact('data'));
     }
 
