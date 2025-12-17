@@ -10,7 +10,7 @@ class BulanController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = Bulan::paginate($perPage)->withQueryString();
+        $data = Bulan::paginate($perPage);
         return view('bulan.index', compact('data'));
     }
 

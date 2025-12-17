@@ -10,7 +10,7 @@ class KlasifikasiController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = Klasifikasi::paginate($perPage)->withQueryString();
+        $data = Klasifikasi::paginate($perPage);
         return view('klasifikasi.index', compact('data'));
     }
 

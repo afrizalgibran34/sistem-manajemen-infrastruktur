@@ -10,7 +10,7 @@ class TabelLokasiController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = TabelLokasi::paginate($perPage)->withQueryString();
+        $data = TabelLokasi::paginate($perPage);
         return view('tabel_lokasi.index', compact('data'));
     }
 

@@ -19,6 +19,7 @@ use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\TransaksiBarangController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PetaController;
+use App\Http\Controllers\DashboardController;
 
 
 
@@ -39,9 +40,10 @@ Route::get('/login', function () {
 
 Route::post('/captcha/refresh', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'refreshCaptcha'])->name('captcha.refresh');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
+
 
 Route::get('/peta', [PetaController::class, 'index'])->middleware(['auth', 'verified'])->name('peta');
 // JSON detail endpoint for a single titik lokasi (used by map sidebar)

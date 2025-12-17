@@ -10,7 +10,7 @@ class KoneksiController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = Koneksi::paginate($perPage)->withQueryString();
+        $data = Koneksi::paginate($perPage);
         return view('koneksi.index', compact('data'));
     }
 

@@ -1,52 +1,113 @@
 @extends('layouts.app', [
     'activePage' => 'dashboard',
-    'title' => 'Dashboard',
-    'navName' => 'Data Analisis',
+    'title' => __('Dashboard'),
+    'navName' => 'Dashboard',
     'activeButton' => 'Dashboard'
 ])
 
 @section('content')
-<div class="p-4 p-md-6">
-    <!-- Page Header -->
-    <div class="mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-    </div>
+<div class="content">
+    <div class="container-fluid">
 
-    <!-- Earnings Overview Charts -->
-    <div class="row">
-        <div class="col-12 mb-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-white border-0 py-3">
-                    <h6 class="text-primary mb-0 font-weight-bold">Earnings Overview</h6>
+        <div class="row">
+            {{-- BAR CHART --}}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Jumlah Titik Lokasi per Wilayah</h4>
+                    </div>
+                    <div class="card-body" style="height: 350px;">
+                        <canvas id="wilayahChart"></canvas>
+                    </div>
                 </div>
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-center" style="height: 300px;">
-                        <div class="text-center text-muted">
-                            <i class="fas fa-chart-line fa-3x mb-3 opacity-50"></i>
-                            <p class="mb-0">Chart data will be displayed here</p>
-                            <small>No data available yet</small>
+            </div>
+
+            {{-- PIE CHART --}}
+            <div class="col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Status Titik Lokasi</h4>
+                    </div>
+                    <div class="card-body text-center" style="height: 350px;">
+                        <canvas id="statusChart"></canvas>
+
+                        <div class="mt-3">
+                            <span class="badge bg-success me-2">ON: {{ $on }}</span>
+                            <span class="badge bg-danger">OFF: {{ $off }}</span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-12 mb-4">
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-white border-0 py-3">
-                    <h6 class="text-primary mb-0 font-weight-bold">Earnings Overview</h6>
-                </div>
-                <div class="card-body">
-                    <div class="d-flex align-items-center justify-content-center" style="height: 300px;">
-                        <div class="text-center text-muted">
-                            <i class="fas fa-chart-area fa-3x mb-3 opacity-50"></i>
-                            <p class="mb-0">Chart data will be displayed here</p>
-                            <small>No data available yet</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
+
+{{-- CHART JS --}}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    // BAR CHART
+    new Chart(document.getElementById('wilayahChart'), {
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($labels) !!},
+            datasets: [{
+                label: 'Jumlah Titik Lokasi',
+                data: {!! json_encode($jumlah) !!},
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                barPercentage: 0.8,
+                categoryPercentage: 0.9
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                x: {
+                    offset: true,
+                    ticks: {
+                        autoSkip: false,
+                        maxRotation: 0,
+                        minRotation: 0
+                    }
+                },
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        stepSize: 1
+                    }
+                }
+            }
+        }
+    });
+
+    // PIE CHART
+    new Chart(document.getElementById('statusChart'), {
+        type: 'pie',
+        data: {
+            labels: ['ON', 'OFF'],
+            datasets: [{
+                data: [{{ $on }}, {{ $off }}],
+                backgroundColor: [
+                    'rgba(40, 167, 69, 0.7)',
+                    'rgba(220, 53, 69, 0.7)'
+                ]
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+
+});
+</script>
 @endsection
