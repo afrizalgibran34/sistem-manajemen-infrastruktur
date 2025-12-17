@@ -37,11 +37,15 @@ Route::get('/login', function () {
     return view('auth.login');
 });
 
+Route::post('/captcha/refresh', [App\Http\Controllers\Auth\AuthenticatedSessionController::class, 'refreshCaptcha'])->name('captcha.refresh');
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/peta', [PetaController::class, 'index'])->middleware(['auth', 'verified'])->name('peta');
+// JSON detail endpoint for a single titik lokasi (used by map sidebar)
+Route::get('/peta/detail/{id}', [PetaController::class, 'detail'])->middleware(['auth', 'verified'])->name('peta.detail');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

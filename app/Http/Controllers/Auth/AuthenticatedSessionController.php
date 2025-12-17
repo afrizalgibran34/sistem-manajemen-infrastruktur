@@ -70,4 +70,22 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/login'); // setelah logout kembali ke login
     }
+
+    /**
+     * Refresh captcha via AJAX.
+     */
+    public function refreshCaptcha(Request $request)
+    {
+        $a = rand(1, 9);
+        $b = rand(1, 9);
+
+        session([
+            'captcha_question' => "$a + $b",
+            'captcha_answer'   => $a + $b,
+        ]);
+
+        return response()->json([
+            'question' => "$a + $b",
+        ]);
+    }
 }

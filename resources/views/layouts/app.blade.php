@@ -37,22 +37,11 @@
 
         <div class="fixed top-0 right-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 lg:px-6 z-[999] left-0 lg:left-60">
             <div class="flex items-center gap-3 flex-1">
-                <button class="lg:hidden w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-800 rounded-lg" onclick="toggleSidebar()">
-                    <i class="fas fa-bars text-xl"></i>
-                </button>
-                
-                <div class="flex-1 max-w-xs lg:max-w-md mr-3">
-                    <input type="text" placeholder="Search for..." class="w-full px-4 py-2 text-sm border border-gray-200 rounded-md focus:ring-2 focus:ring-blue-500" />
-                </div>
             </div>
             
             <div class="flex items-center gap-3 lg:gap-5">
                 <button class="text-gray-500 hover:text-gray-700 text-xl">
                     <i class="far fa-bell"></i>
-                </button>
-                
-                <button class="text-gray-500 hover:text-gray-700 text-xl">
-                    <i class="far fa-envelope"></i>
                 </button>
                 
                 <div class="relative">
