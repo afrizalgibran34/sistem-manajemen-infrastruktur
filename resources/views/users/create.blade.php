@@ -11,7 +11,7 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Tambah User</h4>
-                <p class="card-category">Tambahkan akun pengguna baru</p>
+                <p class="card-category">Tambah akun pengguna sistem</p>
             </div>
 
             <div class="card-body">
@@ -25,9 +25,6 @@
                                class="form-control"
                                value="{{ old('name') }}"
                                required>
-                        @error('name')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     <div class="form-group">
@@ -37,9 +34,6 @@
                                class="form-control"
                                value="{{ old('username') }}"
                                required>
-                        @error('username')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     <div class="form-group">
@@ -48,9 +42,6 @@
                                name="password"
                                class="form-control"
                                required>
-                        @error('password')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     <div class="form-group">
@@ -60,12 +51,9 @@
                                class="form-control"
                                required>
                     </div>
-
-                    <button class="btn btn-primary">
-                        Simpan
-                    </button>
-
-                    <a href="{{ route('users.index') }}" class="btn btn-secondary">
+                    
+                    <button class="btn btn-primary mt-2">Simpan</button>
+                    <a href="{{ route('users.index') }}" class="btn btn-secondary mt-2">
                         Kembali
                     </a>
                 </form>

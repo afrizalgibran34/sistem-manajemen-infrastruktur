@@ -19,21 +19,26 @@
                 <canvas id="stokChart"></canvas>
             </div>
         </div>
-
-
-        {{-- TABEL --}}
         <div class="card strpied-tabled-with-hover">
+                  <div class="card-header d-flex justify-content-between align-items-center">
+                        <div>
+                            <h4 class="card-title mb-0">Data Stok Barang</h4>
+                            <p class="card-category mb-0">
+                                Daftar stok barang beserta pemakaian & sisa
+                            </p>
+                        </div>
 
-            <div class="card-header">
-                <h4 class="card-title">Data Stok Barang</h4>
-                <p class="card-category">Daftar stok barang beserta pemakaian & sisa</p>
-            </div>
-
+                        <a href="{{ route('stok_barang.exportPdf') }}" class="btn btn-danger">
+                            Export PDF
+                        </a>
+                    </div>
             <div class="card-body">
                 @if($asetTua > 0)
                 <div class="alert alert-warning">
                     ⚠️ Terdapat <strong>{{ $asetTua }}</strong> stok barang yang berusia lebih dari 5 tahun.
                 </div>
+                {{ $asetTuaData->count() }}
+
                 @endif
 
                 {{-- Entries Dropdown --}}
