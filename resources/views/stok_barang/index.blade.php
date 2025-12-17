@@ -32,7 +32,7 @@
             <div class="card-body">
                 @if($asetTua > 0)
                 <div class="alert alert-warning">
-                    ⚠️ Terdapat <strong>{{ $asetTua }}</strong> aset yang berusia lebih dari 5 tahun.
+                    ⚠️ Terdapat <strong>{{ $asetTua }}</strong> stok barang yang berusia lebih dari 5 tahun.
                 </div>
                 @endif
 

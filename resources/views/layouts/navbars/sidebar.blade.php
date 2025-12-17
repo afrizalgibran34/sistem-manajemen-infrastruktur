@@ -12,6 +12,13 @@
             </a>
         </div>
 
+        <div class="my-1">
+            <a href="{{ route('register') }}" class="flex items-center px-4 py-3 text-white/90 no-underline transition-all duration-200 text-sm hover:bg-white/10 hover:text-white @if($activePage == 'dashboard') bg-white/20 text-white font-medium @endif">
+                <i class="fas fa-chart-line w-6 mr-3 text-base"></i>
+                <span>Tambah User</span>
+            </a>
+        </div>
+
         {{-- Peta Jaringan --}}
         <div class="my-1">
             <a href="{{ route('peta') }}" class="flex items-center px-4 py-3 text-white/90 no-underline transition-all duration-200 text-sm hover:bg-white/10 hover:text-white @if($activePage == 'peta') bg-white/20 text-white font-medium @endif">
