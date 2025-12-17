@@ -18,15 +18,30 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class TitikLokasiController extends Controller
 {
-    public function index(Request $request)
-    {
-        $perPage = $request->get('per_page', 10);
-        $data = TitikLokasi::with([
-            'wilayah', 'kec_kel', 'klasifikasi', 'backbone', 'uplink'
-        ])->paginate($perPage)->withQueryString();
+public function index(Request $request)
+{
+    $perPage = $request->get('per_page', 10);
 
-        return view('titik_lokasi.index', compact('data'));
-    }
+    $data = TitikLokasi::with('wilayah')->paginate($perPage);
+
+    // === DATA CHART (JUMLAH TITIK PER WILAYAH) ===
+    $chart = TitikLokasi::with('wilayah')->get();
+
+    $labels = $chart
+        ->map(fn ($row) => $row->wilayah->nama_wilayah ?? '-')
+        ->unique()
+        ->values();
+
+    $jumlah = $labels->map(function ($wilayah) use ($chart) {
+        return $chart->where('wilayah.nama_wilayah', $wilayah)->count();
+    });
+
+    return view('titik_lokasi.index', compact(
+        'data',
+        'labels',
+        'jumlah'
+    ));
+}
 
     public function create()
     {

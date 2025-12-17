@@ -10,7 +10,7 @@ class TabelBarangController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = TabelBarang::paginate($perPage)->withQueryString();
+        $data = TabelBarang::paginate($perPage);
         return view('tabel_barang.index', compact('data'));
     }
 

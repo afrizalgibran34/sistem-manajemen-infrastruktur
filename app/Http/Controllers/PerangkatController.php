@@ -10,7 +10,7 @@ class PerangkatController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = Perangkat::paginate($perPage)->withQueryString();
+        $data = Perangkat::paginate($perPage);
         return view('perangkat.index', compact('data'));
     }
 

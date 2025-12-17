@@ -10,7 +10,7 @@ class JenisMasalahController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = JenisMasalah::paginate($perPage)->withQueryString();
+        $data = JenisMasalah::paginate($perPage);
         return view('jenis_masalah.index', compact('data'));
     }
 
