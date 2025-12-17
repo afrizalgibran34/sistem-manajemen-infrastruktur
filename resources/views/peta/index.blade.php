@@ -39,22 +39,22 @@
                             </div>
                         </div>
 
-                        {{-- Kecamatan/Kelurahan Dropdown --}}
+                        {{-- Wilayah Dropdown --}}
                         <div class="flex-1">
-                            <label for="id_kec_kel" class="block text-sm font-semibold text-gray-700 mb-2">
+                            <label for="id_wilayah" class="block text-sm font-semibold text-gray-700 mb-2">
                                 Filter:
                             </label>
                             <div class="flex flex-col sm:flex-row gap-2">
                                 <select 
-                                    name="id_kec_kel" 
-                                    id="id_kec_kel"
+                                    name="id_wilayah" 
+                                    id="id_wilayah"
                                     class="flex-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
                                 >
-                                    <option value="">Filter berdasarkan kecamatan/kelurahan</option>
-                                    @foreach($kecKel as $kk)
-                                        <option value="{{ $kk->id_kec_kel }}" 
-                                            {{ request('id_kec_kel') == $kk->id_kec_kel ? 'selected' : '' }}>
-                                            {{ $kk->nama_kec_kel }}
+                                    <option value="">Filter berdasarkan wilayah</option>
+                                    @foreach($wilayah as $w)
+                                        <option value="{{ $w->id_wilayah }}" 
+                                            {{ request('id_wilayah') == $w->id_wilayah ? 'selected' : '' }}>
+                                            {{ $w->nama_wilayah }}
                                         </option>
                                     @endforeach
                                 </select>
@@ -111,9 +111,9 @@
                     <p id="detail-wilayah" class="text-gray-900">-</p>
                 </div>
 
-                {{-- Kecamatan/Kelurahan --}}
+                {{-- PD/UNIT KERJA --}}
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">Kecamatan/Kelurahan</label>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">PD/UNIT KERJA</label>
                     <p id="detail-kec-kel" class="text-gray-900">-</p>
                 </div>
 
@@ -281,8 +281,8 @@
 {{-- Initialize Select2 for searchable dropdown --}}
 <script>
     $(document).ready(function() {
-        $('#id_kec_kel').select2({
-            placeholder: 'Filter berdasarkan kecamatan/kelurahan',
+        $('#id_wilayah').select2({
+            placeholder: 'Filter berdasarkan wilayah',
             allowClear: true,
             width: '100%',
             language: {
