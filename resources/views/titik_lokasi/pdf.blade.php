@@ -2,12 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Data Stok Barang</title>
+    <title>Data Titik Lokasi</title>
 
     <style>
         body {
             font-family: sans-serif;
-            font-size: 12px;
+            font-size: 10px;
         }
         table {
             width: 100%;
@@ -15,7 +15,7 @@
         }
         th, td {
             border: 1px solid #000;
-            padding: 6px;
+            padding: 4px;
             text-align: left;
         }
         th {
@@ -23,41 +23,57 @@
             font-weight: bold;
             text-align: center;
         }
+        td {
+            text-align: center;
+        }
+        td:nth-child(2), td:nth-child(3), td:nth-child(4), td:nth-child(5), td:nth-child(10), td:nth-child(11), td:nth-child(12) {
+            text-align: left;
+        }
     </style>
 </head>
 <body>
 
-<h2>Data Stok Barang</h2>
+<h2>Data Titik Lokasi</h2>
 
 <table>
     <thead>
         <tr>
             <th>NO</th>
-            <th>NAMA BARANG</th>
-            <th>JENIS BARANG</th>
-            <th>KUANTITAS</th>
-            <th>SATUAN</th>
-            <th>TERPAKAI</th>
-            <th>SISA</th>
-            <th>KONDISI</th>
-            <th>TAHUN PENGADAAN</th>
-            <th>KETERANGAN</th>
+            <th>TITIK LOKASI</th>
+            <th>WILAYAH</th>
+            <th>PD / UNIT</th>
+            <th>KLASIFIKASI</th>
+            <th>KONEKSI</th>
+            <th>PANJANG FO (m)</th>
+            <th>TAHUN PEMBANGUNAN</th>
+            <th>STATUS</th>
+            <th>BACKBONE</th>
+            <th>UPLINK</th>
+            <th>PERANGKAT</th>
         </tr>
     </thead>
 
     <tbody>
         @foreach ($data as $row)
         <tr>
-            <td style="text-align:center">{{ $loop->iteration }}</td>
-            <td>{{ $row->barang->nama_barang ?? '-' }}</td>
-            <td>{{ $row->barang->jenis_barang ?? '-' }}</td>
-            <td style="text-align:center">{{ $row->kuantitas }}</td>
-            <td style="text-align:center">{{ $row->satuan }}</td>
-            <td style="text-align:center">{{ $row->terpakai }}</td>
-            <td style="text-align:center">{{ $row->sisa }}</td>
-            <td style="text-align:center">{{ $row->kondisi ?? '-' }}</td>
-            <td style="text-align:center">{{ $row->tahun_pengadaan ?? '-' }}</td>
-            <td>{{ $row->keterangan }}</td>
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $row->nama_titik }}</td>
+            <td>{{ $row->wilayah->nama_wilayah ?? '-' }}</td>
+            <td>{{ $row->kec_kel->nama_kec_kel ?? '-' }}</td>
+            <td>{{ $row->klasifikasi->klasifikasi ?? '-' }}</td>
+            <td>{{ $row->koneksi }}</td>
+            <td>
+                @if($row->koneksi === 'FO')
+                    {{ $row->panjang_fo ?? '-' }}
+                @else
+                    -
+                @endif
+            </td>
+            <td>{{ $row->tahun_pembangunan }}</td>
+            <td>{{ $row->status }}</td>
+            <td>{{ $row->backbone->jenis_backbone ?? '-' }}</td>
+            <td>{{ $row->uplink->jenis_uplink ?? '-' }}</td>
+            <td>{{ $row->perangkat }}</td>
         </tr>
         @endforeach
     </tbody>

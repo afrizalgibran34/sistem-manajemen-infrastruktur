@@ -202,6 +202,6 @@ class TitikLokasiController extends Controller
         $pdf = Pdf::loadView('titik_lokasi.pdf', compact('data'))
             ->setPaper('a4', 'landscape');
 
-        return $pdf->download('data_titik_lokasi.pdf');
+        return $pdf->stream('data_titik_lokasi.pdf');
     }
 }

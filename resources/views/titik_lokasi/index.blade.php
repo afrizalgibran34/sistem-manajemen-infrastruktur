@@ -120,7 +120,7 @@
                             </p>
                         </div>
 
-                        <a href="{{ route('titik_lokasi.exportPdf') }}" class="btn btn-danger">
+                        <a href="{{ route('titik_lokasi.exportPdf') }}" target="_blank" class="btn btn-danger">
                             Export PDF
                         </a>
                     </div>
