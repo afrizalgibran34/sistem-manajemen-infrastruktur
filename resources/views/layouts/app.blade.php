@@ -24,6 +24,26 @@
     @stack('styles')
 
 </head>
+<style>
+    /* paksa tabel seperti table HTML default */
+    table.table {
+        border-collapse: collapse !important;
+        border-spacing: 0 !important;
+    }
+
+    table.table th,
+    table.table td {
+        border: 1px solid #000 !important;
+        border-top: 1px solid #000 !important;
+        border-right: 1px solid #000 !important;
+        border-bottom: 1px solid #000 !important;
+        border-left: 1px solid #000 !important;
+        background-clip: padding-box;
+    }
+</style>
+
+
+
 
 <body class="font-sans antialiased">
     @php
