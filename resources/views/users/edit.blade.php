@@ -1,7 +1,7 @@
 @extends('layouts.app', [
     'activePage' => 'users',
-    'title' => __('Tambah User'),
-    'navName' => 'Tambah User'
+    'title' => __('Edit User'),
+    'navName' => 'Edit User'
 ])
 
 @section('content')
@@ -10,61 +10,47 @@
 
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Tambah User</h4>
-                <p class="card-category">Tambahkan akun pengguna baru</p>
+                <h4 class="card-title">Edit User</h4>
             </div>
 
             <div class="card-body">
-                <form method="POST" action="{{ route('users.store') }}">
+                <form method="POST" action="{{ route('users.update', $user->id) }}">
                     @csrf
+                    @method('PUT')
 
                     <div class="form-group">
-                        <label>Nama Lengkap</label>
+                        <label>Nama</label>
                         <input type="text"
                                name="name"
+                               value="{{ old('name', $user->name) }}"
                                class="form-control"
-                               value="{{ old('name') }}"
                                required>
-                        @error('name')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     <div class="form-group">
                         <label>Username</label>
                         <input type="text"
                                name="username"
+                               value="{{ old('username', $user->username) }}"
                                class="form-control"
-                               value="{{ old('username') }}"
                                required>
-                        @error('username')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
                     </div>
 
                     <div class="form-group">
-                        <label>Password</label>
+                        <label>Password Baru (Opsional)</label>
                         <input type="password"
                                name="password"
-                               class="form-control"
-                               required>
-                        @error('password')
-                            <small class="text-danger">{{ $message }}</small>
-                        @enderror
+                               class="form-control">
                     </div>
 
                     <div class="form-group">
                         <label>Konfirmasi Password</label>
                         <input type="password"
                                name="password_confirmation"
-                               class="form-control"
-                               required>
+                               class="form-control">
                     </div>
 
-                    <button class="btn btn-primary">
-                        Simpan
-                    </button>
-
+                    <button class="btn btn-primary">Update</button>
                     <a href="{{ route('users.index') }}" class="btn btn-secondary">
                         Kembali
                     </a>

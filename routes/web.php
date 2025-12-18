@@ -19,6 +19,7 @@ use App\Http\Controllers\LokasiController;
 use App\Http\Controllers\TransaksiBarangController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PetaController;
+use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\DashboardController;
 
 
@@ -53,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('users', RegisteredUserController::class);
     Route::resource('wilayah', WilayahController::class);
     Route::resource('kec_kel', KecKelController::class);
     Route::resource('klasifikasi', KlasifikasiController::class);
@@ -61,21 +63,21 @@ Route::middleware('auth')->group(function () {
     Route::resource('uplink', UplinkController::class);
     Route::resource('perangkat', PerangkatController::class);
     Route::resource('titik_lokasi', TitikLokasiController::class);
-    Route::get('/titik_lokasi/export/pdf', [TitikLokasiController::class, 'exportPdf'])
-    ->name('titik_lokasi.exportPdf');
+    Route::get('/titik_lokasi/export/pdf', [TitikLokasiController::class, 'exportPdf'])->name('titik_lokasi.exportPdf');
     Route::resource('perangkatdaerah', PerangkatDaerahController::class)->middleware('auth');
     Route::resource('jenis_masalah', JenisMasalahController::class)->middleware('auth');
     Route::resource('bulan', BulanController::class)->middleware('auth');
     Route::resource('gangguan', GangguanController::class)->middleware('auth');
-    Route::get('/gangguan/export/pdf', [GangguanController::class, 'exportPdf'])
-    ->name('gangguan.exportPdf');
+    Route::get('/gangguan/export/pdf', [GangguanController::class, 'exportPdf'])->name('gangguan.exportPdf');
     Route::resource('barang', BarangController::class)->middleware('auth');
     Route::resource('stok_barang', StokBarangController::class)->middleware('auth');
+    Route::get('/stok-barang/export/pdf', [StokBarangController::class, 'exportPdf'])->name('stok_barang.exportPdf');
     Route::get('/barang/{id}/jenis', [BarangController::class, 'getJenisBarang']);
     Route::resource('lokasi', LokasiController::class)->middleware('auth');
     Route::resource('transaksi_barang', TransaksiBarangController::class)->middleware('auth');
     Route::get('/barang-keluar/export/pdf', [TransaksiBarangController::class, 'cetakPdf']
     )->name('transaksi_barang.pdf');
+
 
 
 

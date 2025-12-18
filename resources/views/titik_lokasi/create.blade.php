@@ -35,9 +35,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label>PD/UNIT KERJA/INSTANSI</label>
+                        <label>PD / UNIT KERJA / INSTANSI</label>
                         <select name="id_kec_kel" class="form-control" required>
-                            <option value="">-- Pilih PD/UNIT KERJA/INSTANSI --</option>
+                            <option value="">-- Pilih PD / UNIT KERJA / INSTANSI --</option>
                             @foreach ($kec_kel as $k)
                                 <option value="{{ $k->id_kec_kel }}">{{ $k->nama_kec_kel }}</option>
                             @endforeach
@@ -56,11 +56,29 @@
 
                     <div class="form-group">
                         <label>Koneksi</label>
-                        <select name="koneksi" class="form-control" required>
+                        <select name="koneksi" id="koneksi" class="form-control" required>
                             <option value="">-- Pilih Koneksi --</option>
                             <option value="FO">FO</option>
                             <option value="Wireless">Wireless</option>
                         </select>
+                    </div>
+
+                    {{-- PANJANG FO --}}
+                    <div class="form-group" id="panjang_fo_group" style="display:none;">
+                        <label>Panjang FO (meter)</label>
+                        <input type="number" name="panjang_fo" class="form-control" min="0" placeholder="Contoh: 1500">
+                    </div>
+
+                    {{-- TAHUN PEMBANGUNAN --}}
+                    <div class="form-group">
+                        <label>Tahun Pembangunan</label>
+                        <input type="number"
+                               name="tahun_pembangunan"
+                               class="form-control"
+                               min="1900"
+                               max="{{ date('Y') }}"
+                               placeholder="Contoh: 2021"
+                               required>
                     </div>
 
                     <div class="form-group">
@@ -122,4 +140,21 @@
 
     </div>
 </div>
+
+{{-- SCRIPT --}}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const koneksi = document.getElementById('koneksi');
+        const foGroup = document.getElementById('panjang_fo_group');
+
+        koneksi.addEventListener('change', function () {
+            if (this.value === 'FO') {
+                foGroup.style.display = 'block';
+            } else {
+                foGroup.style.display = 'none';
+                foGroup.querySelector('input').value = '';
+            }
+        });
+    });
+</script>
 @endsection

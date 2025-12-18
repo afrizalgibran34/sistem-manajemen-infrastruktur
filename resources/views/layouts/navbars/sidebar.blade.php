@@ -12,6 +12,13 @@
             </a>
         </div>
 
+        <div class="my-1">
+            <a href="{{ route('users.index') }}" class="flex items-center px-4 py-3 text-white/90 no-underline transition-all duration-200 text-sm hover:bg-white/10 hover:text-white @if($activePage == 'users') bg-white/20 text-white font-medium @endif">
+                    <i class="fas fa-users-cog w-6 mr-3 text-base"></i>
+                <span>Data Manajemen User</span>
+            </a>
+        </div>
+
         {{-- Peta Jaringan --}}
         <div class="my-1">
             <a href="{{ route('peta') }}" class="flex items-center px-4 py-3 text-white/90 no-underline transition-all duration-200 text-sm hover:bg-white/10 hover:text-white @if($activePage == 'peta') bg-white/20 text-white font-medium @endif">

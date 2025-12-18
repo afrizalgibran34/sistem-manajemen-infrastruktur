@@ -6,19 +6,48 @@ use App\Models\StokBarang;
 use App\Models\Barang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade\Pdf;
+
 
 
 class StokBarangController extends Controller
 {
-    public function index(Request $request)
+      public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = StokBarang::with('barang')->paginate($perPage)->appends($request->query());
-        $asetTua = StokBarang::whereNotNull('tahun_pengadaan')
-        ->whereRaw('YEAR(CURDATE()) - tahun_pengadaan >= 5')
-        ->count();
-        return view('stok_barang.index', compact('data', 'asetTua'));
 
+        /**
+         * ============================
+         * DATA UTAMA (SEMUA STOK)
+         * ============================
+         */
+        $data = StokBarang::with('barang')
+            ->paginate($perPage)
+            ->appends($request->query());
+
+        /**
+         * ============================
+         * DATA ASET > 5 TAHUN (DETAIL)
+         * ============================
+         */
+        $asetTuaData = StokBarang::with('barang')
+            ->whereNotNull('tahun_pengadaan')
+            ->whereRaw('YEAR(CURDATE()) - tahun_pengadaan >= 5')
+            ->orderBy('tahun_pengadaan', 'asc')
+            ->get();
+
+        /**
+         * ============================
+         * TOTAL ASET TUA
+         * ============================
+         */
+        $asetTua = $asetTuaData->count();
+
+        return view('stok_barang.index', compact(
+            'data',
+            'asetTua',
+            'asetTuaData'
+        ));
     }
 
     public function create()
@@ -145,5 +174,17 @@ class StokBarangController extends Controller
             'jenis_barang' => $barang->jenis_barang
         ]);
     }
+
+    public function exportPdf()
+    {
+        $data = StokBarang::with('barang')->get();
+
+        $pdf = Pdf::loadView('stok_barang.pdf', [
+            'data' => $data
+        ])->setPaper('A4', 'landscape');
+
+        return $pdf->download('stok-barang.pdf');
+    }
+
 
 }
