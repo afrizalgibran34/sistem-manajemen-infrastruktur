@@ -9,21 +9,7 @@
 <div class="content">
     <div class="container-fluid">
 
-        {{-- ================= CHART ================= --}}
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">Jumlah Titik Lokasi per Wilayah</h4>
-                    </div>
-                    <div class="card-body">
-                        <canvas id="wilayahChart" height="100"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{-- ========================================= --}}
-
+        {{-- ================= TABLE ================= --}}
         <div class="row">
             <div class="col-md-12">
 
@@ -102,7 +88,8 @@
 
                                             <form action="{{ route('titik_lokasi.destroy', $row->id_titik) }}"
                                                   method="POST" style="display:inline-block">
-                                                @csrf @method('DELETE')
+                                                @csrf
+                                                @method('DELETE')
                                                 <button onclick="return confirm('Yakin hapus?')"
                                                         class="btn btn-danger btn-sm">Hapus</button>
                                             </form>
@@ -119,33 +106,11 @@
 
             </div>
         </div>
+        {{-- ========================================= --}}
     </div>
 </div>
 
-{{-- CHART JS --}}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-    new Chart(document.getElementById('wilayahChart'), {
-        type: 'bar',
-        data: {
-            labels: {!! json_encode($labels) !!},
-            datasets: [{
-                label: 'Jumlah Titik Lokasi',
-                data: {!! json_encode($jumlah) !!},
-                backgroundColor: 'rgba(54, 162, 235, 0.6)'
-            }]
-        },
-        options: {
-            responsive: true,
-            scales: {
-                y: { beginAtZero: true, ticks: { stepSize: 1 } }
-            }
-        }
-    });
-});
-
 function changeEntries(perPage) {
     const url = new URL(window.location.href);
     url.searchParams.set('per_page', perPage);

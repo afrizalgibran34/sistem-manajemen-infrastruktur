@@ -2,31 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Wilayah;
-use App\Models\TitikLokasi;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        /* ================= BAR CHART (PER WILAYAH) ================= */
-        $wilayah = Wilayah::all();
+        $wilayahId = $request->get('wilayah');
 
-        $labels = $wilayah->pluck('nama_wilayah');
+        $wilayahList = DB::table('wilayah')->get();
 
-        $jumlah = $wilayah->map(function ($w) {
-            return TitikLokasi::where('id_wilayah', $w->id_wilayah)->count();
-        });
+        $labels = $wilayahList->pluck('nama_wilayah');
 
-        /* ================= PIE CHART (ON / OFF) ================= */
-        $on  = TitikLokasi::where('status', 'ON')->count();
-        $off = TitikLokasi::where('status', 'OFF')->count();
+        $jumlah = $wilayahList->map(fn ($w) =>
+            DB::table('titik_lokasi')
+                ->where('id_wilayah', $w->id_wilayah)
+                ->count()
+        );
 
-        return view('dashboard', compact(
-            'labels',
-            'jumlah',
-            'on',
-            'off'
-        ));
+        $onPerWilayah = $wilayahList->map(fn ($w) =>
+            DB::table('titik_lokasi')
+                ->where('id_wilayah', $w->id_wilayah)
+                ->where('status', 'ON')
+                ->count()
+        );
+
+        $offPerWilayah = $wilayahList->map(fn ($w) =>
+            DB::table('titik_lokasi')
+                ->where('id_wilayah', $w->id_wilayah)
+                ->where('status', 'OFF')
+                ->count()
+        );
+
+        $on  = DB::table('titik_lokasi')->where('status', 'ON')->count();
+        $off = DB::table('titik_lokasi')->where('status', 'OFF')->count();
+
+        $query = DB::table('titik_lokasi')
+            ->select('tahun_pembangunan', DB::raw('COUNT(*) as total'));
+
+        if ($wilayahId) {
+            $query->where('id_wilayah', $wilayahId);
+        }
+
+        $serverPerTahun = $query
+            ->groupBy('tahun_pembangunan')
+            ->orderBy('tahun_pembangunan')
+            ->get();
+
+        return view('dashboard', [
+            'labels' => $labels,
+            'jumlah' => $jumlah,
+            'onPerWilayah' => $onPerWilayah,
+            'offPerWilayah' => $offPerWilayah,
+            'on' => $on,
+            'off' => $off,
+            'wilayahList' => $wilayahList,
+            'wilayahId' => $wilayahId,
+            'tahunLabels' => $serverPerTahun->pluck('tahun_pembangunan'),
+            'jumlahServer' => $serverPerTahun->pluck('total'),
+        ]);
     }
 }
