@@ -8,6 +8,10 @@ class TransaksiBarang extends Model
 {
     protected $table = 'transaksi_barang';
     protected $primaryKey = 'transaksi_id';
+
+    public $incrementing = true;
+    protected $keyType = 'int';
+
     protected $fillable = [
         'tanggal',
         'lokasi_id',
@@ -16,13 +20,21 @@ class TransaksiBarang extends Model
         'keterangan'
     ];
 
-    public function lokasi()
-    {
-        return $this->belongsTo(Lokasi::class, 'lokasi_id');
-    }
-
     public function barang()
     {
-        return $this->belongsTo(Barang::class, 'barang_id');
+        return $this->belongsTo(
+            Barang::class,
+            'barang_id',   // FK di transaksi_barang
+            'barang_id'    // PK di tabel_barang
+        );
+    }
+
+    public function titik_lokasi()
+    {
+        return $this->belongsTo(
+            TitikLokasi::class,
+            'lokasi_id',   // FK
+            'id_titik'     // PK
+        );
     }
 }

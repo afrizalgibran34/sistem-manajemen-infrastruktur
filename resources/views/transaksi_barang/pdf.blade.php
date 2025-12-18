@@ -43,7 +43,7 @@
         <tr>
             <th>No</th>
             <th>Tanggal</th>
-            <th>Lokasi</th>
+            <th>Titik / Lokasi Layanan</th>
             <th>Barang</th>
             <th>Jumlah</th>
             <th>Keterangan</th>
@@ -51,14 +51,14 @@
     </thead>
     <tbody>
         @foreach ($data as $i => $row)
-        <tr>
-            <td>{{ $i + 1 }}</td>
-            <td>{{ \Carbon\Carbon::parse($row->tanggal)->format('d-m-Y') }}</td>
-            <td>{{ $row->lokasi->nama_lokasi ?? '-' }}</td>
-            <td>{{ $row->barang->nama_barang ?? '-' }}</td>
-            <td>{{ $row->jumlah }}</td>
-            <td>{{ $row->keterangan }}</td>
-        </tr>
+            <tr>
+                <td>{{ $i + 1 }}</td>
+                <td>{{ \Carbon\Carbon::parse($row->tanggal)->format('d-m-Y') }}</td>
+                <td>{{ $row->titik_lokasi->nama_titik ?? '-' }}</td>
+                <td>{{ $row->barang->nama_barang ?? '-' }}</td>
+                <td>{{ $row->jumlah }}</td>
+                <td>{{ $row->keterangan ?? '-' }}</td>
+            </tr>
         @endforeach
     </tbody>
 </table>

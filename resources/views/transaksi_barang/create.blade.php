@@ -21,12 +21,14 @@
                         <input type="date" name="tanggal" class="form-control" required>
                     </div>
 
-                    <div class="form-group">
-                        <label>Lokasi</label>
+                      <div class="form-group">
+                        <label>Titik Lokasi</label>
                         <select name="lokasi_id" class="form-control" required>
-                            <option value="">-- Pilih Lokasi --</option>
-                            @foreach ($lokasi as $l)
-                                <option value="{{ $l->lokasi_id }}">{{ $l->nama_lokasi }}</option>
+                            <option value="">-- Pilih Titik Lokasi --</option>
+                            @foreach ($titik as $t)
+                                <option value="{{ $t->id_titik }}">
+                                    {{ $t->nama_titik }}
+                                </option>
                             @endforeach
                         </select>
                     </div>

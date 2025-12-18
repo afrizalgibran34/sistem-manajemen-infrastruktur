@@ -33,13 +33,14 @@
                                 <label>Lokasi</label>
                                 <select name="lokasi_id" class="form-control" required>
                                     @foreach ($lokasi as $l)
-                                    <option value="{{ $l->lokasi_id }}"
-                                        {{ $data->lokasi_id == $l->lokasi_id ? 'selected' : '' }}>
-                                        {{ $l->nama_lokasi }}
-                                    </option>
+                                        <option value="{{ $l->id_titik }}"
+                                            {{ $data->lokasi_id == $l->id_titik ? 'selected' : '' }}>
+                                            {{ $l->nama_lokasi }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
+
 
                             <div class="form-group">
                                 <label>Barang</label>

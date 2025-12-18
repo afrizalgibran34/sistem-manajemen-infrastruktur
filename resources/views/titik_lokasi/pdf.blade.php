@@ -1,67 +1,102 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
-    <meta charset="utf-8">
-    <title>Data Stok Barang</title>
+    <meta charset="UTF-8">
+    <title>Data Titik Lokasi</title>
 
     <style>
         body {
-            font-family: sans-serif;
-            font-size: 12px;
+            font-family: DejaVu Sans, sans-serif;
+            font-size: 10px;
         }
+
+        .title {
+            text-align: center;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            font-size: 11px;
+            margin-bottom: 15px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
         }
+
         th, td {
             border: 1px solid #000;
-            padding: 6px;
+            padding: 4px 6px;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .text-left {
             text-align: left;
         }
-        th {
-            background: #f0f0f0;
-            font-weight: bold;
-            text-align: center;
+
+        .footer {
+            margin-top: 15px;
+            font-size: 9px;
+            text-align: right;
         }
     </style>
 </head>
 <body>
 
-<h2>Data Stok Barang</h2>
+    <div class="title">LAPORAN DATA TITIK LOKASI JARINGAN</div>
+    <table>
+        <thead>
+            <tr>
+                <th>NO</th>
+                <th>TITIK LOKASI</th>
+                <th>WILAYAH</th>
+                <th>PD / UNIT</th>
+                <th>KLASIFIKASI</th>
+                <th>KONEKSI</th>
+                <th>PANJANG FO (m)</th>
+                <th>TAHUN</th>
+                <th>STATUS</th>
+                <th>BACKBONE</th>
+                <th>UPLINK</th>
+                <th>PERANGKAT</th>
+            </tr>
+        </thead>
 
-<table>
-    <thead>
-        <tr>
-            <th>NO</th>
-            <th>NAMA BARANG</th>
-            <th>JENIS BARANG</th>
-            <th>KUANTITAS</th>
-            <th>SATUAN</th>
-            <th>TERPAKAI</th>
-            <th>SISA</th>
-            <th>KONDISI</th>
-            <th>TAHUN PENGADAAN</th>
-            <th>KETERANGAN</th>
-        </tr>
-    </thead>
+        <tbody>
+            @foreach ($data as $row)
+                <tr>
+                    <td>{{ $loop->iteration }}</td>
+                    <td class="text-left">{{ $row->nama_titik }}</td>
+                    <td>{{ $row->wilayah->nama_wilayah ?? '-' }}</td>
+                    <td>{{ $row->kec_kel->nama_kec_kel ?? '-' }}</td>
+                    <td>{{ $row->klasifikasi->klasifikasi ?? '-' }}</td>
+                    <td>{{ $row->koneksi }}</td>
+                    <td>
+                        {{ $row->koneksi === 'FO' ? ($row->panjang_fo ?? '-') : '-' }}
+                    </td>
+                    <td>{{ $row->tahun_pembangunan }}</td>
+                    <td>{{ $row->status }}</td>
+                    <td>{{ $row->backbone->jenis_backbone ?? '-' }}</td>
+                    <td>{{ $row->uplink->jenis_uplink ?? '-' }}</td>
+                    <td>{{ $row->perangkat }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
 
-    <tbody>
-        @foreach ($data as $row)
-        <tr>
-            <td style="text-align:center">{{ $loop->iteration }}</td>
-            <td>{{ $row->barang->nama_barang ?? '-' }}</td>
-            <td>{{ $row->barang->jenis_barang ?? '-' }}</td>
-            <td style="text-align:center">{{ $row->kuantitas }}</td>
-            <td style="text-align:center">{{ $row->satuan }}</td>
-            <td style="text-align:center">{{ $row->terpakai }}</td>
-            <td style="text-align:center">{{ $row->sisa }}</td>
-            <td style="text-align:center">{{ $row->kondisi ?? '-' }}</td>
-            <td style="text-align:center">{{ $row->tahun_pengadaan ?? '-' }}</td>
-            <td>{{ $row->keterangan }}</td>
-        </tr>
-        @endforeach
-    </tbody>
-</table>
+    <div class="footer">
+        Sistem Manajemen Aset Infrastruktur
+    </div>
 
 </body>
 </html>
