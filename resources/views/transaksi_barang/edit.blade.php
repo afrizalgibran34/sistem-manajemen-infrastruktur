@@ -23,47 +23,61 @@
                             @csrf
                             @method('PUT')
 
+                            {{-- Tanggal --}}
                             <div class="form-group">
                                 <label>Tanggal</label>
-                                <input type="date" name="tanggal" class="form-control"
-                                       value="{{ $data->tanggal }}" required>
+                                <input
+                                    type="date"
+                                    name="tanggal"
+                                    class="form-control"
+                                    value="{{ $data->tanggal instanceof \Carbon\Carbon ? $data->tanggal->format('Y-m-d') : $data->tanggal }}"
+                                    required
+                                >
                             </div>
 
+                            {{-- Lokasi --}}
                             <div class="form-group">
-                                <label>Lokasi</label>
+                                <label>Titik Lokasi</label>
                                 <select name="lokasi_id" class="form-control" required>
-                                    @foreach ($lokasi as $l)
+                                    @foreach ($titiks as $l)
                                         <option value="{{ $l->id_titik }}"
                                             {{ $data->lokasi_id == $l->id_titik ? 'selected' : '' }}>
-                                            {{ $l->nama_lokasi }}
+                                            {{ $l->nama_titik }}
                                         </option>
                                     @endforeach
                                 </select>
                             </div>
 
-
+                            {{-- Barang --}}
                             <div class="form-group">
                                 <label>Barang</label>
                                 <select name="barang_id" class="form-control" required>
                                     @foreach ($barang as $b)
-                                    <option value="{{ $b->barang_id }}"
-                                        {{ $data->barang_id == $b->barang_id ? 'selected' : '' }}>
-                                        {{ $b->nama_barang }}
-                                    </option>
+                                        <option value="{{ $b->barang_id }}"
+                                            {{ $data->barang_id == $b->barang_id ? 'selected' : '' }}>
+                                            {{ $b->nama_barang }}
+                                        </option>
                                     @endforeach
                                 </select>
                             </div>
 
+                            {{-- Jumlah --}}
                             <div class="form-group">
                                 <label>Jumlah</label>
-                                <input type="number" name="jumlah" class="form-control"
-                                       value="{{ $data->jumlah }}" required>
+                                <input
+                                    type="number"
+                                    name="jumlah"
+                                    class="form-control"
+                                    value="{{ $data->jumlah }}"
+                                    min="1"
+                                    required
+                                >
                             </div>
 
+                            {{-- Keterangan --}}
                             <div class="form-group">
                                 <label>Keterangan</label>
-                                <textarea name="keterangan"
-                                          class="form-control">{{ $data->keterangan }}</textarea>
+                                <textarea name="keterangan" class="form-control" rows="3">{{ $data->keterangan }}</textarea>
                             </div>
 
                             <button class="btn btn-primary">Update</button>

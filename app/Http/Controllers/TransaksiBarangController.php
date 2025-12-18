@@ -43,7 +43,12 @@ class TransaksiBarangController extends Controller
 
         DB::transaction(function () use ($request) {
 
-            // 1️⃣ Simpan transaksi barang keluar
+            $stok = StokBarang::where('barang_id', $request->barang_id)->lockForUpdate()->firstOrFail();
+
+            if ($stok->sisa < $request->jumlah) {
+                abort(400, 'Stok barang tidak mencukupi');
+            }
+
             TransaksiBarang::create([
                 'tanggal'    => $request->tanggal,
                 'lokasi_id'  => $request->lokasi_id,
@@ -52,15 +57,6 @@ class TransaksiBarangController extends Controller
                 'keterangan' => $request->keterangan,
             ]);
 
-            // 2️⃣ Ambil stok barang
-            $stok = StokBarang::where('barang_id', $request->barang_id)->firstOrFail();
-
-            // 3️⃣ Validasi stok cukup
-            if ($stok->sisa < $request->jumlah) {
-                abort(400, 'Stok barang tidak mencukupi');
-            }
-
-            // 4️⃣ Update stok otomatis
             $stok->terpakai += $request->jumlah;
             $stok->sisa     -= $request->jumlah;
             $stok->save();
@@ -90,34 +86,62 @@ class TransaksiBarangController extends Controller
             'keterangan' => 'nullable|string',
         ]);
 
-        // ⚠️ Catatan:
-        // Update TIDAK mengubah stok otomatis
-        // (biar aman & konsisten)
+        DB::transaction(function () use ($request, $id) {
 
-        TransaksiBarang::findOrFail($id)->update([
-            'tanggal'    => $request->tanggal,
-            'lokasi_id'  => $request->lokasi_id,
-            'barang_id'  => $request->barang_id,
-            'jumlah'     => $request->jumlah,
-            'keterangan' => $request->keterangan,
-        ]);
+            $transaksi = TransaksiBarang::findOrFail($id);
+
+            $stok = StokBarang::where('barang_id', $transaksi->barang_id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            // hitung selisih jumlah
+            $selisih = $request->jumlah - $transaksi->jumlah;
+
+            if ($selisih > 0 && $stok->sisa < $selisih) {
+                abort(400, 'Stok barang tidak mencukupi untuk update');
+            }
+
+            // update stok berdasarkan selisih
+            $stok->terpakai += $selisih;
+            $stok->sisa     -= $selisih;
+            $stok->save();
+
+            // update transaksi
+            $transaksi->update([
+                'tanggal'    => $request->tanggal,
+                'lokasi_id'  => $request->lokasi_id,
+                'barang_id'  => $request->barang_id,
+                'jumlah'     => $request->jumlah,
+                'keterangan' => $request->keterangan,
+            ]);
+        });
 
         return redirect()
             ->route('transaksi_barang.index')
-            ->with('success', 'Transaksi barang berhasil diupdate');
+            ->with('success', 'Transaksi & stok berhasil diperbarui');
     }
 
     public function destroy($id)
     {
-        // ⚠️ Catatan:
-        // Hapus transaksi TIDAK mengembalikan stok
-        // (bisa ditambahkan kalau kamu mau)
+        DB::transaction(function () use ($id) {
 
-        TransaksiBarang::findOrFail($id)->delete();
+            $transaksi = TransaksiBarang::findOrFail($id);
+
+            $stok = StokBarang::where('barang_id', $transaksi->barang_id)
+                ->lockForUpdate()
+                ->firstOrFail();
+
+            // kembalikan stok
+            $stok->terpakai -= $transaksi->jumlah;
+            $stok->sisa     += $transaksi->jumlah;
+            $stok->save();
+
+            $transaksi->delete();
+        });
 
         return redirect()
             ->route('transaksi_barang.index')
-            ->with('success', 'Transaksi barang berhasil dihapus');
+            ->with('success', 'Transaksi dihapus & stok dikembalikan');
     }
 
     public function cetakPdf()
