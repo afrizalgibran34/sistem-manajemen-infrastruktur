@@ -17,21 +17,21 @@ class PetaController extends Controller
             $query->where('nama_titik', 'like', '%' . $request->search . '%');
         }
         
-        // Filter berdasarkan kecamatan/kelurahan
-        if ($request->filled('id_kec_kel')) {
-            $query->where('id_kec_kel', $request->id_kec_kel);
+        // Filter berdasarkan wilayah
+        if ($request->filled('id_wilayah')) {
+            $query->where('id_wilayah', $request->id_wilayah);
         }
         
         // Ambil data titik
         $titik = $query->get();
         
-        // Ambil semua kecamatan/kelurahan untuk dropdown
-        $kecKel = \DB::table('kec_kel')
-            ->orderBy('nama_kec_kel', 'asc')
+        // Ambil semua wilayah untuk dropdown
+        $wilayah = \DB::table('wilayah')
+            ->orderBy('nama_wilayah', 'asc')
             ->get();
         
         // Kirim ke view peta/index.blade.php
-        return view('peta.index', compact('titik', 'kecKel'));
+        return view('peta.index', compact('titik', 'wilayah'));
     }
 
     /**

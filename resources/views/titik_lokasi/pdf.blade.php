@@ -1,26 +1,13 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>Data Titik Lokasi</title>
 
     <style>
         body {
-            font-family: DejaVu Sans, sans-serif;
+            font-family: sans-serif;
             font-size: 10px;
-        }
-
-        .title {
-            text-align: center;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .subtitle {
-            text-align: center;
-            font-size: 11px;
-            margin-bottom: 15px;
         }
 
         table {
@@ -30,73 +17,76 @@
 
         th, td {
             border: 1px solid #000;
-            padding: 4px 6px;
-            text-align: center;
-            vertical-align: middle;
+            padding: 4px;
         }
 
         th {
-            background-color: #f2f2f2;
+            text-align: center;
             font-weight: bold;
         }
 
-        .text-left {
-            text-align: left;
+        td {
+            text-align: center;
         }
 
-        .footer {
-            margin-top: 15px;
-            font-size: 9px;
-            text-align: right;
+        td:nth-child(2),
+        td:nth-child(3),
+        td:nth-child(4),
+        td:nth-child(5),
+        td:nth-child(10),
+        td:nth-child(11),
+        td:nth-child(12) {
+            text-align: left;
         }
     </style>
 </head>
 <body>
 
-    <div class="title">LAPORAN DATA TITIK LOKASI JARINGAN</div>
-    <table>
-        <thead>
-            <tr>
-                <th>NO</th>
-                <th>TITIK LOKASI</th>
-                <th>WILAYAH</th>
-                <th>PD / UNIT</th>
-                <th>KLASIFIKASI</th>
-                <th>KONEKSI</th>
-                <th>PANJANG FO (m)</th>
-                <th>TAHUN</th>
-                <th>STATUS</th>
-                <th>BACKBONE</th>
-                <th>UPLINK</th>
-                <th>PERANGKAT</th>
-            </tr>
-        </thead>
+<h2 style="text-align:center;">Data Titik Lokasi</h2>
 
-        <tbody>
-            @foreach ($data as $row)
-                <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td class="text-left">{{ $row->nama_titik }}</td>
-                    <td>{{ $row->wilayah->nama_wilayah ?? '-' }}</td>
-                    <td>{{ $row->kec_kel->nama_kec_kel ?? '-' }}</td>
-                    <td>{{ $row->klasifikasi->klasifikasi ?? '-' }}</td>
-                    <td>{{ $row->koneksi }}</td>
-                    <td>
-                        {{ $row->koneksi === 'FO' ? ($row->panjang_fo ?? '-') : '-' }}
-                    </td>
-                    <td>{{ $row->tahun_pembangunan }}</td>
-                    <td>{{ $row->status }}</td>
-                    <td>{{ $row->backbone->jenis_backbone ?? '-' }}</td>
-                    <td>{{ $row->uplink->jenis_uplink ?? '-' }}</td>
-                    <td>{{ $row->perangkat }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+<table>
+    <thead>
+        <tr>
+            <th>NO</th>
+            <th>TITIK LOKASI</th>
+            <th>WILAYAH</th>
+            <th>PD / UNIT</th>
+            <th>KLASIFIKASI</th>
+            <th>KONEKSI</th>
+            <th>PANJANG FO (m)</th>
+            <th>TAHUN PEMBANGUNAN</th>
+            <th>STATUS</th>
+            <th>BACKBONE</th>
+            <th>UPLINK</th>
+            <th>PERANGKAT</th>
+        </tr>
+    </thead>
 
-    <div class="footer">
-        Sistem Manajemen Aset Infrastruktur
-    </div>
+    <tbody>
+        @foreach ($data as $row)
+        <tr>
+            <td>{{ $loop->iteration }}</td>
+            <td>{{ $row->nama_titik }}</td>
+            <td>{{ $row->wilayah->nama_wilayah ?? '-' }}</td>
+            <td>{{ $row->kec_kel->nama_kec_kel ?? '-' }}</td>
+            <td>{{ $row->klasifikasi->klasifikasi ?? '-' }}</td>
+            <td>{{ $row->koneksi }}</td>
+            <td>
+                @if($row->koneksi === 'FO')
+                    {{ $row->panjang_fo ?? '-' }}
+                @else
+                    -
+                @endif
+            </td>
+            <td>{{ $row->tahun_pembangunan }}</td>
+            <td>{{ $row->status }}</td>
+            <td>{{ $row->backbone->jenis_backbone ?? '-' }}</td>
+            <td>{{ $row->uplink->jenis_uplink ?? '-' }}</td>
+            <td>{{ $row->perangkat }}</td>
+        </tr>
+        @endforeach
+    </tbody>
+</table>
 
 </body>
 </html>
