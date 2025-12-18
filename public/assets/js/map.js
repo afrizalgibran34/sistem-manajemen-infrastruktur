@@ -200,7 +200,7 @@ class MapManager {
     }
 
     createCustomIcon(isOnline) {
-        const color = isOnline ? "#10B981" : "#EF4444";
+        const color = isOnline ? "#0080FE" : "#EF4444";
         const svgIcon = `
             <svg width="36" height="48" viewBox="0 0 36 48" xmlns="http://www.w3.org/2000/svg">
                 <defs>
@@ -391,12 +391,13 @@ class MapManager {
 
         // IDs and raw foreign keys
         document.getElementById("detail-backbone").textContent =
-            titik.id_backbone
-                ? titik.id_backbone
-                : get(titik.backbone && titik.backbone.nama_backbone, "-");
-        document.getElementById("detail-uplink").textContent = titik.id_uplink
-            ? titik.id_uplink
-            : get(titik.uplink && titik.uplink.nama_uplink, "-");
+            titik.backbone && titik.backbone.jenis_backbone
+                ? titik.backbone.jenis_backbone
+                : titik.id_backbone || "-";
+        document.getElementById("detail-uplink").textContent =
+            titik.uplink && titik.uplink.jenis_uplink
+                ? titik.uplink.jenis_uplink
+                : titik.id_uplink || "-";
 
         // Related names when available (via eager loading)
         document.getElementById("detail-wilayah").textContent = titik.wilayah
@@ -406,7 +407,7 @@ class MapManager {
             ? get(titik.kec_kel.nama_kec_kel)
             : "-";
         document.getElementById("detail-klasifikasi").textContent =
-            titik.klasifikasi ? get(titik.klasifikasi.nama_klasifikasi) : "-";
+            titik.klasifikasi ? get(titik.klasifikasi.klasifikasi) : "-";
 
         // Status
         const isOnline =

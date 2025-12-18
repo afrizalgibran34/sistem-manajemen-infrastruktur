@@ -40,7 +40,9 @@
                                 <div class="col-md-12">
                                     <label class="form-label">Cari Nama Titik Lokasi</label>
                                     <div class="input-group">
-
+                                        <span class="input-group-text">
+                                            <i class="nc-icon nc-zoom-split"></i>
+                                        </span>
                                         <input type="text" 
                                                name="search" 
                                                class="form-control rounded-md" 
