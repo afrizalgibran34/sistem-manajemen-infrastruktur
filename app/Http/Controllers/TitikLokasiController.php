@@ -17,7 +17,30 @@ class TitikLokasiController extends Controller
     {
         $perPage = $request->get('per_page', 10);
 
-        $data = TitikLokasi::with('wilayah')->paginate($perPage);
+        // Query dengan filter
+        $query = TitikLokasi::with('wilayah');
+
+        // Pencarian berdasarkan nama titik
+        if ($request->filled('search')) {
+            $query->where('nama_titik', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter Wilayah
+        if ($request->filled('id_wilayah')) {
+            $query->where('id_wilayah', $request->id_wilayah);
+        }
+
+        // Filter Tahun Pembangunan
+        if ($request->filled('tahun_pembangunan')) {
+            $query->where('tahun_pembangunan', $request->tahun_pembangunan);
+        }
+
+        // Filter Jenis Koneksi
+        if ($request->filled('koneksi')) {
+            $query->where('koneksi', $request->koneksi);
+        }
+
+        $data = $query->paginate($perPage)->appends($request->except('page'));
 
         // === DATA CHART (JUMLAH TITIK PER WILAYAH) ===
         $chart = TitikLokasi::with('wilayah')->get();
@@ -31,10 +54,24 @@ class TitikLokasiController extends Controller
             return $chart->where('wilayah.nama_wilayah', $wilayah)->count();
         });
 
+        // Data untuk dropdown filter
+        $wilayahList = Wilayah::all();
+        $tahunList = TitikLokasi::selectRaw('DISTINCT tahun_pembangunan')
+            ->whereNotNull('tahun_pembangunan')
+            ->orderBy('tahun_pembangunan', 'desc')
+            ->pluck('tahun_pembangunan');
+        $koneksiList = TitikLokasi::selectRaw('DISTINCT koneksi')
+            ->whereNotNull('koneksi')
+            ->orderBy('koneksi')
+            ->pluck('koneksi');
+
         return view('titik_lokasi.index', compact(
             'data',
             'labels',
-            'jumlah'
+            'jumlah',
+            'wilayahList',
+            'tahunList',
+            'koneksiList'
         ));
     }
 
