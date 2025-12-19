@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('transaksi_barang', TransaksiBarangController::class)->middleware('auth');
     Route::get('/barang-keluar/export/pdf', [TransaksiBarangController::class, 'cetakPdf']
     )->name('transaksi_barang.pdf');
+    Route::get('/api/gangguan/chart', [App\Http\Controllers\DashboardController::class, 'gangguanChart']);
 
 
 
