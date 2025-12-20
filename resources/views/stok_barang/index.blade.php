@@ -55,3 +55,58 @@
                         of {{ $data->total() }} entries
                     </div>
                 </div>
+                                <div class="table-responsive">
+                    <table class="table table-hover table-striped text-center align-middle">
+                        <thead>
+                            <tr>
+                                <th>NO</th>
+                                <th>NAMA BARANG</th>
+                                <th>JUMLAH</th>
+                                <th>TERPAKAI</th>
+                                <th>SISA</th>
+                                <th>SATUAN</th>
+                                <th>KETERANGAN</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($data as $row)
+                                <tr>
+                                    <td>{{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}</td>
+                                    <td>{{ $row->barang->nama_barang }}</td>
+                                    <td>{{ $row->kuantitas }}</td>
+                                    <td>{{ $row->terpakai }}</td>
+                                    <td>{{ $row->sisa }}</td>
+                                    <td>{{ $row->satuan }}</td>
+                                    <td>{{ $row->keterangan ?? '-' }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center py-4">
+                                        Tidak ada data stok
+                                    </td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                {{ $data->links() }}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+@endsection
+
+@push('scripts')
+<script>
+function changeEntries(perPage) {
+    const url = new URL(window.location.href);
+    url.searchParams.set('per_page', perPage);
+    url.searchParams.delete('page');
+    window.location.href = url.toString();
+}
+</script>
+@endpush
+
