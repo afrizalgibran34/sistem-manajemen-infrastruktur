@@ -58,19 +58,22 @@
                     <div class="form-group">
                         <label>Barang</label>
                         <select
-                            name="barang_id"
-                            class="form-control @error('barang_id') is-invalid @enderror"
+                            name="stok_id"
+                            class="form-control @error('stok_id') is-invalid @enderror"
                             required
                         >
                             <option value="">-- Pilih Barang --</option>
-                            @foreach ($barang as $b)
-                                <option value="{{ $b->barang_id }}"
-                                    {{ old('barang_id') == $b->barang_id ? 'selected' : '' }}>
-                                    {{ $b->nama_barang }}
+
+                            @foreach ($stokBarang as $stok)
+                                <option value="{{ $stok->stok_id }}"
+                                    {{ old('stok_id') == $stok->stok_id ? 'selected' : '' }}>
+                                    {{ $stok->barang->nama_barang }}
+                                    (Sisa: {{ $stok->sisa }} {{ $stok->satuan }})
                                 </option>
                             @endforeach
                         </select>
-                        @error('barang_id')
+
+                        @error('stok_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>

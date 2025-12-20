@@ -82,9 +82,7 @@
                                     <td>{{ $row->sisa }}</td>
                                     <td>{{ $row->satuan }}</td>
                                     <td>
-                                        <span class="badge bg-info">
-                                            {{ ucfirst($row->kondisi) }}
-                                        </span>
+                                        {{ $row->kondisi }}
                                     </td>
                                     <td>{{ $row->tahun_pengadaan }}</td>
                                     <td>{{ $row->keterangan ?? '-' }}</td>

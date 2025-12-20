@@ -71,7 +71,7 @@
                             <td>{{ $loop->iteration + ($data->currentPage()-1)*$data->perPage() }}</td>
                             <td>{{ $row->tanggal }}</td>
                             <td>{{ $row->titik_lokasi->nama_titik ?? '-' }}</td>
-                            <td>{{ $row->barang->nama_barang ?? '-' }}</td>
+                           <td>{{ $row->stok->barang->nama_barang ?? '-' }}</td>
                             <td>{{ $row->jumlah }}</td>
                             <td>{{ $row->keterangan }}</td>
 

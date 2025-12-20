@@ -51,11 +51,12 @@
                             {{-- Barang --}}
                             <div class="form-group">
                                 <label>Barang</label>
-                                <select name="barang_id" class="form-control" required>
-                                    @foreach ($barang as $b)
-                                        <option value="{{ $b->barang_id }}"
-                                            {{ $data->barang_id == $b->barang_id ? 'selected' : '' }}>
-                                            {{ $b->nama_barang }}
+                                <select name="stok_id" class="form-control" required>
+                                    @foreach ($stokBarang as $stok)
+                                        <option value="{{ $stok->stok_id }}"
+                                            {{ $data->stok_id == $stok->stok_id ? 'selected' : '' }}>
+                                            {{ $stok->barang->nama_barang }}
+                                            (Sisa: {{ $stok->sisa }})
                                         </option>
                                     @endforeach
                                 </select>

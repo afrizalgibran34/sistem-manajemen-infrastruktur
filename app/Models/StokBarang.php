@@ -25,4 +25,18 @@ class StokBarang extends Model
     {
         return $this->belongsTo(Barang::class, 'barang_id');
     }
+
+    public function transaksi()
+    {
+        return $this->hasMany(
+            TransaksiBarang::class,
+            'stok_id',
+            'stok_id'
+        );
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where('sisa', '>', 0);
+    }
 }

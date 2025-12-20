@@ -173,6 +173,9 @@
             <div id="swal-error" data-message="{{ session('error') }}"></div>
         @endif
 
+        @if(session('warning'))
+            <div id="swal-warning" data-message="{{ session('warning') }}"></div>
+        @endif
         <script>
         /* ================= GLOBAL SWEETALERT ================= */
 
@@ -199,6 +202,16 @@
                     confirmButtonColor: '#d33'
                 });
             }
+            const warningEl = document.getElementById('swal-warning');
+            if (warningEl) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Peringatan',
+                    text: warningEl.dataset.message,
+                    confirmButtonText: 'OK'
+                });
+            }
+
         });
 
         // CONFIRM DELETE (GLOBAL, SEMUA CRUD)

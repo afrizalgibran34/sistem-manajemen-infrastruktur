@@ -60,36 +60,43 @@ class StokBarangController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'barang_id' => 'required',
-            'satuan' => 'required',
-            'kuantitas' => 'required|integer|min:1',
-            'foto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'tahun_pengadaan' => 'nullable|integer',
+            'barang_id'        => 'required|exists:tabel_barang,barang_id',
+            'tahun_pengadaan'  => 'required|integer',
+            'kuantitas'        => 'required|integer|min:1',
+            'satuan'           => 'required|string',
+            'keterangan'       => 'nullable|string',
         ]);
 
-        $fotoPath = null;
-        if ($request->hasFile('foto')) {
-            $fotoPath = $request->file('foto')->store('stok_barang', 'public');
+        // cek stok existing
+        $existing = StokBarang::where('barang_id', $request->barang_id)
+            ->where('tahun_pengadaan', $request->tahun_pengadaan)
+            ->first();
+
+        if ($existing) {
+            return redirect()
+                ->route('stok_barang.edit', $existing->stok_id)
+                ->with('warning',
+                    'Barang dengan tahun yang sama sudah tersedia. Silakan edit data stok yang ada.'
+                );
         }
 
-        $kuantitas = $request->kuantitas;
-
+        // buat stok baru
         StokBarang::create([
-            'barang_id' => $request->barang_id,
-            'satuan' => $request->satuan,
-            'kuantitas' => $kuantitas,
-            'terpakai' => 0,
-            'sisa' => $kuantitas,
-            'keterangan' => $request->keterangan,
-            'foto' => $fotoPath,
-            'kondisi' => $request->kondisi,
-            'spesifikasi' => $request->spesifikasi,
-            'tahun_pengadaan' => $request->tahun_pengadaan,
+            'barang_id'        => $request->barang_id,
+            'tahun_pengadaan'  => $request->tahun_pengadaan,
+            'satuan'           => $request->satuan,
+            'kuantitas'        => $request->kuantitas,
+            'terpakai'         => 0,
+            'sisa'             => $request->kuantitas,
+            'keterangan'       => $request->keterangan,
         ]);
 
-        return redirect()->route('stok_barang.index')
+        return redirect()
+            ->route('stok_barang.index')
             ->with('success', 'Stok barang berhasil ditambahkan');
     }
+
+
 
 
     public function edit($id)
