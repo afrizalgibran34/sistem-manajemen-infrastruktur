@@ -68,15 +68,17 @@
                             Edit
                         </a>
 
-                        <form action="{{ route('wilayah.destroy', $row->id_wilayah) }}"
-                              method="POST">
+                       <form action="{{ route('wilayah.destroy', $row->id_wilayah) }}"
+                            method="POST">
                             @csrf
                             @method('DELETE')
-                            <button onclick="return confirm('Yakin hapus wilayah ini?')" 
-                                    class="btn btn-danger btn-sm">
+
+                            <button type="button"
+                                    class="btn btn-danger btn-sm btn-delete">
                                 Hapus
                             </button>
                         </form>
+
 
                     </div>
                 </td>

@@ -19,20 +19,24 @@
                 </a>
             </div>
 
-            <div class="card-body table-responsive">
-                <table class="table table-striped">
+            <div class="card-body table-responsive">              
+                <table class="table table-striped align-middle text-center">
                     <thead>
                         <tr>
-                            <th>No</th>
+                            <th width="60">No</th>
                             <th>Nama</th>
                             <th>Username</th>
                             <th width="180">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($data as $i => $user)
+                        @forelse ($data as $i => $user)
                         <tr>
-                            <td>{{ $i + 1 }}</td>
+                            <td>
+                                {{ method_exists($data, 'firstItem') 
+                                    ? $data->firstItem() + $i 
+                                    : $i + 1 }}
+                            </td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->username }}</td>
                             <td>
@@ -41,25 +45,36 @@
                                     Edit
                                 </a>
 
-                                <form action="{{ route('users.destroy', $user->id) }}"
-                                      method="POST"
-                                      style="display:inline">
+                                <form action="{{ route('users.destroy', $user->id) }}" method="POST" class="d-inline">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Hapus user ini?')">
+                                    <button type="button" class="btn btn-danger btn-sm btn-delete">
                                         Hapus
                                     </button>
                                 </form>
                             </td>
                         </tr>
-                        @endforeach
+                        @empty
+                        <tr>
+                            <td colspan="4" class="text-center py-4 text-muted">
+                                Tidak ada data user
+                            </td>
+                        </tr>
+                        @endforelse
                     </tbody>
                 </table>
-            </div>
 
+                {{-- PAGINATION --}}
+                @if(method_exists($data, 'links'))
+                    <div class="mt-3">
+                        {{ $data->links() }}
+                    </div>
+                @endif
+
+            </div>
         </div>
 
     </div>
 </div>
 @endsection
+

@@ -86,12 +86,13 @@
                                            class="btn btn-warning btn-sm mb-1">Edit</a>
 
                                         <form action="{{ route('gangguan.destroy', $row->id_gangguan) }}"
-                                              method="POST"
-                                              style="display:inline-block;">
+                                            method="POST"
+                                            style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button onclick="return confirm('Hapus data ini?')"
-                                                    class="btn btn-danger btn-sm">
+
+                                            <button type="button"
+                                                    class="btn btn-danger btn-sm btn-delete">
                                                 Hapus
                                             </button>
                                         </form>

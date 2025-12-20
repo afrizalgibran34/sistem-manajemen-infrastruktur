@@ -58,14 +58,18 @@
                                     Edit
                                 </a>
 
-                                <form action="{{ route('barang.destroy', $row->barang_id) }}"
-                                      method="POST"
-                                      style="display:inline-block;">
-                                    @csrf @method('DELETE')
-                                    <button onclick="return confirm('Yakin hapus?')" class="btn btn-danger btn-sm">
+                               <form action="{{ route('barang.destroy', $row->barang_id) }}"
+                                    method="POST"
+                                    style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="button"
+                                            class="btn btn-danger btn-sm btn-delete">
                                         Hapus
                                     </button>
                                 </form>
+
 
                             </td>
                         </tr>

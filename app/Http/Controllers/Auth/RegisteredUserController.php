@@ -43,15 +43,10 @@ class RegisteredUserController extends Controller
             'username' => $request->username,
             'password' => Hash::make($request->password),
         ]);
-
-        // ❌ TIDAK AUTO LOGIN
         return redirect()->route('users.index')
             ->with('success', 'User berhasil ditambahkan');
     }
 
-    /**
-     * Form edit user
-     */
     public function edit($id)
     {
         $user = User::findOrFail($id);
@@ -89,7 +84,7 @@ class RegisteredUserController extends Controller
     /**
      * Hapus user
      */
-    public function destroy($id)
+   public function destroy($id)
     {
         if (auth()->id() == $id) {
             return back()->with('error', 'Tidak bisa menghapus akun sendiri');
@@ -97,6 +92,9 @@ class RegisteredUserController extends Controller
 
         User::findOrFail($id)->delete();
 
-        return redirect()->route('users.index')->with('success', 'User berhasil dihapus');
+        return redirect()
+            ->route('users.index')
+            ->with('success', 'User berhasil dihapus');
     }
+
 }

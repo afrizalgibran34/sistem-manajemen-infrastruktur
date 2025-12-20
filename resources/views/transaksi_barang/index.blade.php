@@ -83,14 +83,17 @@
                                 </a>
 
                                 <form action="{{ route('transaksi_barang.destroy', $row->transaksi_id) }}"
-                                      method="POST"
-                                      style="display:inline-block;">
-                                    @csrf @method('DELETE')
-                                    <button onclick="return confirm('Yakin hapus data ini?')"
-                                            class="btn btn-danger btn-sm">
+                                    method="POST"
+                                    style="display:inline-block;">
+                                    @csrf
+                                    @method('DELETE')
+
+                                    <button type="button"
+                                            class="btn btn-danger btn-sm btn-delete">
                                         Hapus
                                     </button>
                                 </form>
+
 
                             </td>
                         </tr>

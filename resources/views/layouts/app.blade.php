@@ -163,6 +163,71 @@
         });
     </script>
 
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+        @if(session('success'))
+            <div id="swal-success" data-message="{{ session('success') }}"></div>
+        @endif
+
+        @if(session('error'))
+            <div id="swal-error" data-message="{{ session('error') }}"></div>
+        @endif
+
+        <script>
+        /* ================= GLOBAL SWEETALERT ================= */
+
+        // ALERT SUCCESS & ERROR
+        document.addEventListener('DOMContentLoaded', function () {
+
+            const successEl = document.getElementById('swal-success');
+            if (successEl) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: successEl.dataset.message,
+                    timer: 2000,
+                    showConfirmButton: false
+                });
+            }
+
+            const errorEl = document.getElementById('swal-error');
+            if (errorEl) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Gagal',
+                    text: errorEl.dataset.message,
+                    confirmButtonColor: '#d33'
+                });
+            }
+        });
+
+        // CONFIRM DELETE (GLOBAL, SEMUA CRUD)
+        document.addEventListener('click', function (e) {
+            const btn = e.target.closest('.btn-delete');
+            if (!btn) return;
+
+            e.preventDefault();
+
+            const form = btn.closest('form');
+            if (!form) return;
+
+            Swal.fire({
+                title: 'Yakin hapus data?',
+                text: 'Data yang dihapus tidak bisa dikembalikan!',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#6c757d',
+                confirmButtonText: 'Ya, hapus',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    form.submit();
+                }
+            });
+        });
+        </script>
+
     @stack('scripts')
 
 </body>

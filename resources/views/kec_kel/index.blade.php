@@ -1,6 +1,6 @@
 @extends('layouts.app', [
     'activePage' => 'kec_kel',
-    'title' => __('Data Kec / Kel'),
+    'title' => __('Data PD/Unit Kerja/Instansi'),
     'navName' => 'Kec / Kel',
     'activeButton' => 'dataJaringan'
 ])
@@ -13,7 +13,7 @@
         <div class="row mb-3">
             <div class="col-md-12">
                 <a href="{{ route('kec_kel.create') }}" class="btn btn-primary">
-                    + Tambah Kec / Kel
+                    + Tambah PD/Unit Kerja/Instansi
                 </a>
             </div>
         </div>
@@ -24,8 +24,8 @@
                 <div class="card strpied-tabled-with-hover">
 
                     <div class="card-header">
-                        <h4 class="card-title">Data Kec / Kel</h4>
-                        <p class="card-category">Daftar kecamatan / kelurahan yang tersedia</p>
+                        <h4 class="card-title">Data PD/Unit Kerja/Instansi</h4>
+                        <p class="card-category">Daftar PD/Unit Kerja/Instansi</p>
                     </div>
 
                     <div class="card-body">
@@ -71,15 +71,17 @@
                                         </a>
 
                                         <form action="{{ route('kec_kel.destroy', $row->id_kec_kel) }}"
-                                              method="POST" 
-                                              style="display:inline-block;">
+                                            method="POST"
+                                            style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button onclick="return confirm('Yakin hapus data ini?')"
-                                                    class="btn btn-danger btn-sm">
+
+                                            <button type="button"
+                                                    class="btn btn-danger btn-sm btn-delete">
                                                 Hapus
                                             </button>
                                         </form>
+
 
                                     </td>
                                 </tr>

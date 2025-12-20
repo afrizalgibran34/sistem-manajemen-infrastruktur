@@ -65,7 +65,11 @@
                                 <th>TERPAKAI</th>
                                 <th>SISA</th>
                                 <th>SATUAN</th>
+                                <th>KONDISI</th>
+                                <th>TAHUN</th>
                                 <th>KETERANGAN</th>
+                                <th>FOTO</th>
+                                <th>AKSI</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -77,16 +81,50 @@
                                     <td>{{ $row->terpakai }}</td>
                                     <td>{{ $row->sisa }}</td>
                                     <td>{{ $row->satuan }}</td>
+                                    <td>
+                                        <span class="badge bg-info">
+                                            {{ ucfirst($row->kondisi) }}
+                                        </span>
+                                    </td>
+                                    <td>{{ $row->tahun_pengadaan }}</td>
                                     <td>{{ $row->keterangan ?? '-' }}</td>
+                                    <td>
+                                        @if($row->foto)
+                                            <img src="{{ asset('storage/'.$row->foto) }}"
+                                                width="50"
+                                                class="img-thumbnail">
+                                        @else
+                                            -
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('stok_barang.edit', $row->stok_id) }}"
+                                        class="btn btn-warning btn-sm">
+                                            Edit
+                                        </a>
+
+                                        <form action="{{ route('stok_barang.destroy', $row->stok_id) }}"
+                                            method="POST"
+                                            style="display:inline-block;">
+                                            @csrf
+                                            @method('DELETE')
+
+                                            <button type="button"
+                                                    class="btn btn-danger btn-sm btn-delete">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center py-4">
+                                    <td colspan="8" class="text-center py-4">
                                         Tidak ada data stok
                                     </td>
                                 </tr>
                             @endforelse
-                        </tbody>
+                            </tbody>
+
                     </table>
                 </div>
 

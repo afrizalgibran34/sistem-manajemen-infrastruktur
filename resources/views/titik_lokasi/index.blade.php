@@ -87,7 +87,13 @@
                                         </td>
 
                                         <td>{{ $row->tahun_pembangunan }}</td>
-                                        <td>{{ $row->status }}</td>
+                                        <td>
+                                            @if($row->status === 'On')
+                                                <span class="badge bg-primary">ON</span>
+                                            @else
+                                                <span class="badge bg-danger">OFF</span>
+                                            @endif
+                                        </td>
                                         <td>{{ $row->backbone->jenis_backbone ?? '-' }}</td>
                                         <td>{{ $row->uplink->jenis_uplink ?? '-' }}</td>
                                         <td>{{ $row->perangkat }}</td>
@@ -96,15 +102,18 @@
                                             <a href="{{ route('titik_lokasi.edit', $row->id_titik) }}"
                                                class="btn btn-warning btn-sm mb-1">Edit</a>
 
-                                            <form action="{{ route('titik_lokasi.destroy', $row->id_titik) }}"
-                                                  method="POST" style="display:inline-block">
+                                           <form action="{{ route('titik_lokasi.destroy', $row->id_titik) }}"
+                                                method="POST"
+                                                style="display:inline-block">
                                                 @csrf
                                                 @method('DELETE')
-                                                <button onclick="return confirm('Yakin hapus?')"
-                                                        class="btn btn-danger btn-sm">
+
+                                                <button type="button"
+                                                        class="btn btn-danger btn-sm btn-delete">
                                                     Hapus
                                                 </button>
                                             </form>
+
                                         </td>
                                     </tr>
                                     @empty
