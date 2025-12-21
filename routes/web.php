@@ -35,6 +35,10 @@ use App\Http\Controllers\DashboardController;
 |
 */
 
+Route::get('/', function () {
+    return auth()->check() ? redirect('/dashboard') : redirect('/login');
+});
+
 Route::get('/login', function () {
     return view('auth.login');
 });
