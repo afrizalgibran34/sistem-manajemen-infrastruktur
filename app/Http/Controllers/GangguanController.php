@@ -28,6 +28,11 @@ class GangguanController extends Controller
             $query->where('bulan', $request->bulan);
         }
 
+        // Filter Status Masalah
+        if ($request->filled('status_masalah')) {
+            $query->where('status_masalah', $request->status_masalah);
+        }
+
         // Filter Rentang Tanggal
         if ($request->filled('tanggal_dari') && $request->filled('tanggal_sampai')) {
             $query->whereBetween('tanggal', [$request->tanggal_dari, $request->tanggal_sampai]);
@@ -146,6 +151,11 @@ class GangguanController extends Controller
         // Filter Bulan
         if ($request->filled('bulan')) {
             $query->where('bulan', $request->bulan);
+        }
+
+        // Filter Status Masalah
+        if ($request->filled('status_masalah')) {
+            $query->where('status_masalah', $request->status_masalah);
         }
 
         // Filter Rentang Tanggal

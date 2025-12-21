@@ -18,7 +18,11 @@
 
                     <div class="form-group mb-3">
                         <label>Tanggal Kejadian <span style="color: red;">*</span></label>
-                        <input type="date" name="tanggal" class="form-control rounded-md border-gray-300" required>
+                        <input type="date" 
+                               name="tanggal" 
+                               class="form-control rounded-md border-gray-300" 
+                               onclick="this.showPicker()"
+                               required>
                     </div>
 
                     <div class="form-group mb-3">
