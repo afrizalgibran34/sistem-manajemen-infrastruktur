@@ -17,16 +17,16 @@
                     @csrf
                     @method('PUT')
 
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label>Tanggal Kejadian</label>
                         <input type="date" name="tanggal"
                                value="{{ $data->tanggal }}"
-                               class="form-control" required>
+                               class="form-control rounded-md border-gray-300" required>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label>Titik Lokasi</label>
-                        <select name="id_titik" class="form-control" required>
+                        <select name="id_titik" class="form-control rounded-md border-gray-300" required>
                             @foreach ($titik as $t)
                                 <option value="{{ $t->id_titik }}"
                                     {{ $data->id_titik == $t->id_titik ? 'selected' : '' }}>
@@ -36,9 +36,9 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label>Jenis Masalah</label>
-                        <select name="id_jenismasalah" class="form-control" required>
+                        <select name="id_jenismasalah" class="form-control rounded-md border-gray-300" required>
                             @foreach ($jenis_masalah as $j)
                                 <option value="{{ $j->id_jenismasalah }}"
                                     {{ $data->id_jenismasalah == $j->id_jenismasalah ? 'selected' : '' }}>
@@ -48,28 +48,28 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label>Keterangan</label>
                         <textarea name="keterangan"
-                                  class="form-control">{{ $data->keterangan }}</textarea>
+                                  class="form-control rounded-md border-gray-300">{{ $data->keterangan }}</textarea>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label>Penanganan</label>
                         <textarea name="penanganan"
-                                  class="form-control">{{ $data->penanganan }}</textarea>
+                                  class="form-control rounded-md border-gray-300">{{ $data->penanganan }}</textarea>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label>Jumlah Kunjungan</label>
                         <input type="number" name="jumlah_kunjungan"
                                value="{{ $data->jumlah_kunjungan }}"
-                               class="form-control">
+                               class="form-control rounded-md border-gray-300">
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label>Status Masalah</label>
-                        <select name="status_masalah" class="form-control" required>
+                        <select name="status_masalah" class="form-control rounded-md border-gray-300" required>
                             <option value="Selesai" 
                                 {{ $data->status_masalah == 'Selesai' ? 'selected' : '' }}>
                                 Selesai
