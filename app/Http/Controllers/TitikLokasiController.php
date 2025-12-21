@@ -30,6 +30,11 @@ class TitikLokasiController extends Controller
             $query->where('id_wilayah', $request->id_wilayah);
         }
 
+        // Filter Status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
         // Filter Tahun Pembangunan
         if ($request->filled('tahun_dari') && $request->filled('tahun_sampai')) {
             $query->whereBetween('tahun_pembangunan', [$request->tahun_dari, $request->tahun_sampai]);
@@ -212,6 +217,11 @@ class TitikLokasiController extends Controller
         // Filter Wilayah
         if ($request->filled('id_wilayah')) {
             $query->where('id_wilayah', $request->id_wilayah);
+        }
+
+        // Filter Status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
         }
 
         // Filter Tahun Pembangunan

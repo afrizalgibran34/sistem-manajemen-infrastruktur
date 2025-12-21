@@ -14,8 +14,49 @@ class GangguanController extends Controller
     public function index(Request $request)
     {
         $perPage = $request->get('per_page', 10);
-        $data = Gangguan::with(['titik', 'wilayah', 'jenis_masalah'])->paginate($perPage)->appends($request->query());
-        return view('gangguan.index', compact('data'));
+
+        // Query dengan filter
+        $query = Gangguan::with(['titik', 'wilayah', 'jenis_masalah']);
+
+        // Filter Wilayah
+        if ($request->filled('id_wilayah')) {
+            $query->where('id_wilayah', $request->id_wilayah);
+        }
+
+        // Filter Bulan
+        if ($request->filled('bulan')) {
+            $query->where('bulan', $request->bulan);
+        }
+
+        // Filter Rentang Tanggal
+        if ($request->filled('tanggal_dari') && $request->filled('tanggal_sampai')) {
+            $query->whereBetween('tanggal', [$request->tanggal_dari, $request->tanggal_sampai]);
+        } elseif ($request->filled('tanggal_dari')) {
+            $query->where('tanggal', '>=', $request->tanggal_dari);
+        } elseif ($request->filled('tanggal_sampai')) {
+            $query->where('tanggal', '<=', $request->tanggal_sampai);
+        }
+
+        $data = $query->paginate($perPage)->appends($request->query());
+
+        // Data untuk dropdown filter
+        $wilayahList = Wilayah::all();
+        $bulanList = [
+            'January' => 'Januari',
+            'February' => 'Februari',
+            'March' => 'Maret',
+            'April' => 'April',
+            'May' => 'Mei',
+            'June' => 'Juni',
+            'July' => 'Juli',
+            'August' => 'Agustus',
+            'September' => 'September',
+            'October' => 'Oktober',
+            'November' => 'November',
+            'December' => 'Desember'
+        ];
+
+        return view('gangguan.index', compact('data', 'wilayahList', 'bulanList'));
     }
 
     public function create()
@@ -88,16 +129,60 @@ class GangguanController extends Controller
         return redirect()->route('gangguan.index');
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        $data = Gangguan::with([
+        // Query dengan filter yang sama seperti index
+        $query = Gangguan::with([
             'wilayah',
             'jenis_masalah',
-            'titik'   // PAKAI RELASI YANG SUDAH ADA
-        ])->orderBy('tanggal', 'asc')->get();
+            'titik'
+        ]);
 
-        $pdf = Pdf::loadView('gangguan.pdf', compact('data'))
+        // Filter Wilayah
+        if ($request->filled('id_wilayah')) {
+            $query->where('id_wilayah', $request->id_wilayah);
+        }
+
+        // Filter Bulan
+        if ($request->filled('bulan')) {
+            $query->where('bulan', $request->bulan);
+        }
+
+        // Filter Rentang Tanggal
+        if ($request->filled('tanggal_dari') && $request->filled('tanggal_sampai')) {
+            $query->whereBetween('tanggal', [$request->tanggal_dari, $request->tanggal_sampai]);
+        } elseif ($request->filled('tanggal_dari')) {
+            $query->where('tanggal', '>=', $request->tanggal_dari);
+        } elseif ($request->filled('tanggal_sampai')) {
+            $query->where('tanggal', '<=', $request->tanggal_sampai);
+        }
+
+        $data = $query->orderBy('tanggal', 'asc')->get();
+
+        // Data filter untuk ditampilkan di PDF
+        $filters = [
+            'wilayah' => $request->filled('id_wilayah') ? Wilayah::find($request->id_wilayah)->nama_wilayah ?? '' : null,
+            'bulan' => $request->bulan,
+            'tanggal_dari' => $request->tanggal_dari,
+            'tanggal_sampai' => $request->tanggal_sampai,
+        ];
+
+        $pdf = Pdf::loadView('gangguan.pdf', compact('data', 'filters'))
                 ->setPaper('A4', 'landscape');
+
+        // Tambahkan nomor halaman
+        $pdf->getDomPDF()->setCallbacks([
+            'pages' => function ($page, $canvas, $fontMetrics) {
+                $text = "Hal {$page->get_page_number()} dari {$canvas->get_page_count()}";
+                $font = $fontMetrics->get_font("sans-serif");
+                $size = 8;
+                $width = $canvas->get_width();
+                $height = $canvas->get_height();
+                $x = $width - 100;
+                $y = $height - 20;
+                $canvas->text($x, $y, $text, $font, $size);
+            }
+        ]);
 
         return $pdf->stream('laporan-gangguan-jaringan.pdf');
     }

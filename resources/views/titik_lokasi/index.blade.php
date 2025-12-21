@@ -23,7 +23,7 @@
                 <div class="card">
                     <div class="card-body">
                         <form method="GET" action="{{ route('titik_lokasi.index') }}" class="row g-3">
-                            <div class="col-md-4">
+                            <div class="col-md-4 col-12">
                                 <label for="search" class="form-label">Cari Nama Titik Lokasi</label>
                                 <input type="text"
                                        name="search"
@@ -32,7 +32,7 @@
                                        value="{{ request('search') }}"
                                        placeholder="Masukkan nama titik lokasi">
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2 col-12">
                                 <label for="id_wilayah" class="form-label">Filter Wilayah</label>
                                 <select name="id_wilayah" id="id_wilayah" class="form-control rounded-md border-gray-300">
                                     <option value="">-- Semua Wilayah --</option>
@@ -43,7 +43,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-12">
+                                <label for="status" class="form-label">Filter Status</label>
+                                <select name="status" id="status" class="form-control rounded-md border-gray-300">
+                                    <option value="">-- Semua Status --</option>
+                                    <option value="On" {{ request('status') == 'On' ? 'selected' : '' }}>On</option>
+                                    <option value="Off" {{ request('status') == 'Off' ? 'selected' : '' }}>Off</option>
+                                </select>
+                            </div>
+                            <div class="col-md-2 col-6">
                                 <label for="tahun_dari" class="form-label">Tahun Dari</label>
                                 <input type="number"
                                        name="tahun_dari"
@@ -53,7 +61,7 @@
                                        min="1900"
                                        max="{{ date('Y') }}">
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-md-2 col-6">
                                 <label for="tahun_sampai" class="form-label">Tahun Sampai</label>
                                 <input type="number"
                                        name="tahun_sampai"
@@ -63,8 +71,9 @@
                                        min="1900"
                                        max="{{ date('Y') }}">
                             </div>
-                            <div class="col-md-1 d-flex align-items-end">
-                                <button type="submit" class="btn btn-primary w-100">Filter</button>
+                            <div class="col-12 d-flex flex-wrap align-items-end gap-2">
+                                <button type="submit" class="btn btn-primary">Filter</button>
+                                <a href="{{ route('titik_lokasi.index') }}" class="btn btn-secondary">Reset</a>
                             </div>
                         </form>
                     </div>

@@ -34,6 +34,42 @@
 
 <h3>LAPORAN GANGGUAN JARINGAN</h3>
 
+@if($filters['wilayah'] || $filters['bulan'] || $filters['tanggal_dari'] || $filters['tanggal_sampai'])
+<div style="margin-bottom: 10px;">
+    <strong>Data Berdasarkan:</strong><br>
+    @if($filters['wilayah'])
+        Wilayah: {{ $filters['wilayah'] }}<br>
+    @endif
+    @if($filters['bulan'])
+        Bulan: {{ [
+            'January' => 'Januari',
+            'February' => 'Februari',
+            'March' => 'Maret',
+            'April' => 'April',
+            'May' => 'Mei',
+            'June' => 'Juni',
+            'July' => 'Juli',
+            'August' => 'Agustus',
+            'September' => 'September',
+            'October' => 'Oktober',
+            'November' => 'November',
+            'December' => 'Desember'
+        ][$filters['bulan']] ?? $filters['bulan'] }}<br>
+    @endif
+    @if($filters['tanggal_dari'] || $filters['tanggal_sampai'])
+        Tanggal: 
+        @if($filters['tanggal_dari'] && $filters['tanggal_sampai'])
+            {{ \Carbon\Carbon::parse($filters['tanggal_dari'])->format('d-m-Y') }} - {{ \Carbon\Carbon::parse($filters['tanggal_sampai'])->format('d-m-Y') }}
+        @elseif($filters['tanggal_dari'])
+            Dari {{ \Carbon\Carbon::parse($filters['tanggal_dari'])->format('d-m-Y') }}
+        @elseif($filters['tanggal_sampai'])
+            Sampai {{ \Carbon\Carbon::parse($filters['tanggal_sampai'])->format('d-m-Y') }}
+        @endif
+        <br>
+    @endif
+</div>
+@endif
+
 <table>
     <thead>
         <tr>
@@ -51,7 +87,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($data as $i => $row)
+        @forelse ($data as $i => $row)
         <tr>
             <td>{{ $i + 1 }}</td>
             <td>{{ $row->bulan }}</td>
@@ -65,7 +101,13 @@
             <td>{{ $row->jumlah_kunjungan }}</td>
             <td>{{ $row->status_masalah }}</td>
         </tr>
-        @endforeach
+        @empty
+        <tr>
+            <td colspan="11" style="text-align: center; padding: 20px;">
+                Tidak ada data
+            </td>
+        </tr>
+        @endforelse
     </tbody>
 </table>
 
