@@ -1,64 +1,108 @@
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-            {{ __('Profile Information') }}
+            Informasi Profil
         </h2>
 
         <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-            {{ __("Update your account's profile information and email address.") }}
+            Perbarui informasi profil akun Anda.
         </p>
     </header>
 
-    <form id="send-verification" method="post" action="{{ route('verification.send') }}">
-        @csrf
-    </form>
+    {{-- ================= SWEETALERT TRIGGER ================= --}}
+    @if (session('swal_success'))
+        <div id="swal-success" data-message="{{ session('swal_success') }}"></div>
+    @endif
+
+    @if ($errors->has('current_password'))
+        <div id="swal-error" data-message="Password yang Anda masukkan tidak valid."></div>
+    @endif
+    {{-- ====================================================== --}}
 
     <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
         @csrf
         @method('patch')
 
+        {{-- Nama --}}
         <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" name="name" type="text" class="mt-1 block w-full" :value="old('name', $user->name)" required autofocus autocomplete="name" />
+            <x-input-label for="name" value="Nama" />
+            <x-text-input
+                id="name"
+                name="name"
+                type="text"
+                class="mt-1 block w-full"
+                :value="old('name', $user->name)"
+                required
+                autofocus
+            />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
 
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" :value="old('email', $user->email)" required autocomplete="username" />
-            <x-input-error class="mt-2" :messages="$errors->get('email')" />
+        {{-- Verifikasi Password (SHOW / HIDE) --}}
+        <div class="relative">
+            <x-input-label for="current_password" value="Verifikasi Password" />
 
-            @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
-                <div>
-                    <p class="text-sm mt-2 text-gray-800 dark:text-gray-200">
-                        {{ __('Your email address is unverified.') }}
+            <input
+                id="current_password"
+                name="current_password"
+                type="password"
+                autocomplete="off"
+                class="mt-1 block w-full pr-12 rounded-md border-gray-300
+                       focus:border-indigo-500 focus:ring-indigo-500"
+                placeholder="Masukkan password saat ini"
+                required
+            />
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800">
-                            {{ __('Click here to re-send the verification email.') }}
-                        </button>
-                    </p>
+            {{-- Toggle --}}
+            <button
+                type="button"
+                onclick="togglePassword('current_password', 'eye-profile', 'eye-slash-profile')"
+                class="absolute right-3 top-[42px] z-10 text-gray-500"
+            >
+                <svg id="eye-profile" class="w-5 h-5" fill="none" stroke="currentColor"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M2.458 12C3.732 7.943 7.523 5 12 5
+                             c4.478 0 8.268 2.943 9.542 7
+                             -1.274 4.057-5.064 7-9.542 7
+                             -4.477 0-8.268-2.943-9.542-7z"/>
+                </svg>
 
-                    @if (session('status') === 'verification-link-sent')
-                        <p class="mt-2 font-medium text-sm text-green-600 dark:text-green-400">
-                            {{ __('A new verification link has been sent to your email address.') }}
-                        </p>
-                    @endif
-                </div>
-            @endif
+                <svg id="eye-slash-profile" class="w-5 h-5 hidden" fill="none" stroke="currentColor"
+                     viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M3 3l18 18"/>
+                </svg>
+            </button>
+
+            <x-input-error class="mt-2" :messages="$errors->get('current_password')" />
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>{{ __('Save') }}</x-primary-button>
-
-            @if (session('status') === 'profile-updated')
-                <p
-                    x-data="{ show: true }"
-                    x-show="show"
-                    x-transition
-                    x-init="setTimeout(() => show = false, 2000)"
-                    class="text-sm text-gray-600 dark:text-gray-400"
-                >{{ __('Saved.') }}</p>
-            @endif
+            <x-primary-button>
+                Simpan Perubahan
+            </x-primary-button>
         </div>
     </form>
 </section>
+
+{{-- JS Toggle Password --}}
+<script>
+function togglePassword(inputId, eyeId, eyeSlashId) {
+    const input = document.getElementById(inputId);
+    const eye = document.getElementById(eyeId);
+    const eyeSlash = document.getElementById(eyeSlashId);
+
+    if (input.type === 'password') {
+        input.type = 'text';
+        eye.classList.add('hidden');
+        eyeSlash.classList.remove('hidden');
+    } else {
+        input.type = 'password';
+        eye.classList.remove('hidden');
+        eyeSlash.classList.add('hidden');
+    }
+}
+</script>
