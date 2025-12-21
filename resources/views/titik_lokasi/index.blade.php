@@ -9,20 +9,76 @@
 <div class="content">
     <div class="container-fluid">
 
+        {{-- ================= JUDUL ================= --}}
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <h2 class="mb-1 text-2xl md:text-3xl font-bold">Data Titik Lokasi</h2>
+                <p class="text-muted text-sm md:text-base">Semua titik lokasi jaringan</p>
+            </div>
+        </div>
+
+        {{-- ================= FILTER ================= --}}
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <form method="GET" action="{{ route('titik_lokasi.index') }}" class="row g-3">
+                            <div class="col-md-4">
+                                <label for="search" class="form-label">Cari Nama Titik Lokasi</label>
+                                <input type="text"
+                                       name="search"
+                                       id="search"
+                                       class="form-control rounded-md border-gray-300"
+                                       value="{{ request('search') }}"
+                                       placeholder="Masukkan nama titik lokasi">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="id_wilayah" class="form-label">Filter Wilayah</label>
+                                <select name="id_wilayah" id="id_wilayah" class="form-control rounded-md border-gray-300">
+                                    <option value="">-- Semua Wilayah --</option>
+                                    @foreach ($wilayahList ?? [] as $w)
+                                        <option value="{{ $w->id_wilayah }}" {{ request('id_wilayah') == $w->id_wilayah ? 'selected' : '' }}>
+                                            {{ $w->nama_wilayah }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <label for="tahun_dari" class="form-label">Tahun Dari</label>
+                                <input type="number"
+                                       name="tahun_dari"
+                                       id="tahun_dari"
+                                       class="form-control rounded-md border-gray-300"
+                                       value="{{ request('tahun_dari') }}"
+                                       min="1900"
+                                       max="{{ date('Y') }}">
+                            </div>
+                            <div class="col-md-2">
+                                <label for="tahun_sampai" class="form-label">Tahun Sampai</label>
+                                <input type="number"
+                                       name="tahun_sampai"
+                                       id="tahun_sampai"
+                                       class="form-control rounded-md border-gray-300"
+                                       value="{{ request('tahun_sampai') }}"
+                                       min="1900"
+                                       max="{{ date('Y') }}">
+                            </div>
+                            <div class="col-md-1 d-flex align-items-end">
+                                <button type="submit" class="btn btn-primary w-100">Filter</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         {{-- ================= TABLE ================= --}}
         <div class="row">
             <div class="col-md-12">
 
                 <div class="card strpied-tabled-with-hover">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <div>
-                            <h4 class="card-title mb-0">Data Titik Lokasi</h4>
-                            <p class="card-category mb-0">
-                                Semua titik lokasi jaringan
-                            </p>
-                        </div>
-
-                        <a href="{{ route('titik_lokasi.exportPdf') }}" target="_blank" class="btn btn-danger">
+                    <div class="card-header d-flex justify-content-end align-items-center">
+                        <a href="{{ route('titik_lokasi.exportPdf', request()->query()) }}" target="_blank" class="btn btn-danger">
                             Export PDF
                         </a>
                     </div>

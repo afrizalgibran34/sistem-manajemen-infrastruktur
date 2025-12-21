@@ -38,11 +38,38 @@
         td:nth-child(12) {
             text-align: left;
         }
+
+        @page {
+            margin: 1cm 1cm 3cm 1cm;
+        }
     </style>
 </head>
 <body>
 
 <h2 style="text-align:center;">Data Titik Lokasi</h2>
+
+@if($filters['search'] || $filters['wilayah'] || $filters['tahun_dari'] || $filters['tahun_sampai'])
+<div style="margin-bottom: 10px;">
+    <strong>Data Berdasarkan:</strong><br>
+    @if($filters['search'])
+        Titik Lokasi: {{ $filters['search'] }}<br>
+    @endif
+    @if($filters['wilayah'])
+        Wilayah: {{ $filters['wilayah'] }}<br>
+    @endif
+    @if($filters['tahun_dari'] || $filters['tahun_sampai'])
+        Tahun Pembangunan: 
+        @if($filters['tahun_dari'] && $filters['tahun_sampai'])
+            {{ $filters['tahun_dari'] }} - {{ $filters['tahun_sampai'] }}
+        @elseif($filters['tahun_dari'])
+            Dari {{ $filters['tahun_dari'] }}
+        @elseif($filters['tahun_sampai'])
+            Sampai {{ $filters['tahun_sampai'] }}
+        @endif
+        <br>
+    @endif
+</div>
+@endif
 
 <table>
     <thead>
@@ -63,7 +90,7 @@
     </thead>
 
     <tbody>
-        @foreach ($data as $row)
+        @forelse ($data as $row)
         <tr>
             <td>{{ $loop->iteration }}</td>
             <td>{{ $row->nama_titik }}</td>
@@ -84,7 +111,13 @@
             <td>{{ $row->uplink->jenis_uplink ?? '-' }}</td>
             <td>{{ $row->perangkat }}</td>
         </tr>
-        @endforeach
+        @empty
+        <tr>
+            <td colspan="12" style="text-align: center; padding: 20px;">
+                Tidak ada data
+            </td>
+        </tr>
+        @endforelse
     </tbody>
 </table>
 

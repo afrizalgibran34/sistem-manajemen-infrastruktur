@@ -173,6 +173,6 @@ class TransaksiBarangController extends Controller
             'data' => $data
         ])->setPaper('A4', 'landscape');
 
-        return $pdf->download('laporan-barang-keluar.pdf');
+        return $pdf->stream('laporan-barang-keluar.pdf');
     }
 }

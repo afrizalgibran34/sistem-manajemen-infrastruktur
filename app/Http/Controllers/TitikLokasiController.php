@@ -31,8 +31,12 @@ class TitikLokasiController extends Controller
         }
 
         // Filter Tahun Pembangunan
-        if ($request->filled('tahun_pembangunan')) {
-            $query->where('tahun_pembangunan', $request->tahun_pembangunan);
+        if ($request->filled('tahun_dari') && $request->filled('tahun_sampai')) {
+            $query->whereBetween('tahun_pembangunan', [$request->tahun_dari, $request->tahun_sampai]);
+        } elseif ($request->filled('tahun_dari')) {
+            $query->where('tahun_pembangunan', '>=', $request->tahun_dari);
+        } elseif ($request->filled('tahun_sampai')) {
+            $query->where('tahun_pembangunan', '<=', $request->tahun_sampai);
         }
 
         // Filter Jenis Koneksi
@@ -189,17 +193,52 @@ class TitikLokasiController extends Controller
             ->with('success', 'Data berhasil dihapus');
     }
 
-    public function exportPdf()
+    public function exportPdf(Request $request)
     {
-        $data = TitikLokasi::with([
+        // Query dengan filter yang sama seperti index
+        $query = TitikLokasi::with([
             'wilayah',
             'kec_kel',
             'klasifikasi',
             'backbone',
             'uplink'
-        ])->get();
+        ]);
 
-        $pdf = Pdf::loadView('titik_lokasi.pdf', compact('data'))
+        // Pencarian berdasarkan nama titik
+        if ($request->filled('search')) {
+            $query->where('nama_titik', 'like', '%' . $request->search . '%');
+        }
+
+        // Filter Wilayah
+        if ($request->filled('id_wilayah')) {
+            $query->where('id_wilayah', $request->id_wilayah);
+        }
+
+        // Filter Tahun Pembangunan
+        if ($request->filled('tahun_dari') && $request->filled('tahun_sampai')) {
+            $query->whereBetween('tahun_pembangunan', [$request->tahun_dari, $request->tahun_sampai]);
+        } elseif ($request->filled('tahun_dari')) {
+            $query->where('tahun_pembangunan', '>=', $request->tahun_dari);
+        } elseif ($request->filled('tahun_sampai')) {
+            $query->where('tahun_pembangunan', '<=', $request->tahun_sampai);
+        }
+
+        // Filter Jenis Koneksi
+        if ($request->filled('koneksi')) {
+            $query->where('koneksi', $request->koneksi);
+        }
+
+        $data = $query->get();
+
+        // Data filter untuk ditampilkan di PDF
+        $filters = [
+            'search' => $request->search,
+            'wilayah' => $request->filled('id_wilayah') ? Wilayah::find($request->id_wilayah)->nama_wilayah ?? '' : null,
+            'tahun_dari' => $request->tahun_dari,
+            'tahun_sampai' => $request->tahun_sampai,
+        ];
+
+        $pdf = Pdf::loadView('titik_lokasi.pdf', compact('data', 'filters'))
             ->setPaper('a4', 'landscape');
 
         return $pdf->stream('data_titik_lokasi.pdf');
