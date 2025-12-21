@@ -16,14 +16,14 @@
                 <form method="POST" action="{{ route('barang.store') }}">
                     @csrf
 
-                    <div class="form-group">
-                        <label>Nama Barang</label>
-                        <input type="text" name="nama_barang" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Nama Barang <span style="color: red;">*</span></label>
+                        <input type="text" name="nama_barang" class="form-control rounded-md border-gray-300" required>
                     </div>
 
-                    <div class="form-group">
-                        <label>Jenis Barang</label>
-                        <select name="jenis_barang" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Jenis Barang <span style="color: red;">*</span></label>
+                        <select name="jenis_barang" class="form-control rounded-md border-gray-300" required>
                             <option value="">-- Pilih Jenis Barang --</option>
                             <option value="Perangkat FO">Perangkat FO</option>
                             <option value="Perangkat Wireless">Perangkat Wireless</option>

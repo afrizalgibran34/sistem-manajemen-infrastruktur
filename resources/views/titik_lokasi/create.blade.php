@@ -19,14 +19,14 @@
                 <form method="POST" action="{{ route('titik_lokasi.store') }}">
                     @csrf
 
-                    <div class="form-group">
-                        <label>Titik/Lokasi Layanan</label>
-                        <input type="text" name="nama_titik" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Titik/Lokasi Layanan <span style="color: red;">*</span></label>
+                        <input type="text" name="nama_titik" class="form-control rounded-md border-gray-300" required>
                     </div>
 
-                    <div class="form-group">
-                        <label>Wilayah</label>
-                        <select name="id_wilayah" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Wilayah <span style="color: red;">*</span></label>
+                        <select name="id_wilayah" class="form-control rounded-md border-gray-300" required>
                             <option value="">-- Pilih Wilayah --</option>
                             @foreach ($wilayah as $w)
                                 <option value="{{ $w->id_wilayah }}">{{ $w->nama_wilayah }}</option>
@@ -34,9 +34,9 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>PD / UNIT KERJA / INSTANSI</label>
-                        <select name="id_kec_kel" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>PD / UNIT KERJA / INSTANSI <span style="color: red;">*</span></label>
+                        <select name="id_kec_kel" class="form-control rounded-md border-gray-300" required>
                             <option value="">-- Pilih PD / UNIT KERJA / INSTANSI --</option>
                             @foreach ($kec_kel as $k)
                                 <option value="{{ $k->id_kec_kel }}">{{ $k->nama_kec_kel }}</option>
@@ -44,9 +44,9 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Klasifikasi</label>
-                        <select name="id_klasifikasi" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Klasifikasi <span style="color: red;">*</span></label>
+                        <select name="id_klasifikasi" class="form-control rounded-md border-gray-300" required>
                             <option value="">-- Pilih Klasifikasi --</option>
                             @foreach ($klasifikasi as $k)
                                 <option value="{{ $k->id_klasifikasi }}">{{ $k->klasifikasi }}</option>
@@ -54,9 +54,9 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Koneksi</label>
-                        <select name="koneksi" id="koneksi" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Koneksi <span style="color: red;">*</span></label>
+                        <select name="koneksi" id="koneksi" class="form-control rounded-md border-gray-300" required>
                             <option value="">-- Pilih Koneksi --</option>
                             <option value="FO">FO</option>
                             <option value="Wireless">Wireless</option>
@@ -64,35 +64,35 @@
                     </div>
 
                     {{-- PANJANG FO --}}
-                    <div class="form-group" id="panjang_fo_group" style="display:none;">
+                    <div class="form-group mb-3" id="panjang_fo_group" style="display:none;">
                         <label>Panjang FO (meter)</label>
-                        <input type="number" name="panjang_fo" class="form-control" min="0" placeholder="Contoh: 1500">
+                        <input type="number" name="panjang_fo" class="form-control rounded-md border-gray-300" min="0" placeholder="Contoh: 1500">
                     </div>
 
                     {{-- TAHUN PEMBANGUNAN --}}
-                    <div class="form-group">
-                        <label>Tahun Pembangunan</label>
+                    <div class="form-group mb-3">
+                        <label>Tahun Pembangunan <span style="color: red;">*</span></label>
                         <input type="number"
                                name="tahun_pembangunan"
-                               class="form-control"
+                               class="form-control rounded-md border-gray-300"
                                min="1900"
                                max="{{ date('Y') }}"
                                placeholder="Contoh: 2021"
                                required>
                     </div>
 
-                    <div class="form-group">
-                        <label>Status</label>
-                        <select name="status" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Status <span style="color: red;">*</span></label>
+                        <select name="status" class="form-control rounded-md border-gray-300" required>
                             <option value="">-- Pilih Status --</option>
                             <option value="On">On</option>
                             <option value="Off">Off</option>
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Backbone</label>
-                        <select name="id_backbone" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Backbone <span style="color: red;">*</span></label>
+                        <select name="id_backbone" class="form-control rounded-md border-gray-300" required>
                             <option value="">-- Pilih Backbone --</option>
                             @foreach ($backbone as $b)
                                 <option value="{{ $b->id_backbone }}">{{ $b->jenis_backbone }}</option>
@@ -100,9 +100,9 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Uplink</label>
-                        <select name="id_uplink" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Uplink <span style="color: red;">*</span></label>
+                        <select name="id_uplink" class="form-control rounded-md border-gray-300" required>
                             <option value="">-- Pilih Uplink --</option>
                             @foreach ($uplink as $u)
                                 <option value="{{ $u->id_uplink }}">{{ $u->jenis_uplink }}</option>
@@ -110,24 +110,24 @@
                         </select>
                     </div>
 
-                    <div class="form-group">
-                        <label>Perangkat Yang Terpasang</label>
-                        <input type="text" name="perangkat" class="form-control" placeholder="Masukkan nama perangkat" required>
+                    <div class="form-group mb-3">
+                        <label>Perangkat Yang Terpasang <span style="color: red;">*</span></label>
+                        <input type="text" name="perangkat" class="form-control rounded-md border-gray-300" placeholder="Masukkan nama perangkat" required>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label>Keterangan</label>
-                        <textarea name="keterangan" class="form-control"></textarea>
+                        <textarea name="keterangan" class="form-control rounded-md border-gray-300"></textarea>
                     </div>
 
-                    <div class="form-group">
-                        <label>Latitude</label>
-                        <input type="text" name="latitude" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Latitude <span style="color: red;">*</span></label>
+                        <input type="text" name="latitude" class="form-control rounded-md border-gray-300" required>
                     </div>
 
-                    <div class="form-group">
-                        <label>Longitude</label>
-                        <input type="text" name="longitude" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Longitude <span style="color: red;">*</span></label>
+                        <input type="text" name="longitude" class="form-control rounded-md border-gray-300" required>
                     </div>
 
                     <button class="btn btn-primary">Simpan</button>

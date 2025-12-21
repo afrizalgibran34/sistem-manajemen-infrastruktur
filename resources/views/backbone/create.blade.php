@@ -16,9 +16,9 @@
                 <form method="POST" action="{{ route('backbone.store') }}">
                     @csrf
 
-                    <div class="form-group">
-                        <label>Jenis Backbone</label>
-                        <input type="text" name="jenis_backbone" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Jenis Backbone <span style="color: red;">*</span></label>
+                        <input type="text" name="jenis_backbone" class="form-control rounded-md border-gray-300" required>
                     </div>
 
                     <button class="btn btn-primary">Simpan</button>

@@ -57,12 +57,12 @@
 
         <div class="fixed top-0 right-0 h-16 bg-white border-b border-gray-200 flex items-center justify-between px-4 lg:px-6 z-[999] left-0 lg:left-60">
             <div class="flex items-center gap-3 flex-1">
+                <button class="lg:hidden text-gray-500 hover:text-gray-700 text-xl" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
             
             <div class="flex items-center gap-3 lg:gap-5">
-                <button class="text-gray-500 hover:text-gray-700 text-xl">
-                    <i class="far fa-bell"></i>
-                </button>
                 
                 <div class="relative">
                     <div class="flex items-center gap-3 cursor-pointer" onclick="toggleDropdown()">

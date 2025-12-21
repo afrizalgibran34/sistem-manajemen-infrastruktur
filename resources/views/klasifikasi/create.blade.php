@@ -16,9 +16,9 @@
                 <form method="POST" action="{{ route('klasifikasi.store') }}">
                     @csrf
 
-                    <div class="form-group">
-                        <label>Nama Klasifikasi</label>
-                        <input type="text" name="klasifikasi" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Nama Klasifikasi <span style="color: red;">*</span></label>
+                        <input type="text" name="klasifikasi" class="form-control rounded-md border-gray-300" required>
                     </div>
 
                     <button class="btn btn-primary">Simpan</button>

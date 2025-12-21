@@ -19,12 +19,12 @@
                     @csrf
 
                     {{-- Tanggal --}}
-                    <div class="form-group">
-                        <label>Tanggal</label>
+                    <div class="form-group mb-3">
+                        <label>Tanggal <span style="color: red;">*</span></label>
                         <input
                             type="date"
                             name="tanggal"
-                            class="form-control @error('tanggal') is-invalid @enderror"
+                            class="form-control rounded-md border-gray-300 @error('tanggal') is-invalid @enderror"
                             value="{{ old('tanggal') }}"
                             required
                         >
@@ -34,11 +34,11 @@
                     </div>
 
                     {{-- Titik Lokasi --}}
-                    <div class="form-group">
-                        <label>Titik Lokasi</label>
+                    <div class="form-group mb-3">
+                        <label>Titik Lokasi <span style="color: red;">*</span></label>
                         <select
                             name="lokasi_id"
-                            class="form-control @error('lokasi_id') is-invalid @enderror"
+                            class="form-control rounded-md border-gray-300 @error('lokasi_id') is-invalid @enderror"
                             required
                         >
                             <option value="">-- Pilih Titik Lokasi --</option>
@@ -55,11 +55,11 @@
                     </div>
 
                     {{-- Barang --}}
-                    <div class="form-group">
-                        <label>Barang</label>
+                    <div class="form-group mb-3">
+                        <label>Barang <span style="color: red;">*</span></label>
                         <select
                             name="stok_id"
-                            class="form-control @error('stok_id') is-invalid @enderror"
+                            class="form-control rounded-md border-gray-300 @error('stok_id') is-invalid @enderror"
                             required
                         >
                             <option value="">-- Pilih Barang --</option>
@@ -79,12 +79,12 @@
                     </div>
 
                     {{-- Jumlah --}}
-                    <div class="form-group">
-                        <label>Jumlah Keluar</label>
+                    <div class="form-group mb-3">
+                        <label>Jumlah Keluar <span style="color: red;">*</span></label>
                         <input
                             type="number"
                             name="jumlah"
-                            class="form-control @error('jumlah') is-invalid @enderror"
+                            class="form-control rounded-md border-gray-300 @error('jumlah') is-invalid @enderror"
                             value="{{ old('jumlah', 1) }}"
                             min="1"
                             required
@@ -95,11 +95,11 @@
                     </div>
 
                     {{-- Keterangan --}}
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label>Keterangan</label>
                         <textarea
                             name="keterangan"
-                            class="form-control @error('keterangan') is-invalid @enderror"
+                            class="form-control rounded-md border-gray-300 @error('keterangan') is-invalid @enderror"
                             rows="3"
                         >{{ old('keterangan') }}</textarea>
                         @error('keterangan')

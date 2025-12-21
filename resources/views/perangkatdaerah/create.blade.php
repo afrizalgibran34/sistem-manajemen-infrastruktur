@@ -17,7 +17,7 @@
                     @csrf
 
                     <div class="form-group">
-                        <label>Nama Perangkat Daerah</label>
+                        <label>Nama Perangkat Daerah <span style="color: red;">*</span></label>
                         <input type="text" name="nama_perangkat" class="form-control" required>
                     </div>
 

@@ -16,9 +16,9 @@
                 <form method="POST" action="{{ route('jenis_masalah.store') }}">
                     @csrf
 
-                    <div class="form-group">
-                        <label>Nama Masalah</label>
-                        <input type="text" name="nama_masalah" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Nama Masalah <span style="color: red;">*</span></label>
+                        <input type="text" name="nama_masalah" class="form-control rounded-md border-gray-300" required>
                     </div>
 
                     <button class="btn btn-primary">Simpan</button>

@@ -18,7 +18,7 @@
                     </p>
                 </div>
 
-                <a href="{{ route('stok_barang.exportPdf') }}" class="btn btn-danger">
+                <a href="{{ route('stok_barang.exportPdf') }}" target="_blank" class="btn btn-danger">
                     Export PDF
                 </a>
             </div>
@@ -89,7 +89,7 @@
                                     <td>
                                         @if($row->foto)
                                             <img src="{{ asset('storage/'.$row->foto) }}"
-                                                width="50"
+                                                width="100"
                                                 class="img-thumbnail">
                                         @else
                                             -

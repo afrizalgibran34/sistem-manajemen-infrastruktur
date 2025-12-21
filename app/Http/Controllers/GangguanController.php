@@ -99,7 +99,7 @@ class GangguanController extends Controller
         $pdf = Pdf::loadView('gangguan.pdf', compact('data'))
                 ->setPaper('A4', 'landscape');
 
-        return $pdf->download('laporan-gangguan-jaringan.pdf');
+        return $pdf->stream('laporan-gangguan-jaringan.pdf');
     }
 
 }

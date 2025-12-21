@@ -65,6 +65,9 @@ class StokBarangController extends Controller
             'kuantitas'        => 'required|integer|min:1',
             'satuan'           => 'required|string',
             'keterangan'       => 'nullable|string',
+            'foto'             => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'kondisi'          => 'nullable|string',
+            'spesifikasi'      => 'nullable|string',
         ]);
 
         // cek stok existing
@@ -80,6 +83,12 @@ class StokBarangController extends Controller
                 );
         }
 
+        // ===== HANDLE FOTO =====
+        $fotoPath = null;
+        if ($request->hasFile('foto')) {
+            $fotoPath = $request->file('foto')->store('stok_barang', 'public');
+        }
+
         // buat stok baru
         StokBarang::create([
             'barang_id'        => $request->barang_id,
@@ -89,6 +98,9 @@ class StokBarangController extends Controller
             'terpakai'         => 0,
             'sisa'             => $request->kuantitas,
             'keterangan'       => $request->keterangan,
+            'foto'             => $fotoPath,
+            'kondisi'          => $request->kondisi,
+            'spesifikasi'      => $request->spesifikasi,
         ]);
 
         return redirect()
@@ -190,7 +202,7 @@ class StokBarangController extends Controller
             'data' => $data
         ])->setPaper('A4', 'landscape');
 
-        return $pdf->download('stok-barang.pdf');
+        return $pdf->stream('stok-barang.pdf');
     }
 
 

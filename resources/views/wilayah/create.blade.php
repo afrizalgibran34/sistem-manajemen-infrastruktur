@@ -16,9 +16,9 @@
                 <form method="POST" action="{{ route('wilayah.store') }}">
                     @csrf
 
-                    <div class="form-group">
-                        <label>Nama Wilayah</label>
-                        <input type="text" name="nama_wilayah" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Nama Wilayah <span style="color: red;">*</span></label>
+                        <input type="text" name="nama_wilayah" class="form-control rounded-md border-gray-300" required>
                     </div>
 
                     <button class="btn btn-primary">Simpan</button>

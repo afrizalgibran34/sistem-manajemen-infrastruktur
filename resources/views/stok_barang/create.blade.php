@@ -19,11 +19,11 @@
                     @csrf
 
                     {{-- Barang --}}
-                    <div class="form-group mb-2">
-                        <label>Barang</label>
+                    <div class="form-group mb-3">
+                        <label>Barang <span style="color: red;">*</span></label>
                         <select name="barang_id"
                                 id="barang_id"
-                                class="form-control"
+                                class="form-control rounded-md border-gray-300"
                                 required>
                             <option value="">-- Pilih Barang --</option>
                             @foreach ($barang as $b)
@@ -34,59 +34,59 @@
                         </select>
                     </div>
 
-               <div class="form-group mb-2" id="jenis-barang-wrapper" style="display:none;">
+               <div class="form-group mb-3" id="jenis-barang-wrapper" style="display:none;">
                     <label>Jenis Barang</label>
                     <input type="text"
                         id="jenis_barang"
-                        class="form-control"
+                        class="form-control rounded-md border-gray-300"
                         readonly>
                 </div>
 
 
 
                     {{-- Satuan --}}
-                    <div class="form-group mb-2">
-                        <label>Satuan</label>
+                    <div class="form-group mb-3">
+                        <label>Satuan <span style="color: red;">*</span></label>
                         <input type="text"
                                name="satuan"
-                               class="form-control"
+                               class="form-control rounded-md border-gray-300"
                                required>
                     </div>
 
                     {{-- Kuantitas --}}
-                    <div class="form-group mb-2">
-                        <label>Kuantitas</label>
+                    <div class="form-group mb-3">
+                        <label>Kuantitas <span style="color: red;">*</span></label>
                         <input type="number"
                                name="kuantitas"
-                               class="form-control"
+                               class="form-control rounded-md border-gray-300"
                                min="1"
                                required>
                     </div>
-                <div class="form-group mb-2">
+                <div class="form-group mb-3">
                     <label>Kondisi Barang</label>
-                    <input type="text" name="kondisi" class="form-control"
+                    <input type="text" name="kondisi" class="form-control rounded-md border-gray-300"
                         placeholder="Contoh: Baik / Rusak / Perlu Perbaikan">
                 </div>
 
-                <div class="form-group mb-2">
+                <div class="form-group mb-3">
                     <label>Spesifikasi Barang</label>
-                    <textarea name="spesifikasi" class="form-control" rows="3"
+                    <textarea name="spesifikasi" class="form-control rounded-md border-gray-300" rows="3"
                             placeholder="Spesifikasi singkat barang"></textarea>
                 </div>
 
-                <div class="form-group mb-2">
+                <div class="form-group mb-3">
                     <label>Tahun Pengadaan</label>
                     <input type="number" name="tahun_pengadaan"
-                        class="form-control"
+                        class="form-control rounded-md border-gray-300"
                         placeholder="Contoh: 2022">
                 </div>
 
 
                     {{-- Keterangan --}}
-                    <div class="form-group mb-2">
+                    <div class="form-group mb-3">
                         <label>Keterangan</label>
                         <textarea name="keterangan"
-                                  class="form-control"
+                                  class="form-control rounded-md border-gray-300"
                                   rows="3"
                                   ></textarea>
                     </div>
@@ -101,7 +101,7 @@
                     </div>
                     <input type="file"
                         name="foto"
-                        class="form-control"
+                        class="form-control rounded-md border-gray-300"
                         accept="image/*"
                         onchange="previewFoto(this)">
                 </div>

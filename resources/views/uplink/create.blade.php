@@ -16,9 +16,9 @@
                 <form method="POST" action="{{ route('uplink.store') }}">
                     @csrf
 
-                    <div class="form-group">
-                        <label>Jenis Uplink</label>
-                        <input type="text" name="jenis_uplink" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Jenis Uplink <span style="color: red;">*</span></label>
+                        <input type="text" name="jenis_uplink" class="form-control rounded-md border-gray-300" required>
                     </div>
 
                     <button class="btn btn-primary">Simpan</button>

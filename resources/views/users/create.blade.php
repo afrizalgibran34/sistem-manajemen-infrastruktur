@@ -18,31 +18,31 @@
                 <form method="POST" action="{{ route('users.store') }}">
                     @csrf
 
-                    <div class="form-group">
-                        <label>Nama Lengkap</label>
+                    <div class="form-group mb-3">
+                        <label>Nama Lengkap <span style="color: red;">*</span></label>
                         <input type="text"
                                name="name"
-                               class="form-control"
+                               class="form-control rounded-md border-gray-300"
                                value="{{ old('name') }}"
                                required>
                     </div>
 
-                    <div class="form-group">
-                        <label>Username</label>
+                    <div class="form-group mb-3">
+                        <label>Username <span style="color: red;">*</span></label>
                         <input type="text"
                                name="username"
-                               class="form-control"
+                               class="form-control rounded-md border-gray-300"
                                value="{{ old('username') }}"
                                required>
                     </div>
 
-                    <div class="form-group">
-                    <label>Password</label>
+                    <div class="form-group mb-3">
+                    <label>Password <span style="color: red;">*</span></label>
                     <div class="input-group">
                         <input type="password"
                             name="password"
                             id="password"
-                            class="form-control"
+                            class="form-control rounded-md border-gray-300"
                             required>
                         <div class="input-group-append">
                             <span class="input-group-text toggle-password" data-target="password" style="cursor:pointer">
@@ -53,13 +53,13 @@
                 </div>
 
 
-                    <div class="form-group">
-                        <label>Konfirmasi Password</label>
+                    <div class="form-group mb-3">
+                        <label>Konfirmasi Password <span style="color: red;">*</span></label>
                         <div class="input-group">
                             <input type="password"
                                 name="password_confirmation"
                                 id="password_confirmation"
-                                class="form-control"
+                                class="form-control rounded-md border-gray-300"
                                 required>
                             <div class="input-group-append">
                                 <span class="input-group-text toggle-password" data-target="password_confirmation" style="cursor:pointer">

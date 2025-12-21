@@ -22,7 +22,7 @@
                             </p>
                         </div>
 
-                        <a href="{{ route('gangguan.exportPdf') }}" class="btn btn-danger btn-sm">
+                        <a href="{{ route('gangguan.exportPdf') }}" target="_blank" class="btn btn-danger btn-sm">
                             Export PDF
                         </a>
                     </div>

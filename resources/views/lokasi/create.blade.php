@@ -16,9 +16,9 @@
                 <form method="POST" action="{{ route('lokasi.store') }}">
                     @csrf
 
-                    <div class="form-group">
-                        <label>Nama Lokasi</label>
-                        <input type="text" name="nama_lokasi" class="form-control" required>
+                    <div class="form-group mb-3">
+                        <label>Nama Lokasi <span style="color: red;">*</span></label>
+                        <input type="text" name="nama_lokasi" class="form-control rounded-md border-gray-300" required>
                     </div>
 
                     <button class="btn btn-primary">Simpan</button>
