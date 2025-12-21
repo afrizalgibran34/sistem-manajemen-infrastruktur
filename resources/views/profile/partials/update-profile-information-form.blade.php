@@ -34,7 +34,6 @@
                 style="background-color: #f3f4f6 !important; color: #111827 !important;"
                 :value="old('name', $user->name)"
                 required
-                autofocus
             />
             <x-input-error class="mt-2" :messages="$errors->get('name')" />
         </div>
