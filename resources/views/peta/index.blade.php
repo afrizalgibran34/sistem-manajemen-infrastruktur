@@ -8,7 +8,7 @@
     <div class="max-w-full mx-auto">
         {{-- Page Header --}}
         <div class="mb-6">
-            <h1 class="text-2xl font-semibold text-gray-800">Peta</h1>
+            <h1 class="text-2xl md:text-3xl font-semibold text-gray-800">Peta Jaringan</h1>
         </div>
 
         {{-- Search and Filter Form --}}
@@ -21,22 +21,14 @@
                             <label for="search" class="block text-sm font-semibold text-gray-700 mb-2">
                                 Cari Lokasi:
                             </label>
-                            <div class="flex flex-col sm:flex-row gap-2">
-                                <input 
-                                    type="text" 
-                                    name="search" 
-                                    id="search"
-                                    value="{{ request('search') }}"
-                                    placeholder="Cari berdasarkan nama lokasi"
-                                    class="flex-1 w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
-                                />
-                                <button 
-                                    type="submit"
-                                    class="w-full sm:w-auto px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md transition whitespace-nowrap"
-                                >
-                                    Cari
-                                </button>
-                            </div>
+                            <input 
+                                type="text" 
+                                name="search" 
+                                id="search"
+                                value="{{ request('search') }}"
+                                placeholder="Cari berdasarkan nama titik lokasi"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+                            />
                         </div>
 
                         {{-- Wilayah Dropdown --}}
@@ -64,6 +56,10 @@
                                 >
                                     Cari
                                 </button>
+                                <a href="{{ route('peta') }}" 
+                                   class="w-full sm:w-auto px-6 py-2 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-md transition whitespace-nowrap text-center">
+                                    Reset
+                                </a>
                             </div>
                         </div>
                     </div>
