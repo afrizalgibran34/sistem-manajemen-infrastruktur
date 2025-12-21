@@ -25,12 +25,27 @@
 
             <div class="card-body">
 
+                @if(request('barang_id'))
+                    @php
+                        $filteredBarang = \App\Models\Barang::find(request('barang_id'));
+                    @endphp
+                    <div class="alert alert-info">
+                        📋 Menampilkan stok untuk barang berusia lebih dari 5 tahun: <strong>{{ $filteredBarang->nama_barang ?? 'Tidak ditemukan' }}</strong>
+                        <br />
+                        <a href="{{ route('stok_barang.index') }}" class="btn btn-sm btn-outline-secondary ms-2 mt-2">Tampilkan Kembali Semua Barang</a>
+                    </div>
+                @endif
+
                 @if($asetTua > 0)
                     <div class="alert alert-warning">
                         ⚠️ Terdapat <strong>{{ $asetTua }}</strong> stok barang yang berusia lebih dari 5 tahun.
                         <ul class="mt-2 mb-0">
                             @foreach($asetTuaData as $row)
-                                <li>{{ $row->barang->nama_barang }}</li>
+                                <li>
+                                    <a href="{{ route('stok_barang.index', ['barang_id' => $row->barang_id]) }}" class="text-decoration-none">
+                                        {{ $row->barang->nama_barang }}
+                                    </a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>

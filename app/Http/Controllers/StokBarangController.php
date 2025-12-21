@@ -21,9 +21,16 @@ class StokBarangController extends Controller
          * DATA UTAMA (SEMUA STOK)
          * ============================
          */
-        $data = StokBarang::with('barang')
-            ->paginate($perPage)
-            ->appends($request->query());
+        $query = StokBarang::with('barang');
+
+        // Filter berdasarkan barang_id jika ada (untuk aset tua)
+        if ($request->filled('barang_id')) {
+            $query->where('barang_id', $request->barang_id)
+                  ->whereNotNull('tahun_pengadaan')
+                  ->where('tahun_pengadaan', '<=', date('Y') - 5);
+        }
+
+        $data = $query->paginate($perPage)->appends($request->query());
 
         /**
          * ============================
