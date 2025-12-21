@@ -1,10 +1,10 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-medium text-gray-900">
             Ubah Password
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        <p class="mt-1 text-sm text-gray-600">
             Pastikan password baru Anda kuat dan mudah diingat oleh Anda sendiri.
         </p>
     </header>
@@ -29,7 +29,7 @@
 
         {{-- PASSWORD LAMA --}}
         <div class="relative">
-            <x-input-label for="update_password_current_password" value="Password Lama" />
+            <x-input-label for="update_password_current_password" value="Password Lama" class="text-black" />
 
             <input
                 id="update_password_current_password"
@@ -37,14 +37,15 @@
                 type="password"
                 autocomplete="off"
                 class="mt-1 block w-full pr-12 rounded-md border-gray-300
-                       focus:border-indigo-500 focus:ring-indigo-500"
+                       focus:border-blue-500 focus:ring-blue-500"
+                style="background-color: #f3f4f6; border: 1px solid #e5e7eb; color: #1f2937;"
                 required
             />
 
             <button
                 type="button"
                 onclick="togglePassword('update_password_current_password', 'eye-current', 'eye-slash-current')"
-                class="absolute right-3 top-[42px] z-10 text-gray-500"
+                class="absolute right-3 top-1/2 -translate-y-1/2 z-10 text-gray-500 mt-[12px]"
             >
                 <svg id="eye-current" class="w-5 h-5" fill="none" stroke="currentColor"
                      viewBox="0 0 24 24">
@@ -69,7 +70,7 @@
 
         {{-- PASSWORD BARU --}}
         <div class="relative">
-            <x-input-label for="update_password_password" value="Password Baru" />
+            <x-input-label for="update_password_password" value="Password Baru" class="text-black" />
 
             <input
                 id="update_password_password"
@@ -77,14 +78,15 @@
                 type="password"
                 autocomplete="new-password"
                 class="mt-1 block w-full pr-12 rounded-md border-gray-300
-                       focus:border-indigo-500 focus:ring-indigo-500"
+                       focus:border-blue-500 focus:ring-blue-500"
+                style="background-color: #f3f4f6; border: 1px solid #e5e7eb; color: #1f2937;"
                 required
             />
 
             <button
                 type="button"
                 onclick="togglePassword('update_password_password', 'eye-new', 'eye-slash-new')"
-                class="absolute right-3 top-[42px] z-10 text-gray-500"
+                class="absolute right-3 top-1/2 -translate-y-1/2 z-10 text-gray-500 mt-[12px]"
             >
                 <svg id="eye-new" class="w-5 h-5" fill="none" stroke="currentColor"
                      viewBox="0 0 24 24">
@@ -109,7 +111,7 @@
 
         {{-- KONFIRMASI PASSWORD --}}
         <div class="relative">
-            <x-input-label for="update_password_password_confirmation" value="Konfirmasi Password Baru" />
+            <x-input-label for="update_password_password_confirmation" value="Konfirmasi Password Baru" class="text-black" />
 
             <input
                 id="update_password_password_confirmation"
@@ -117,14 +119,15 @@
                 type="password"
                 autocomplete="new-password"
                 class="mt-1 block w-full pr-12 rounded-md border-gray-300
-                       focus:border-indigo-500 focus:ring-indigo-500"
+                       focus:border-blue-500 focus:ring-blue-500"
+                style="background-color: #f3f4f6; border: 1px solid #e5e7eb; color: #1f2937;"
                 required
             />
 
             <button
                 type="button"
                 onclick="togglePassword('update_password_password_confirmation', 'eye-confirm', 'eye-slash-confirm')"
-                class="absolute right-3 top-[42px] z-10 text-gray-500"
+                class="absolute right-3 top-1/2 -translate-y-1/2 z-10 text-gray-500 mt-[12px]"
             >
                 <svg id="eye-confirm" class="w-5 h-5" fill="none" stroke="currentColor"
                      viewBox="0 0 24 24">
@@ -148,7 +151,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>
+            <x-primary-button style="background-color: #0d6efd !important;">
                 Simpan Password
             </x-primary-button>
         </div>

@@ -12,7 +12,7 @@
         {{-- Judul Halaman --}}
         <div class="row mb-4">
             <div class="col-md-12">
-                <h3 class="text-dark font-weight-bold">Pengaturan Profil</h3>
+                <h3 class="text-dark font-bold text-3xl">Pengaturan Profil</h3>
                 <p class="text-muted">Kelola informasi akun dan keamanan Anda</p>
             </div>
         </div>
@@ -44,11 +44,7 @@
                     </div>
                 </div>
             </div>
-
-            
-
         </div>
-
     </div>
 </div>
 @endsection

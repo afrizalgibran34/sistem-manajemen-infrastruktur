@@ -1,10 +1,10 @@
 <section>
     <header>
-        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+        <h2 class="text-lg font-medium text-gray-900">
             Informasi Profil
         </h2>
 
-        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+        <p class="mt-1 text-sm text-gray-600">
             Perbarui informasi profil akun Anda.
         </p>
     </header>
@@ -25,12 +25,13 @@
 
         {{-- Nama --}}
         <div>
-            <x-input-label for="name" value="Nama" />
+            <x-input-label for="name" value="Nama" class="text-black" />
             <x-text-input
                 id="name"
                 name="name"
                 type="text"
-                class="mt-1 block w-full"
+                class="mt-1 block w-full pr-12 rounded-md border-gray-300 bg-gray-100"
+                style="background-color: #f3f4f6 !important; color: #111827 !important;"
                 :value="old('name', $user->name)"
                 required
                 autofocus
@@ -40,15 +41,15 @@
 
         {{-- Verifikasi Password (SHOW / HIDE) --}}
         <div class="relative">
-            <x-input-label for="current_password" value="Verifikasi Password" />
+            <x-input-label for="current_password" value="Verifikasi Password" class="text-black" />
 
             <input
                 id="current_password"
                 name="current_password"
                 type="password"
                 autocomplete="off"
-                class="mt-1 block w-full pr-12 rounded-md border-gray-300
-                       focus:border-indigo-500 focus:ring-indigo-500"
+                class="mt-1 block w-full pr-12 rounded-md border-gray-300 bg-gray-100"
+                style="background-color: #f3f4f6 !important; color: #111827 !important;"
                 placeholder="Masukkan password saat ini"
                 required
             />
@@ -57,7 +58,7 @@
             <button
                 type="button"
                 onclick="togglePassword('current_password', 'eye-profile', 'eye-slash-profile')"
-                class="absolute right-3 top-[42px] z-10 text-gray-500"
+                class="absolute right-3 top-1/2 transform translate-y-1/4 z-10 text-gray-500"
             >
                 <svg id="eye-profile" class="w-5 h-5" fill="none" stroke="currentColor"
                      viewBox="0 0 24 24">
@@ -81,7 +82,7 @@
         </div>
 
         <div class="flex items-center gap-4">
-            <x-primary-button>
+            <x-primary-button style="background-color: #0d6efd !important;">
                 Simpan Perubahan
             </x-primary-button>
         </div>
@@ -106,3 +107,13 @@ function togglePassword(inputId, eyeId, eyeSlashId) {
     }
 }
 </script>
+
+<style>
+/* Override focus style untuk input nama dan password */
+#name:focus,
+#current_password:focus {
+    border-color: #0d6efd !important;
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25) !important;
+    outline: none !important;
+}
+</style>
