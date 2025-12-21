@@ -240,6 +240,20 @@
             });
         });
         </script>
+        @if(session('password_updated'))
+            <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Password Berhasil Diperbarui',
+                    text: 'Keamanan akun Anda telah diperbarui',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    timerProgressBar: true
+                });
+            });
+            </script>
+            @endif
 
     @stack('scripts')
 
