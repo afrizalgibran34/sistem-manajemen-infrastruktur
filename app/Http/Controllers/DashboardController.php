@@ -9,204 +9,269 @@ class DashboardController extends Controller
 {
     public function index(Request $request)
     {
+        // =================================================
+        // FILTER DASAR
+        // =================================================
         $wilayahId = $request->get('wilayah');
 
-        // =========================
-        // DATA LAMA (TIDAK DIUBAH)
-        // =========================
+        // =================================================
+        // DATA WILAYAH & TITIK (LAMA)
+        // =================================================
         $wilayahList = DB::table('wilayah')->get();
 
         $labels = $wilayahList->pluck('nama_wilayah');
 
-        $jumlah = $wilayahList->map(fn ($w) =>
-            DB::table('titik_lokasi')
+        $jumlah = $wilayahList->map(function ($w) {
+            return DB::table('titik_lokasi')
                 ->where('id_wilayah', $w->id_wilayah)
-                ->count()
-        );
+                ->count();
+        });
 
-        $onPerWilayah = $wilayahList->map(fn ($w) =>
-            DB::table('titik_lokasi')
+        $onPerWilayah = $wilayahList->map(function ($w) {
+            return DB::table('titik_lokasi')
                 ->where('id_wilayah', $w->id_wilayah)
                 ->where('status', 'ON')
-                ->count()
-        );
+                ->count();
+        });
 
-        $offPerWilayah = $wilayahList->map(fn ($w) =>
-            DB::table('titik_lokasi')
+        $offPerWilayah = $wilayahList->map(function ($w) {
+            return DB::table('titik_lokasi')
                 ->where('id_wilayah', $w->id_wilayah)
                 ->where('status', 'OFF')
-                ->count()
-        );
+                ->count();
+        });
 
         $on  = DB::table('titik_lokasi')->where('status', 'ON')->count();
         $off = DB::table('titik_lokasi')->where('status', 'OFF')->count();
 
-        $query = DB::table('titik_lokasi')
+        // =================================================
+        // SERVER PER TAHUN
+        // =================================================
+        $serverQuery = DB::table('titik_lokasi')
             ->select('tahun_pembangunan', DB::raw('COUNT(*) as total'));
 
         if ($wilayahId) {
-            $query->where('id_wilayah', $wilayahId);
+            $serverQuery->where('id_wilayah', $wilayahId);
         }
 
-        $serverPerTahun = $query
+        $serverPerTahun = $serverQuery
             ->groupBy('tahun_pembangunan')
             ->orderBy('tahun_pembangunan')
             ->get();
 
-            // =================================================
-            // 🔽 FILTER & CHART PANJANG KABEL FO (FIX BENERAN)
-            // =================================================
-            $foMode = $request->get('fo_mode');
+        // =================================================
+        // PANJANG KABEL FO
+        // =================================================
+        $foMode = $request->get('fo_mode');
 
-            $foLabels = [];
-            $foData   = [];
+        $foLabels = [];
+        $foData   = [];
 
-            // 🔹 BERDASARKAN WILAYAH (GROUP BY WILAYAH)
-            if ($foMode === 'id_wilayah') {
+        if ($foMode === 'id_wilayah') {
 
-                $data = DB::table('titik_lokasi')
-                    ->join('wilayah', 'titik_lokasi.id_wilayah', '=', 'wilayah.id_wilayah')
-                    ->select(
-                        'wilayah.nama_wilayah',
-                        DB::raw('SUM(titik_lokasi.panjang_fo) as total_fo')
-                    )
-                    ->groupBy('wilayah.nama_wilayah')
-                    ->get();
-
-                $foLabels = $data->pluck('nama_wilayah');
-                $foData   = $data->pluck('total_fo');
-
-            }
-
-            // 🔹 BERDASARKAN TITIK LOKASI (PER TITIK)
-            elseif ($foMode === 'id_titik') {
-
-                $data = DB::table('titik_lokasi')
-                    ->select('nama_titik', 'panjang_fo')
-                    ->whereNotNull('panjang_fo')
-                    ->get();
-
-                $foLabels = $data->pluck('nama_titik');
-                $foData   = $data->pluck('panjang_fo');
-
-            }
-
-            // 🔹 BERDASARKAN TAHUN PEMBANGUNAN
-            elseif ($foMode === 'tahun_pembangunan') {
-
-                $data = DB::table('titik_lokasi')
-                    ->select(
-                        'tahun_pembangunan',
-                        DB::raw('SUM(panjang_fo) as total_fo')
-                    )
-                    ->whereNotNull('tahun_pembangunan')
-                    ->groupBy('tahun_pembangunan')
-                    ->orderBy('tahun_pembangunan')
-                    ->get();
-
-                $foLabels = $data->pluck('tahun_pembangunan');
-                $foData   = $data->pluck('total_fo');
-            }
-
-
-            // 🔹 DEFAULT (TOTAL)
-            else {
-                $total = DB::table('titik_lokasi')->sum('panjang_fo');
-
-                $foLabels = ['Total Panjang Kabel FO'];
-                $foData   = [$total];
-            }
-
-                    // RETURN VIEW
-                    // =========================
-                    return view('dashboard', [
-                        'labels' => $labels,
-                        'jumlah' => $jumlah,
-                        'onPerWilayah' => $onPerWilayah,
-                        'offPerWilayah' => $offPerWilayah,
-
-                        'on' => $on,
-                        'off' => $off,
-                        'wilayahList' => $wilayahList,
-                        'wilayahId' => $wilayahId,
-
-                        'tahunLabels' => $serverPerTahun->pluck('tahun_pembangunan'),
-                        'jumlahServer' => $serverPerTahun->pluck('total'),
-
-                        // 🔽 FO CHART
-                        'foLabels' => $foLabels,
-                        'foData' => $foData,
-                    ]);
-                    
-                }
-    public function gangguanChart(Request $request)
-{
-    $mode = $request->mode ?? 'jenis_koneksi';
-
-    $query = DB::table('titik_lokasi');
-
-    // ================= FILTER WAKTU (OPSIONAL) =================
-    if ($request->filled('start_date') && $request->filled('end_date')) {
-        $query->whereBetween('created_at', [
-            $request->start_date,
-            $request->end_date
-        ]);
-    }
-
-    // ================= MODE ANALISIS =================
-    switch ($mode) {
-
-        case 'jenis_koneksi':
-            $data = $query
-                ->select('koneksi', DB::raw('COUNT(*) as total'))
-                ->whereNotNull('koneksi')
-                ->groupBy('koneksi')
-                ->get();
-
-            return response()->json([
-                'chart_type' => 'pie',
-                'label' => 'Jumlah Gangguan',
-                'labels' => $data->pluck('koneksi'),
-                'values' => $data->pluck('total')
-            ]);
-
-        case 'wilayah':
-            $data = $query
+            $fo = DB::table('titik_lokasi')
                 ->join('wilayah', 'titik_lokasi.id_wilayah', '=', 'wilayah.id_wilayah')
-                ->select('wilayah.nama_wilayah', DB::raw('COUNT(*) as total'))
+                ->select(
+                    'wilayah.nama_wilayah',
+                    DB::raw('SUM(titik_lokasi.panjang_fo) as total_fo')
+                )
                 ->groupBy('wilayah.nama_wilayah')
                 ->get();
 
-            return response()->json([
-                'chart_type' => 'bar',
-                'label' => 'Jumlah Gangguan',
-                'labels' => $data->pluck('nama_wilayah'),
-                'values' => $data->pluck('total')
-            ]);
+            $foLabels = $fo->pluck('nama_wilayah');
+            $foData   = $fo->pluck('total_fo');
 
-        case 'titik':
-            $data = $query
-                ->select('nama_titik', DB::raw('COUNT(*) as total'))
-                ->groupBy('nama_titik')
-                ->orderByDesc('total')
-                ->limit(10)
+        } elseif ($foMode === 'id_titik') {
+
+            $fo = DB::table('titik_lokasi')
+                ->select('nama_titik', 'panjang_fo')
+                ->whereNotNull('panjang_fo')
                 ->get();
 
-            return response()->json([
-                'chart_type' => 'bar',
-                'label' => 'Top 10 Titik Gangguan',
-                'labels' => $data->pluck('nama_titik'),
-                'values' => $data->pluck('total')
-            ]);
+            $foLabels = $fo->pluck('nama_titik');
+            $foData   = $fo->pluck('panjang_fo');
 
-        default:
-            return response()->json([
-                'chart_type' => 'bar',
-                'label' => 'Data Kosong',
-                'labels' => [],
-                'values' => []
+        } elseif ($foMode === 'tahun_pembangunan') {
+
+            $fo = DB::table('titik_lokasi')
+                ->select(
+                    'tahun_pembangunan',
+                    DB::raw('SUM(panjang_fo) as total_fo')
+                )
+                ->whereNotNull('tahun_pembangunan')
+                ->groupBy('tahun_pembangunan')
+                ->orderBy('tahun_pembangunan')
+                ->get();
+
+            $foLabels = $fo->pluck('tahun_pembangunan');
+            $foData   = $fo->pluck('total_fo');
+
+        } else {
+
+            $foLabels = ['Total Panjang Kabel FO'];
+            $foData   = [DB::table('titik_lokasi')->sum('panjang_fo')];
+        }
+
+        // =================================================
+        // STOK BARANG
+        // tabel: stok_barang + barang
+        // =================================================
+        $stokMode = $request->get('stok_mode', 'besaran');
+
+        if ($stokMode === 'tahun_pengadaan') {
+
+            // X = tahun_pengadaan | Y = jumlah stok
+            $stok = DB::table('stok_barang')
+                ->select(
+                    'tahun_pengadaan',
+                    DB::raw('SUM(CAST(kuantitas AS UNSIGNED)) as total_stok')
+                )
+                ->whereNotNull('tahun_pengadaan')
+                ->groupBy('tahun_pengadaan')
+                ->orderBy('tahun_pengadaan')
+                ->get();
+
+            $stokLabels = $stok->pluck('tahun_pengadaan');
+            $stokData   = $stok->pluck('total_stok');
+
+        } else {
+
+            // X = nama_barang | Y = jumlah stok
+            $stok = DB::table('stok_barang')
+                ->join('tabel_barang', 'stok_barang.barang_id', '=', 'tabel_barang.barang_id')
+                ->select(
+                    'tabel_barang.nama_barang',
+                    DB::raw('SUM(CAST(stok_barang.kuantitas AS UNSIGNED)) as total_stok')
+                )
+                ->groupBy('tabel_barang.nama_barang')
+                ->orderBy('tabel_barang.nama_barang')
+                ->get();
+
+            $stokLabels = $stok->pluck('nama_barang');
+            $stokData   = $stok->pluck('total_stok');
+        }
+
+        // =================================================
+        // TRANSAKSI BARANG (JUMLAH TRANSAKSI)
+        // tabel: transaksi_barang + barang
+        // =================================================
+        $transaksiMode = $request->get('transaksi_mode', 'besaran');
+
+        if ($transaksiMode === 'tahun_pengadaan') {
+
+            // X = tahun_pengadaan | Y = jumlah transaksi
+            $trx = DB::table('transaksi_barang')
+                ->join('stok_barang', 'transaksi_barang.barang_id', '=', 'stok_barang.barang_id')
+                ->select(
+                    'stok_barang.tahun_pengadaan',
+                    DB::raw('COUNT(transaksi_barang.transaksi_id) as total_transaksi')
+                )
+                ->whereNotNull('stok_barang.tahun_pengadaan')
+                ->groupBy('stok_barang.tahun_pengadaan')
+                ->orderBy('stok_barang.tahun_pengadaan')
+                ->get();
+
+            $transaksiLabels = $trx->pluck('tahun_pengadaan');
+            $transaksiData   = $trx->pluck('total_transaksi');
+
+        } else {
+
+            // X = nama_barang | Y = jumlah transaksi
+            $trx = DB::table('transaksi_barang')
+                ->join('tabel_barang', 'transaksi_barang.barang_id', '=', 'tabel_barang.barang_id')
+                ->select(
+                    'tabel_barang.nama_barang',
+                    DB::raw('COUNT(transaksi_barang.transaksi_id) as total_transaksi')
+                )
+                ->groupBy('tabel_barang.nama_barang')
+                ->orderBy('tabel_barang.nama_barang')
+                ->get();
+
+            $transaksiLabels = $trx->pluck('nama_barang');
+            $transaksiData   = $trx->pluck('total_transaksi');
+        }
+
+        // =================================================
+        // RETURN VIEW
+        // =================================================
+        return view('dashboard', [
+            'labels' => $labels,
+            'jumlah' => $jumlah,
+            'onPerWilayah' => $onPerWilayah,
+            'offPerWilayah' => $offPerWilayah,
+            'on' => $on,
+            'off' => $off,
+            'wilayahList' => $wilayahList,
+            'wilayahId' => $wilayahId,
+            'tahunLabels' => $serverPerTahun->pluck('tahun_pembangunan'),
+            'jumlahServer' => $serverPerTahun->pluck('total'),
+            'foLabels' => $foLabels,
+            'foData' => $foData,
+            'stokLabels' => $stokLabels,
+            'stokData' => $stokData,
+            'transaksiLabels' => $transaksiLabels,
+            'transaksiData' => $transaksiData,
+        ]);
+    }
+
+    // =================================================
+    // API GANGGUAN (TETAP)
+    // =================================================
+    public function gangguanChart(Request $request)
+    {
+        $mode = $request->mode ?? 'jenis_koneksi';
+
+        $query = DB::table('titik_lokasi');
+
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('created_at', [
+                $request->start_date,
+                $request->end_date
             ]);
+        }
+
+        switch ($mode) {
+            case 'jenis_koneksi':
+                $data = $query
+                    ->select('koneksi', DB::raw('COUNT(*) as total'))
+                    ->groupBy('koneksi')
+                    ->get();
+
+                return response()->json([
+                    'chart_type' => 'pie',
+                    'label' => 'Jumlah Gangguan',
+                    'labels' => $data->pluck('koneksi'),
+                    'values' => $data->pluck('total')
+                ]);
+
+            case 'wilayah':
+                $data = $query
+                    ->join('wilayah', 'titik_lokasi.id_wilayah', '=', 'wilayah.id_wilayah')
+                    ->select('wilayah.nama_wilayah', DB::raw('COUNT(*) as total'))
+                    ->groupBy('wilayah.nama_wilayah')
+                    ->get();
+
+                return response()->json([
+                    'chart_type' => 'bar',
+                    'label' => 'Jumlah Gangguan',
+                    'labels' => $data->pluck('nama_wilayah'),
+                    'values' => $data->pluck('total')
+                ]);
+
+            case 'titik':
+                $data = $query
+                    ->select('nama_titik', DB::raw('COUNT(*) as total'))
+                    ->groupBy('nama_titik')
+                    ->orderByDesc('total')
+                    ->limit(10)
+                    ->get();
+
+                return response()->json([
+                    'chart_type' => 'bar',
+                    'label' => 'Top 10 Titik Gangguan',
+                    'labels' => $data->pluck('nama_titik'),
+                    'values' => $data->pluck('total')
+                ]);
+        }
     }
 }
-}
-

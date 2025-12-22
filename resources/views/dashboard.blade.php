@@ -8,161 +8,239 @@
 @section('content')
 <div class="content">
     <div class="container-fluid">
+        <div class="row">
 
-        {{-- ================= RINGKASAN UTAMA ================= --}}
-        <div class="row mb-4">
-
-            {{-- Jumlah Titik per Wilayah --}}
-            <div class="col-md-6">
+            {{-- BAR CHART JUMLAH TITIK PER WILAYAH --}}
+            <div class="col-md-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Jumlah Titik Lokasi per Wilayah</h4>
                     </div>
-                    <div class="card-body chart-md">
+                    <div class="card-body" style="height: 350px;">
                         <canvas id="wilayahChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            {{-- Status --}}
-            <div class="col-md-6">
+            {{-- PIE CHART STATUS --}}
+            <div class="col-md-6 mb-4">
                 <div class="card h-100">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Status Titik Lokasi</h4>
                     </div>
-                    <div class="card-body chart-md text-center">
-                        <canvas id="statusChart" class="mb-3"></canvas>
-                        <span class="badge bg-success me-2">ON: {{ $on }}</span>
-                        <span class="badge bg-danger">OFF: {{ $off }}</span>
+                    <div class="card-body d-flex flex-column align-items-center justify-content-center" style="height: 350px;">
+                        <canvas id="statusChart" style="max-width: 300px;"></canvas>
+                        <div class="mt-3">
+                            <span class="badge bg-success me-2">ON: {{ $on }}</span>
+                            <span class="badge bg-danger">OFF: {{ $off }}</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
-        </div>
-
-        {{-- ================= ON OFF PER WILAYAH ================= --}}
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <div class="card">
+            {{-- BAR CHART ON OFF PER WILAYAH --}}
+            <div class="col-md-12 mb-4">
+                <div class="card h-100">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Titik Lokasi ON & OFF per Wilayah</h4>
                     </div>
-                    <div class="card-body chart-lg">
+                    <div class="card-body" style="height: 400px;">
                         <canvas id="onOffWilayahChart"></canvas>
                     </div>
                 </div>
             </div>
-        </div>
 
-        {{-- ================= FILTER WILAYAH ================= --}}
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <form method="GET" action="{{ route('dashboard') }}" class="row g-2 align-items-end">
-                            <div class="col-md-4">
-                                <label class="form-label">Filter Wilayah</label>
-                                <select name="wilayah" class="form-control">
-                                    <option value="">Semua Wilayah</option>
-                                    @foreach ($wilayahList as $w)
-                                        <option value="{{ $w->id_wilayah }}" {{ $wilayahId == $w->id_wilayah ? 'selected' : '' }}>
-                                            {{ $w->nama_wilayah }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary w-100">Terapkan</button>
-                            </div>
-                        </form>
+            {{-- FILTER WILAYAH --}}
+            <div class="col-md-12 mb-2">
+                <form method="GET" action="{{ route('dashboard') }}">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <select name="wilayah" class="form-control">
+                                <option value="">Semua Wilayah</option>
+                                @foreach ($wilayahList as $w)
+                                    <option value="{{ $w->id_wilayah }}" {{ $wilayahId == $w->id_wilayah ? 'selected' : '' }}>
+                                        {{ $w->nama_wilayah }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary">Filter</button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
-        </div>
 
-        {{-- ================= SERVER ================= --}}
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <div class="card">
+            {{-- BAR CHART SERVER --}}
+            <div class="col-md-12 mb-4">
+                <div class="card h-100">
                     <div class="card-header">
                         <h4 class="card-title mb-0">Jumlah Server per Tahun Pengadaan</h4>
                     </div>
-                    <div class="card-body chart-lg">
+                    <div class="card-body" style="height: 400px;">
                         <canvas id="serverPerTahunChart"></canvas>
                     </div>
                 </div>
             </div>
-        </div>
 
-        {{-- ================= FO ================= --}}
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
-                        <form method="GET" action="{{ route('dashboard') }}" class="row g-2 align-items-end">
-                            <div class="col-md-4">
-                                <label class="form-label">Analisis Kabel FO</label>
-                                <select name="fo_mode" class="form-control">
-                                    <option value="">Pilih Mode</option>
-                                    <option value="id_wilayah" {{ request('fo_mode')=='id_wilayah' ? 'selected' : '' }}>Wilayah</option>
-                                    <option value="id_titik" {{ request('fo_mode')=='id_titik' ? 'selected' : '' }}>Titik Lokasi</option>
-                                    <option value="tahun_pembangunan" {{ request('fo_mode')=='tahun_pembangunan' ? 'selected' : '' }}>Tahun</option>
-                                </select>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary w-100">Terapkan</button>
-                            </div>
-                        </form>
+            {{-- FILTER PANJANG KABEL FO (FIX TOTAL) --}}
+            <div class="col-md-12 mb-3">
+                <form method="GET" action="{{ route('dashboard') }}">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                           <select name="fo_mode" class="form-control">
+                                <option value="">Pilih Filter FO</option>
+                                <option value="id_wilayah" {{ request('fo_mode')=='id_wilayah' ? 'selected' : '' }}>
+                                    Berdasarkan Wilayah
+                                </option>
+                                <option value="id_titik" {{ request('fo_mode')=='id_titik' ? 'selected' : '' }}>
+                                    Berdasarkan Titik Lokasi
+                                </option>
+                                <option value="tahun_pembangunan" {{ request('fo_mode')=='tahun_pembangunan' ? 'selected' : '' }}>
+                                    Berdasarkan Tahun Pembangunan
+                                </option>
+                            </select>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary">Terapkan</button>
+                        </div>
                     </div>
-                    <div class="card-body chart-lg">
+                </form>
+            </div>
+
+            {{-- CHART FO --}}
+            <div class="col-md-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Panjang Kabel FO</h4>
+                    </div>
+                    <div class="card-body" style="height: 400px;">
                         <canvas id="foChart"></canvas>
                     </div>
                 </div>
             </div>
-        </div>
 
-        {{-- ================= GANGGUAN ================= --}}
-        <div class="row mb-4">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">Analisis Gangguan Jaringan</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row g-2 align-items-end">
-                            <div class="col-md-4">
-                                <label class="form-label">Berdasarkan</label>
-                                <select id="gangguanMode" class="form-control">
-                                    <option value="jenis_koneksi">Jenis Koneksi</option>
-                                    <option value="wilayah">Wilayah</option>
-                                    <option value="titik">Titik Lokasi</option>
-                                </select>
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Dari</label>
-                                <input type="date" id="startDate" class="form-control">
-                            </div>
-                            <div class="col-md-3">
-                                <label class="form-label">Sampai</label>
-                                <input type="date" id="endDate" class="form-control">
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary w-100" id="applyGangguanFilter">
-                                    Terapkan
-                                </button>
-                            </div>
+            {{-- ================= FILTER STOK BARANG (BARU) ================= --}}
+            <div class="col-md-12 mb-3">
+                <form method="GET" action="{{ route('dashboard') }}">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                            <select name="stok_mode" class="form-control">
+                                <option value="besaran" {{ request('stok_mode')=='besaran' ? 'selected' : '' }}>
+                                    Besaran / Keseluruhan
+                                </option>
+                                <option value="tahun_pengadaan" {{ request('stok_mode')=='tahun_pengadaan' ? 'selected' : '' }}>
+                                    Berdasarkan Tahun Pengadaan
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary">Terapkan</button>
                         </div>
                     </div>
-                    <div class="card-body chart-lg">
-                        <canvas id="gangguanChart"></canvas>
+                </form>
+            </div>
+
+            {{-- CHART STOK BARANG (BARU) --}}
+            <div class="col-md-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Jumlah Stok Barang</h4>
+                    </div>
+                    <div class="card-body" style="height: 400px;">
+                        <canvas id="stokChart"></canvas>
                     </div>
                 </div>
             </div>
-        </div>
 
+            {{-- ================= FILTER BARANG KELUAR (BARU) ================= --}}
+            <div class="col-md-12 mb-3">
+                <form method="GET" action="{{ route('dashboard') }}">
+                    <div class="row g-2">
+                        <div class="col-md-4">
+                        <select name="transaksi_mode" class="form-control">
+                            <option value="besaran" {{ request('transaksi_mode')=='besaran' ? 'selected' : '' }}>
+                                Besaran / Keseluruhan
+                            </option>
+                            <option value="tahun_pengadaan" {{ request('transaksi_mode')=='tahun_pengadaan' ? 'selected' : '' }}>
+                                Berdasarkan Tahun Pengadaan
+                            </option>
+                        </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary">Terapkan</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            {{-- CHART BARANG KELUAR (BARU) --}}
+            <div class="col-md-12 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h4 class="card-title mb-0">Jumlah Barang Keluar</h4>
+                    </div>
+                    <div class="card-body" style="height: 400px;">
+                        <canvas id="transaksiChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
-@endsection
+{{-- ================= FILTER DATA GANGGUAN JARINGAN ================= --}}
+<div class="col-md-12 mb-4">
+    <div class="card">
+        <div class="card-header">
+            <h4 class="card-title mb-0">Filter Data Gangguan Jaringan</h4>
+        </div>
+        <div class="card-body">
+            <div class="row g-2">
+
+                {{-- MODE ANALISIS --}}
+                <div class="col-md-4">
+                    <label class="form-label">Analisis Berdasarkan</label>
+                    <select id="gangguanMode" class="form-control">
+                        <option value="jenis_koneksi">Jenis Koneksi</option>
+                        <option value="wilayah">Wilayah</option>
+                        <option value="titik">Titik / Lokasi</option>
+                    </select>
+                </div>
+
+                {{-- FILTER TANGGAL --}}
+                <div class="col-md-3">
+                    <label class="form-label">Dari Tanggal</label>
+                    <input type="date" id="startDate" class="form-control">
+                </div>
+
+                <div class="col-md-3">
+                    <label class="form-label">Sampai Tanggal</label>
+                    <input type="date" id="endDate" class="form-control">
+                </div>
+
+                <div class="col-md-2 d-flex align-items-end">
+                    <button type="button" class="btn btn-primary w-100" id="applyGangguanFilter">
+                        Terapkan
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{{-- ================= CHART DATA GANGGUAN JARINGAN ================= --}}
+<div class="col-md-12 mb-4">
+    <div class="card h-100">
+        <div class="card-header">
+            <h4 class="card-title mb-0">Grafik Data Gangguan Jaringan</h4>
+        </div>
+        <div class="card-body" style="height: 400px;">
+            <canvas id="gangguanChart"></canvas>
+        </div>
+    </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -227,6 +305,37 @@ document.addEventListener("DOMContentLoaded", function () {
     });
     @endif
 
+    /* ================= CHART STOK BARANG (BARU) ================= */
+    @if(!empty($stokLabels))
+    new Chart(stokChart, {
+        type:'bar',
+        data:{
+            labels:{!! json_encode($stokLabels) !!},
+            datasets:[{ 
+                label:'Jumlah Stok', 
+                data:{!! json_encode($stokData) !!}, 
+                backgroundColor:'rgba(75,192,192,.7)' 
+            }]
+        },
+        options:{ responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true }}}
+    });
+    @endif
+
+    /* ================= CHART BARANG KELUAR (BARU) ================= */
+    @if(!empty($transaksiLabels))
+    new Chart(transaksiChart, {
+        type:'bar',
+        data:{
+            labels:{!! json_encode($transaksiLabels) !!},
+            datasets:[{ 
+                label:'Jumlah Barang Keluar', 
+                data:{!! json_encode($transaksiData) !!}, 
+                backgroundColor:'rgba(255,99,132,.7)' 
+            }]
+        },
+        options:{ responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true }}}
+    });
+    @endif
 
     /* ================= CHART GANGGUAN (BARU) ================= */
     let gangguanChart;
@@ -278,3 +387,4 @@ document.addEventListener("DOMContentLoaded", function () {
     loadGangguanChart();
 });
 </script>
+@endsection
