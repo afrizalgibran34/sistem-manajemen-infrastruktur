@@ -15,7 +15,7 @@ class DashboardController extends Controller
         $wilayahId = $request->get('wilayah');
 
         // =================================================
-        // DATA WILAYAH & TITIK (LAMA)
+        // DATA WILAYAH & TITIK
         // =================================================
         $wilayahList = DB::table('wilayah')->get();
 
@@ -64,9 +64,6 @@ class DashboardController extends Controller
         // =================================================
         $foMode = $request->get('fo_mode');
 
-        $foLabels = [];
-        $foData   = [];
-
         if ($foMode === 'id_wilayah') {
 
             $fo = DB::table('titik_lokasi')
@@ -114,13 +111,11 @@ class DashboardController extends Controller
 
         // =================================================
         // STOK BARANG
-        // tabel: stok_barang + barang
         // =================================================
         $stokMode = $request->get('stok_mode', 'besaran');
 
         if ($stokMode === 'tahun_pengadaan') {
 
-            // X = tahun_pengadaan | Y = jumlah stok
             $stok = DB::table('stok_barang')
                 ->select(
                     'tahun_pengadaan',
@@ -136,7 +131,6 @@ class DashboardController extends Controller
 
         } else {
 
-            // X = nama_barang | Y = jumlah stok
             $stok = DB::table('stok_barang')
                 ->join('tabel_barang', 'stok_barang.barang_id', '=', 'tabel_barang.barang_id')
                 ->select(
@@ -152,16 +146,15 @@ class DashboardController extends Controller
         }
 
         // =================================================
-        // TRANSAKSI BARANG (JUMLAH TRANSAKSI)
-        // tabel: transaksi_barang + barang
+        // TRANSAKSI BARANG (FIXED)
+        // transaksi_barang -> stok_barang -> tabel_barang
         // =================================================
         $transaksiMode = $request->get('transaksi_mode', 'besaran');
 
         if ($transaksiMode === 'tahun_pengadaan') {
 
-            // X = tahun_pengadaan | Y = jumlah transaksi
             $trx = DB::table('transaksi_barang')
-                ->join('stok_barang', 'transaksi_barang.barang_id', '=', 'stok_barang.barang_id')
+                ->join('stok_barang', 'transaksi_barang.stok_id', '=', 'stok_barang.stok_id')
                 ->select(
                     'stok_barang.tahun_pengadaan',
                     DB::raw('COUNT(transaksi_barang.transaksi_id) as total_transaksi')
@@ -176,9 +169,9 @@ class DashboardController extends Controller
 
         } else {
 
-            // X = nama_barang | Y = jumlah transaksi
             $trx = DB::table('transaksi_barang')
-                ->join('tabel_barang', 'transaksi_barang.barang_id', '=', 'tabel_barang.barang_id')
+                ->join('stok_barang', 'transaksi_barang.stok_id', '=', 'stok_barang.stok_id')
+                ->join('tabel_barang', 'stok_barang.barang_id', '=', 'tabel_barang.barang_id')
                 ->select(
                     'tabel_barang.nama_barang',
                     DB::raw('COUNT(transaksi_barang.transaksi_id) as total_transaksi')
@@ -194,23 +187,24 @@ class DashboardController extends Controller
         // =================================================
         // RETURN VIEW
         // =================================================
-        return view('dashboard', [
-            'labels' => $labels,
-            'jumlah' => $jumlah,
-            'onPerWilayah' => $onPerWilayah,
-            'offPerWilayah' => $offPerWilayah,
-            'on' => $on,
-            'off' => $off,
-            'wilayahList' => $wilayahList,
-            'wilayahId' => $wilayahId,
+        return view('dashboard', compact(
+            'labels',
+            'jumlah',
+            'onPerWilayah',
+            'offPerWilayah',
+            'on',
+            'off',
+            'wilayahList',
+            'wilayahId',
+            'foLabels',
+            'foData',
+            'stokLabels',
+            'stokData',
+            'transaksiLabels',
+            'transaksiData'
+        ))->with([
             'tahunLabels' => $serverPerTahun->pluck('tahun_pembangunan'),
             'jumlahServer' => $serverPerTahun->pluck('total'),
-            'foLabels' => $foLabels,
-            'foData' => $foData,
-            'stokLabels' => $stokLabels,
-            'stokData' => $stokData,
-            'transaksiLabels' => $transaksiLabels,
-            'transaksiData' => $transaksiData,
         ]);
     }
 
