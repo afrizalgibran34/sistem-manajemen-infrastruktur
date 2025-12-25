@@ -268,4 +268,56 @@ class DashboardController extends Controller
                 ]);
         }
     }
+
+    public function getCableChart(Request $request)
+    {
+        $wilayahId = $request->get('wilayah');
+
+        // Query untuk FO: hitung jumlah titik dengan koneksi FO atau panjang_fo tidak null
+        $foQuery = DB::table('titik_lokasi')
+            ->where(function ($q) {
+                $q->where('koneksi', 'FO')
+                  ->orWhereNotNull('panjang_fo');
+            });
+
+        if ($wilayahId) {
+            $foQuery->where('id_wilayah', $wilayahId);
+        }
+
+        $foCount = $foQuery->count();
+
+        // Query untuk Wireless: hitung jumlah titik dengan koneksi wireless
+        $wirelessQuery = DB::table('titik_lokasi')
+            ->where('koneksi', 'Wireless');
+
+        if ($wilayahId) {
+            $wirelessQuery->where('id_wilayah', $wilayahId);
+        }
+
+        $wirelessCount = $wirelessQuery->count();
+
+        return response()->json([
+            'fo' => $foCount,
+            'wireless' => $wirelessCount
+        ]);
+    }
+
+    public function getFoTotal(Request $request)
+    {
+        $wilayahId = $request->get('wilayah');
+
+        $foQuery = DB::table('titik_lokasi')
+            ->select(DB::raw('SUM(panjang_fo) as total'))
+            ->whereNotNull('panjang_fo');
+
+        if ($wilayahId) {
+            $foQuery->where('id_wilayah', $wilayahId);
+        }
+
+        $total = $foQuery->first()->total ?? 0;
+
+        return response()->json([
+            'total' => number_format($total, 0, ',', '.')
+        ]);
+    }
 }
