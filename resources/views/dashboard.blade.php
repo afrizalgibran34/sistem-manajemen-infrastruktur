@@ -137,121 +137,91 @@
             </div>
             </div>
 
-            {{-- ================= FILTER STOK BARANG (BARU) ================= --}}
-            <div class="col-md-12 mb-3">
-                <form method="GET" action="{{ route('dashboard') }}">
-                    <div class="row g-2">
-                        <div class="col-md-4">
-                            <select name="stok_mode" class="form-control">
-                                <option value="besaran" {{ request('stok_mode')=='besaran' ? 'selected' : '' }}>
-                                    Besaran / Keseluruhan
-                                </option>
-                                <option value="tahun_pengadaan" {{ request('stok_mode')=='tahun_pengadaan' ? 'selected' : '' }}>
-                                    Berdasarkan Tahun Pengadaan
-                                </option>
-                            </select>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-primary">Terapkan</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
             {{-- CHART STOK BARANG (BARU) --}}
             <div class="col-md-12 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">Jumlah Stok Barang</h4>
+                <div class="card border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+                    <div class="card-header bg-gradient-success text-white d-flex justify-content-between align-items-center" style="border-radius: 15px 15px 0 0;">
+                        <h4 class="card-title mb-0 font-weight-bold">Jumlah Stok Barang</h4>
+                        <select id="stokFilter" class="form-control form-control-sm px-4 border-2" style="width: auto;">
+                            <option value="kuantitas">Jumlah Stok</option>
+                            <option value="sisa">Sisa Stok</option>
+                        </select>
                     </div>
-                    <div class="card-body" style="height: 400px;">
+                    <div class="card-body" style="max-height: 500px; min-height: 300px;">
                         <canvas id="stokChart"></canvas>
                     </div>
                 </div>
             </div>
 
-            {{-- ================= FILTER BARANG KELUAR (BARU) ================= --}}
-            <div class="col-md-12 mb-3">
-                <form method="GET" action="{{ route('dashboard') }}">
-                    <div class="row g-2">
-                        <div class="col-md-4">
-                        <select name="transaksi_mode" class="form-control">
-                            <option value="besaran" {{ request('transaksi_mode')=='besaran' ? 'selected' : '' }}>
-                                Besaran / Keseluruhan
-                            </option>
-                            <option value="tahun_pengadaan" {{ request('transaksi_mode')=='tahun_pengadaan' ? 'selected' : '' }}>
-                                Berdasarkan Tahun Pengadaan
-                            </option>
-                        </select>
-                        </div>
-                        <div class="col-md-2">
-                            <button class="btn btn-primary">Terapkan</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
             {{-- CHART BARANG KELUAR (BARU) --}}
             <div class="col-md-12 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">Jumlah Barang Keluar</h4>
+                <div class="card border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+                    <div class="card-header bg-gradient-danger text-white d-flex justify-content-between align-items-center" style="border-radius: 15px 15px 0 0;">
+                        <h4 class="card-title mb-0 font-weight-bold">Jumlah Barang Keluar</h4>
                     </div>
-                    <div class="card-body" style="height: 400px;">
+                    <div class="card-body" style="max-height: 500px; min-height: 300px;">
                         <canvas id="transaksiChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            {{-- ================= FILTER DATA GANGGUAN JARINGAN ================= --}}
-            <div class="col-md-12 mb-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">Filter Data Gangguan Jaringan</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="row g-2">
-
-                            {{-- MODE ANALISIS --}}
-                            <div class="col-md-4">
-                                <label class="form-label">Analisis Berdasarkan</label>
-                                <select id="gangguanMode" class="form-control">
-                                    <option value="jenis_koneksi">Jenis Koneksi</option>
-                                    <option value="wilayah">Wilayah</option>
-                                    <option value="titik">Titik / Lokasi</option>
-                                </select>
-                            </div>
-
-                            {{-- FILTER TANGGAL --}}
-                            <div class="col-md-3">
-                                <label class="form-label">Dari Tanggal</label>
-                                <input type="date" id="startDate" class="form-control">
-                            </div>
-
-                            <div class="col-md-3">
-                                <label class="form-label">Sampai Tanggal</label>
-                                <input type="date" id="endDate" class="form-control">
-                            </div>
-
-                            <div class="col-md-2 d-flex align-items-end">
-                                <button type="button" class="btn btn-primary w-100" id="applyGangguanFilter">
-                                    Terapkan
-                                </button>
-                            </div>
-
-                        </div>
                     </div>
                 </div>
             </div>
 
             {{-- ================= CHART DATA GANGGUAN JARINGAN ================= --}}
             <div class="col-md-12 mb-4">
-                <div class="card h-100">
-                    <div class="card-header">
-                        <h4 class="card-title mb-0">Grafik Data Gangguan Jaringan</h4>
+                <div class="card border-0 shadow-lg" style="border-radius: 15px; overflow: hidden;">
+                    <div class="card-header bg-gradient-danger text-white" style="border-radius: 15px 15px 0 0;">
+                        <h4 class="card-title mb-0 font-weight-bold">Data Gangguan Jaringan</h4>
                     </div>
-                    <div class="card-body" style="height: 400px;">
-                        <canvas id="gangguanChart"></canvas>
+                    <div class="card-body">
+                        {{-- FILTER SECTION --}}
+                        <div class="row g-3 mb-4 p-3" style="background-color: #f8f9fa; border-radius: 10px;">
+                            {{-- MODE ANALISIS --}}
+                            <div class="col-md-3 col-sm-6">
+                                <label class="form-label fw-bold text-dark" style="font-size: 0.9rem;">Analisis Berdasarkan</label>
+                                <select id="gangguanMode" class="form-select shadow-sm" style="border-radius: 8px;">
+                                    <option value="jenis_masalah">Jenis Masalah</option>
+                                    <option value="wilayah">Wilayah</option>
+                                    <option value="titik">Titik Lokasi</option>
+                                </select>
+                            </div>
+
+                            {{-- STATUS FILTER --}}
+                            <div class="col-md-3 col-sm-6">
+                                <label class="form-label fw-bold text-dark" style="font-size: 0.9rem;">Status</label>
+                                <select id="gangguanStatus" class="form-select shadow-sm" style="border-radius: 8px;">
+                                    <option value="">Semua Status</option>
+                                    <option value="Selesai">Selesai</option>
+                                    <option value="Tidak Selesai">Tidak Selesai</option>
+                                </select>
+                            </div>
+
+                            {{-- FILTER TANGGAL --}}
+                            <div class="col-md-2 col-sm-6">
+                                <label class="form-label fw-bold text-dark" style="font-size: 0.9rem;">Dari Tanggal</label>
+                                <input type="date" id="startDate" class="form-control shadow-sm" style="border-radius: 8px;">
+                            </div>
+
+                            <div class="col-md-2 col-sm-6">
+                                <label class="form-label fw-bold text-dark" style="font-size: 0.9rem;">Sampai Tanggal</label>
+                                <input type="date" id="endDate" class="form-control shadow-sm" style="border-radius: 8px;">
+                            </div>
+
+                            <div class="col-md-1 col-sm-6 d-flex align-items-end">
+                                <button id="applyGangguanFilter" class="btn btn-primary w-100 shadow-sm" style="border-radius: 8px; font-weight: bold;">
+                                    Filter
+                                </button>
+                            </div>
+
+                            <div class="col-md-1 col-sm-6 d-flex align-items-end">
+                                <button id="resetGangguanFilter" class="btn btn-danger w-100 shadow-sm" style="border-radius: 8px; font-weight: bold;">
+                                    Reset
+                                </button>
+                            </div>
+                        </div>
+
+                        {{-- CHART SECTION --}}
+                        <div style="max-height: 500px; min-height: 300px; position: relative;">
+                            <canvas id="gangguanChart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -594,35 +564,238 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    /* ================= CHART STOK BARANG (BARU) ================= */
-    @if(!empty($stokLabels))
-    new Chart(document.getElementById('stokChart'), {
-        type:'bar',
-        data:{
-            labels:{!! json_encode($stokLabels) !!},
-            datasets:[{ 
-                label:'Jumlah Stok', 
-                data:{!! json_encode($stokData) !!}, 
-                backgroundColor:'rgba(75,192,192,.7)' 
-            }]
-        },
-        options:{ responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true }}}
-    });
-    @endif
+    /* ================= CHART STOK BARANG (BARU) - HORIZONTAL BAR DENGAN FILTER ================= */
+    let stokChart;
 
-    /* ================= CHART BARANG KELUAR (BARU) ================= */
+    function loadStokChart() {
+        const filterType = document.getElementById('stokFilter').value;
+
+        axios.get('/api/dashboard/stok-chart', {
+            params: { type: filterType }
+        })
+        .then(function (response) {
+            const labels = response.data.labels;
+            const data = response.data.data;
+            const labelText = filterType === 'sisa' ? 'Sisa Stok' : 'Jumlah Stok';
+
+            if (stokChart) stokChart.destroy();
+
+            stokChart = new Chart(document.getElementById('stokChart'), {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{ 
+                        label: labelText, 
+                        data: data, 
+                        backgroundColor: 'rgba(40, 167, 69, 0.85)',
+                        borderColor: 'rgba(40, 167, 69, 1)',
+                        borderWidth: 1,
+                        borderRadius: 8
+                    }]
+                },
+                options: { 
+                    indexAxis: 'y',
+                    responsive: true, 
+                    maintainAspectRatio: false,
+                    layout: {
+                        padding: {
+                            right: 60
+                        }
+                    },
+                    scales: { 
+                        x: { 
+                            beginAtZero: true,
+                            ticks: {
+                                font: {
+                                    size: 12
+                                },
+                                color: '#495057'
+                            },
+                            grid: {
+                                display: true,
+                                color: 'rgba(0,0,0,0.05)'
+                            }
+                        },
+                        y: {
+                            ticks: {
+                                font: {
+                                    size: 12,
+                                    weight: '500'
+                                },
+                                color: '#212529'
+                            },
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            backgroundColor: 'rgba(40, 167, 69, 0.9)',
+                            padding: 12,
+                            cornerRadius: 8,
+                            callbacks: {
+                                label: function(context) {
+                                    return labelText + ': ' + context.parsed.x + ' unit';
+                                }
+                            }
+                        }
+                    }
+                },
+                plugins: [{
+                    beforeDraw: function(chart) {
+                        // Display total at the top center
+                        const ctx = chart.ctx;
+                        const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                        
+                        ctx.save();
+                        ctx.font = 'bold 14px Arial';
+                        ctx.fillStyle = '#333';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'top';
+                        ctx.fillText('Total: ' + total.toLocaleString() + ' unit', chart.width / 2, 5);
+                        ctx.restore();
+                    },
+                    afterDatasetsDraw: function(chart) {
+                        const ctx = chart.ctx;
+                        ctx.save();
+                        
+                        chart.data.datasets.forEach((dataset, i) => {
+                            const meta = chart.getDatasetMeta(i);
+                            meta.data.forEach((bar, index) => {
+                                const data = dataset.data[index];
+                                
+                                ctx.fillStyle = '#28a745';
+                                ctx.font = 'bold 13px Arial';
+                                ctx.textAlign = 'left';
+                                ctx.textBaseline = 'middle';
+                                
+                                // Display value at the end of bar
+                                ctx.fillText(data, bar.x + 10, bar.y);
+                            });
+                        });
+                        
+                        ctx.restore();
+                    }
+                }]
+            });
+        })
+        .catch(function (error) {
+            console.error('Error loading stok chart:', error);
+        });
+    }
+
+    // Initial load
+    loadStokChart();
+
+    // Event listener for filter change
+    document.getElementById('stokFilter').addEventListener('change', loadStokChart);
+
+    /* ================= CHART BARANG KELUAR (BARU) - HORIZONTAL BAR ================= */
     @if(!empty($transaksiLabels))
     new Chart(document.getElementById('transaksiChart'), {
-        type:'bar',
-        data:{
-            labels:{!! json_encode($transaksiLabels) !!},
-            datasets:[{ 
-                label:'Jumlah Barang Keluar', 
-                data:{!! json_encode($transaksiData) !!}, 
-                backgroundColor:'rgba(255,99,132,.7)' 
+        type: 'bar',
+        data: {
+            labels: {!! json_encode($transaksiLabels) !!},
+            datasets: [{ 
+                label: 'Jumlah Barang Keluar', 
+                data: {!! json_encode($transaksiData) !!}, 
+                backgroundColor: '#F16D34',
+                borderWidth: 1,
+                borderRadius: 8
             }]
         },
-        options:{ responsive:true, maintainAspectRatio:false, scales:{ y:{ beginAtZero:true }}}
+        options: { 
+            indexAxis: 'y',
+            responsive: true, 
+            maintainAspectRatio: false,
+            layout: {
+                padding: {
+                    right: 60
+                }
+            },
+            scales: { 
+                x: { 
+                    beginAtZero: true,
+                    ticks: {
+                        font: {
+                            size: 12
+                        },
+                        color: '#495057'
+                    },
+                    grid: {
+                        display: true,
+                        color: 'rgba(0,0,0,0.05)'
+                    }
+                },
+                y: {
+                    ticks: {
+                        font: {
+                            size: 12,
+                            weight: '500'
+                        },
+                        color: '#212529'
+                    },
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                },
+                tooltip: {
+                    backgroundColor: 'rgba(220, 53, 69, 0.9)',
+                    padding: 12,
+                    cornerRadius: 8,
+                    callbacks: {
+                        label: function(context) {
+                            return 'Barang Keluar: ' + context.parsed.x + ' unit';
+                        }
+                    }
+                }
+            }
+        },
+        plugins: [{
+            beforeDraw: function(chart) {
+                // Display total at the top center
+                const ctx = chart.ctx;
+                const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                
+                ctx.save();
+                ctx.font = 'bold 14px Arial';
+                ctx.fillStyle = '#333';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'top';
+                ctx.fillText('Total: ' + total.toLocaleString() + ' unit', chart.width / 2, 5);
+                ctx.restore();
+            },
+            afterDatasetsDraw: function(chart) {
+                const ctx = chart.ctx;
+                ctx.save();
+                
+                chart.data.datasets.forEach((dataset, i) => {
+                    const meta = chart.getDatasetMeta(i);
+                    meta.data.forEach((bar, index) => {
+                        const data = dataset.data[index];
+                        
+                        ctx.fillStyle = '#dc3545';
+                        ctx.font = 'bold 13px Arial';
+                        ctx.textAlign = 'left';
+                        ctx.textBaseline = 'middle';
+                        
+                        // Display value at the end of bar
+                        ctx.fillText(data, bar.x + 10, bar.y);
+                    });
+                });
+                
+                ctx.restore();
+            }
+        }]
     });
     @endif
 
@@ -631,48 +804,186 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function loadGangguanChart() {
         const mode = document.getElementById('gangguanMode').value;
+        const status = document.getElementById('gangguanStatus').value;
         const start = document.getElementById('startDate').value;
         const end = document.getElementById('endDate').value;
 
-        let params = { mode };
+        let params = { mode: mode };
 
+        // Selalu kirim status, bahkan jika kosong (untuk filter "Semua Status")
+        if (status && status !== '') {
+            params.status = status;
+        }
+
+        // Hanya kirim tanggal jika KEDUA field terisi
         if (start && end) {
             params.start_date = start;
             params.end_date = end;
         }
 
-        axios.get('/api/gangguan/chart', { params })
+        console.log('Sending params:', params); // Debug log
+
+        axios.get('/api/gangguan/chart', { params: params })
             .then(res => {
                 const data = res.data;
 
                 if (gangguanChart) gangguanChart.destroy();
 
+                // All charts will be horizontal bar charts
+                const chartConfig = {
+                    type: 'bar',
+                    data: {
+                        labels: data.labels,
+                        datasets: [{
+                            label: data.label,
+                            data: data.values,
+                            backgroundColor: 'rgba(220, 53, 69, 0.85)',
+                            borderColor: 'rgba(220, 53, 69, 1)',
+                            borderWidth: 1,
+                            borderRadius: 8
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y', // Make it horizontal
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        layout: {
+                            padding: {
+                                right: 60
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                ticks: {
+                                    font: { size: 12 },
+                                    color: '#495057'
+                                },
+                                grid: {
+                                    display: true,
+                                    color: 'rgba(0,0,0,0.05)'
+                                }
+                            },
+                            y: {
+                                ticks: {
+                                    font: {
+                                        size: 12,
+                                        weight: '500'
+                                    },
+                                    color: '#212529',
+                                    // Wrap long labels
+                                    callback: function(value, index, values) {
+                                        const label = this.getLabelForValue(value);
+                                        const maxLength = 30; // Maximum characters per line
+                                        
+                                        if (label.length > maxLength) {
+                                            // Split into multiple lines
+                                            const words = label.split(' ');
+                                            const lines = [];
+                                            let currentLine = '';
+                                            
+                                            words.forEach(word => {
+                                                if ((currentLine + word).length > maxLength) {
+                                                    if (currentLine) lines.push(currentLine.trim());
+                                                    currentLine = word + ' ';
+                                                } else {
+                                                    currentLine += word + ' ';
+                                                }
+                                            });
+                                            if (currentLine) lines.push(currentLine.trim());
+                                            
+                                            return lines;
+                                        }
+                                        return label;
+                                    }
+                                },
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                backgroundColor: 'rgba(220, 53, 69, 0.9)',
+                                padding: 12,
+                                cornerRadius: 8,
+                                callbacks: {
+                                    label: function(context) {
+                                        return context.dataset.label + ': ' + context.parsed.x + ' gangguan';
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    plugins: [{
+                        beforeDraw: function(chart) {
+                            // Display total at the top center
+                            const ctx = chart.ctx;
+                            const total = chart.data.datasets[0].data.reduce((a, b) => a + b, 0);
+                            
+                            ctx.save();
+                            ctx.font = 'bold 14px Arial';
+                            ctx.fillStyle = '#333';
+                            ctx.textAlign = 'center';
+                            ctx.textBaseline = 'top';
+                            ctx.fillText('Total: ' + total.toLocaleString() + ' gangguan', chart.width / 2, 5);
+                            ctx.restore();
+                        },
+                        afterDatasetsDraw: function(chart) {
+                            const ctx = chart.ctx;
+                            ctx.save();
+
+                            chart.data.datasets.forEach((dataset, i) => {
+                                const meta = chart.getDatasetMeta(i);
+                                meta.data.forEach((bar, index) => {
+                                    const data = dataset.data[index];
+
+                                    ctx.fillStyle = '#dc3545';
+                                    ctx.font = 'bold 13px Arial';
+                                    ctx.textAlign = 'left';
+                                    ctx.textBaseline = 'middle';
+
+                                    // Display value at the end of bar
+                                    ctx.fillText(data, bar.x + 10, bar.y);
+                                });
+                            });
+
+                            ctx.restore();
+                        }
+                    }]
+                };
+
                 gangguanChart = new Chart(
                     document.getElementById('gangguanChart'),
-                    {
-                        type: data.chart_type,
-                        data: {
-                            labels: data.labels,
-                            datasets: [{
-                                label: data.label,
-                                data: data.values,
-                                backgroundColor: 'rgba(13,110,253,.7)'
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: { y: { beginAtZero: true } }
-                        }
-                    }
+                    chartConfig
                 );
             })
-            .catch(err => console.error(err));
+            .catch(err => {
+                console.error('Error loading gangguan chart:', err);
+            });
     }
 
+    // Event listener for filter button
     document.getElementById('applyGangguanFilter')
         .addEventListener('click', loadGangguanChart);
 
+    // Event listener for reset button
+    document.getElementById('resetGangguanFilter')
+        .addEventListener('click', function() {
+            // Reset semua filter ke default
+            document.getElementById('gangguanMode').value = 'jenis_masalah';
+            document.getElementById('gangguanStatus').value = '';
+            document.getElementById('startDate').value = '';
+            document.getElementById('endDate').value = '';
+            
+            // Load chart dengan filter default
+            loadGangguanChart();
+        });
+
+    // Initial load
     loadGangguanChart();
 });
 </script>

@@ -84,6 +84,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/api/gangguan/chart', [App\Http\Controllers\DashboardController::class, 'gangguanChart']);
     Route::get('/api/dashboard/cable-chart', [App\Http\Controllers\DashboardController::class, 'getCableChart']);
     Route::get('/api/dashboard/fo-total', [App\Http\Controllers\DashboardController::class, 'getFoTotal']);
+    Route::get('/api/dashboard/stok-chart', [App\Http\Controllers\DashboardController::class, 'getStokChart']);
 
 
 

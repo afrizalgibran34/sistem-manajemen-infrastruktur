@@ -157,7 +157,7 @@ class DashboardController extends Controller
                 ->join('stok_barang', 'transaksi_barang.stok_id', '=', 'stok_barang.stok_id')
                 ->select(
                     'stok_barang.tahun_pengadaan',
-                    DB::raw('COUNT(transaksi_barang.transaksi_id) as total_transaksi')
+                    DB::raw('SUM(transaksi_barang.jumlah) as total_transaksi')
                 )
                 ->whereNotNull('stok_barang.tahun_pengadaan')
                 ->groupBy('stok_barang.tahun_pengadaan')
@@ -174,10 +174,10 @@ class DashboardController extends Controller
                 ->join('tabel_barang', 'stok_barang.barang_id', '=', 'tabel_barang.barang_id')
                 ->select(
                     'tabel_barang.nama_barang',
-                    DB::raw('COUNT(transaksi_barang.transaksi_id) as total_transaksi')
+                    DB::raw('SUM(transaksi_barang.jumlah) as total_transaksi')
                 )
                 ->groupBy('tabel_barang.nama_barang')
-                ->orderBy('tabel_barang.nama_barang')
+                ->orderByDesc('total_transaksi')
                 ->get();
 
             $transaksiLabels = $trx->pluck('nama_barang');
@@ -209,53 +209,66 @@ class DashboardController extends Controller
     }
 
     // =================================================
-    // API GANGGUAN (TETAP)
+    // API GANGGUAN (UPDATED - FROM GANGGUAN TABLE)
     // =================================================
     public function gangguanChart(Request $request)
     {
-        $mode = $request->mode ?? 'jenis_koneksi';
+        $mode = $request->mode ?? 'jenis_masalah';
+        $status = $request->status;
 
-        $query = DB::table('titik_lokasi');
+        $query = DB::table('gangguan');
 
+        // Filter by date range if provided
         if ($request->filled('start_date') && $request->filled('end_date')) {
-            $query->whereBetween('created_at', [
+            $query->whereBetween('tanggal', [
                 $request->start_date,
                 $request->end_date
             ]);
         }
 
+        // Filter by status if provided (case-insensitive)
+        if (!empty($status)) {
+            $query->where('status_masalah', $status);
+        }
+
         switch ($mode) {
-            case 'jenis_koneksi':
+            case 'jenis_masalah':
+                // Get data from gangguan table, join with jenis_masalah to get nama_masalah
                 $data = $query
-                    ->select('koneksi', DB::raw('COUNT(*) as total'))
-                    ->groupBy('koneksi')
+                    ->join('jenis_masalah', 'gangguan.id_jenismasalah', '=', 'jenis_masalah.id_jenismasalah')
+                    ->select('jenis_masalah.nama_masalah', DB::raw('COUNT(*) as total'))
+                    ->groupBy('jenis_masalah.nama_masalah')
+                    ->orderByDesc('total')
                     ->get();
 
                 return response()->json([
-                    'chart_type' => 'pie',
-                    'label' => 'Jumlah Gangguan',
-                    'labels' => $data->pluck('koneksi'),
+                    'chart_type' => 'bar',
+                    'label' => 'Jumlah Gangguan per Jenis Masalah',
+                    'labels' => $data->pluck('nama_masalah'),
                     'values' => $data->pluck('total')
                 ]);
 
             case 'wilayah':
                 $data = $query
+                    ->join('titik_lokasi', 'gangguan.id_titik', '=', 'titik_lokasi.id_titik')
                     ->join('wilayah', 'titik_lokasi.id_wilayah', '=', 'wilayah.id_wilayah')
                     ->select('wilayah.nama_wilayah', DB::raw('COUNT(*) as total'))
                     ->groupBy('wilayah.nama_wilayah')
+                    ->orderByDesc('total')
                     ->get();
 
                 return response()->json([
                     'chart_type' => 'bar',
-                    'label' => 'Jumlah Gangguan',
+                    'label' => 'Jumlah Gangguan per Wilayah',
                     'labels' => $data->pluck('nama_wilayah'),
                     'values' => $data->pluck('total')
                 ]);
 
             case 'titik':
                 $data = $query
-                    ->select('nama_titik', DB::raw('COUNT(*) as total'))
-                    ->groupBy('nama_titik')
+                    ->join('titik_lokasi', 'gangguan.id_titik', '=', 'titik_lokasi.id_titik')
+                    ->select('titik_lokasi.nama_titik', DB::raw('COUNT(*) as total'))
+                    ->groupBy('titik_lokasi.nama_titik')
                     ->orderByDesc('total')
                     ->limit(10)
                     ->get();
@@ -265,6 +278,14 @@ class DashboardController extends Controller
                     'label' => 'Top 10 Titik Gangguan',
                     'labels' => $data->pluck('nama_titik'),
                     'values' => $data->pluck('total')
+                ]);
+
+            default:
+                return response()->json([
+                    'chart_type' => 'bar',
+                    'label' => 'Jumlah Gangguan',
+                    'labels' => [],
+                    'values' => []
                 ]);
         }
     }
@@ -318,6 +339,29 @@ class DashboardController extends Controller
 
         return response()->json([
             'total' => number_format($total, 0, ',', '.')
+        ]);
+    }
+
+    public function getStokChart(Request $request)
+    {
+        $type = $request->get('type', 'kuantitas');
+        
+        // Pilih field berdasarkan type filter
+        $field = $type === 'sisa' ? 'sisa' : 'kuantitas';
+        
+        $stok = DB::table('stok_barang')
+            ->join('tabel_barang', 'stok_barang.barang_id', '=', 'tabel_barang.barang_id')
+            ->select(
+                'tabel_barang.nama_barang',
+                DB::raw("SUM(CAST(stok_barang.{$field} AS UNSIGNED)) as total_stok")
+            )
+            ->groupBy('tabel_barang.nama_barang')
+            ->orderByDesc('total_stok')
+            ->get();
+
+        return response()->json([
+            'labels' => $stok->pluck('nama_barang'),
+            'data' => $stok->pluck('total_stok')
         ]);
     }
 }
